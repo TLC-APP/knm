@@ -5,8 +5,8 @@ App::uses('AppModel', 'Model');
  *
  * @property Chapter $Chapter
  * @property Teacher $Teacher
- * @property Attend $Attend
- * @property Session $Session
+ * @property Enrollment $Enrollment
+ * @property Period $Period
  */
 class Course extends AppModel {
 
@@ -33,16 +33,7 @@ class Course extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'ma_so' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
+
 		'si_so' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
@@ -101,7 +92,7 @@ class Course extends AppModel {
 			'order' => ''
 		),
 		'Teacher' => array(
-			'className' => 'User',
+			'className' => 'Usermgmt.User',
 			'foreignKey' => 'teacher_id',
 			'conditions' => '',
 			'fields' => '',
@@ -115,8 +106,8 @@ class Course extends AppModel {
  * @var array
  */
 	public $hasMany = array(
-		'Attend' => array(
-			'className' => 'Attend',
+		'Enrollment' => array(
+			'className' => 'Enrollment',
 			'foreignKey' => 'course_id',
 			'dependent' => false,
 			'conditions' => '',
@@ -128,8 +119,8 @@ class Course extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
-		'Session' => array(
-			'className' => 'Session',
+		'Period' => array(
+			'className' => 'Period',
 			'foreignKey' => 'course_id',
 			'dependent' => false,
 			'conditions' => '',

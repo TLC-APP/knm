@@ -9,8 +9,9 @@
 		echo $this->Form->input('decription');
 		echo $this->Form->input('lft');
 		echo $this->Form->input('rght');
-		echo $this->Form->input('type');
+		echo $this->Form->input('department_type_id');
 		echo $this->Form->input('id');
+		echo $this->Form->input('code');
 		echo $this->Form->input('Chapter');
 	?>
 	</fieldset>
@@ -24,6 +25,8 @@
 		<li><?php echo $this->Html->link(__('List Departments'), array('action' => 'index')); ?></li>
 		<li><?php echo $this->Html->link(__('List Departments'), array('controller' => 'departments', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Parent Department'), array('controller' => 'departments', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Department Types'), array('controller' => 'department_types', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Department Type'), array('controller' => 'department_types', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Class Rooms'), array('controller' => 'class_rooms', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Class Room'), array('controller' => 'class_rooms', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Users'), array('controller' => 'users', 'action' => 'index')); ?> </li>

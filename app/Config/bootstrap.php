@@ -69,7 +69,9 @@ Cache::config('default', array('engine' => 'File'));
  * CakePlugin::load('DebugKit'); //Loads a single plugin named DebugKit
  *
  */
-CakePlugin::loadAll();
+
+CakePlugin::load(array('BoostCake','DebugKit','Usermgmt' => array('routes' => true, 'bootstrap' => true)));
+
 /**
  * You can attach event listeners to the request lifecycle as Dispatcher Filter. By default CakePHP bundles two filters:
  *
@@ -106,3 +108,46 @@ CakeLog::config('error', array(
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
+if(!defined('SUB_DIR')){
+    define('SUB_DIR','/knm');
+}
+
+if(!defined('SANG_START')){
+    define('SANG_START','07:00:00');
+}
+if(!defined('SANG_END')){
+    define('SANG_END','11:00:00');
+}
+if(!defined('CHIEU_START')){
+    define('CHIEU_START','13:00:00');
+}
+if(!defined('CHIEU_END')){
+    define('CHIEU_END','17:00:00');
+}
+if(!defined('TOI_START')){
+    define('TOI_START','18:30:00');
+}
+if(!defined('TOI_END')){
+    define('TOI_END','21:30:00');
+}
+
+if(!defined('TOI_END')){
+    define('TOI_END','21:30:00');
+}
+
+if(!defined('COURSE_ENROLLING')){
+    define('COURSE_ENROLLING',1);
+}
+
+if(!defined('COURSE_ASSIGNED')){
+    define('COURSE_ASSIGNED',2);
+}
+
+
+if(!defined('COURSE_CANCELLED')){
+    define('COURSE_CANCELLED',3);
+}
+
+if(!defined('APP_NAME')){
+    define('APP_NAME','TLC - Trang Hỗ trợ công tác Dạy và Học Kỹ năng mềm sinh viên');
+}

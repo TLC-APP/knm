@@ -1,4 +1,4 @@
-<div class="chapterTypes form">
+<div>
 <?php echo $this->Form->create('ChapterType',array(
         'inputDefaults' => array(
             'div' => 'form-group',

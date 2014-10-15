@@ -1,11 +1,11 @@
 <?php
-App::uses('ClassRoomsController', 'Controller');
+App::uses('ClassroomsController', 'Controller');
 
 /**
- * ClassRoomsController Test Case
+ * ClassroomsController Test Case
  *
  */
-class ClassRoomsControllerTest extends ControllerTestCase {
+class ClassroomsControllerTest extends ControllerTestCase {
 
 /**
  * Fixtures
@@ -13,8 +13,22 @@ class ClassRoomsControllerTest extends ControllerTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'app.class_room',
-		'app.department'
+		'app.classroom',
+		'app.department',
+		'app.user',
+		'app.province',
+		'app.user_group',
+		'app.user_group_permission',
+		'app.login_token',
+		'app.enrollment',
+		'app.period',
+		'app.course',
+		'app.chapter',
+		'app.chapter_type',
+		'app.departments_chapter',
+		'app.users_chapter',
+		'app.room',
+		'app.teaching_plan'
 	);
 
 /**
@@ -63,48 +77,48 @@ class ClassRoomsControllerTest extends ControllerTestCase {
 	}
 
 /**
- * testAdminIndex method
+ * testManagerIndex method
  *
  * @return void
  */
-	public function testAdminIndex() {
-		$this->markTestIncomplete('testAdminIndex not implemented.');
+	public function testManagerIndex() {
+		$this->markTestIncomplete('testManagerIndex not implemented.');
 	}
 
 /**
- * testAdminView method
+ * testManagerView method
  *
  * @return void
  */
-	public function testAdminView() {
-		$this->markTestIncomplete('testAdminView not implemented.');
+	public function testManagerView() {
+		$this->markTestIncomplete('testManagerView not implemented.');
 	}
 
 /**
- * testAdminAdd method
+ * testManagerAdd method
  *
  * @return void
  */
-	public function testAdminAdd() {
-		$this->markTestIncomplete('testAdminAdd not implemented.');
+	public function testManagerAdd() {
+		$this->markTestIncomplete('testManagerAdd not implemented.');
 	}
 
 /**
- * testAdminEdit method
+ * testManagerEdit method
  *
  * @return void
  */
-	public function testAdminEdit() {
-		$this->markTestIncomplete('testAdminEdit not implemented.');
+	public function testManagerEdit() {
+		$this->markTestIncomplete('testManagerEdit not implemented.');
 	}
 
 /**
- * testAdminDelete method
+ * testManagerDelete method
  *
  * @return void
  */
-	public function testAdminDelete() {
-		$this->markTestIncomplete('testAdminDelete not implemented.');
+	public function testManagerDelete() {
+		$this->markTestIncomplete('testManagerDelete not implemented.');
 	}
 
 }

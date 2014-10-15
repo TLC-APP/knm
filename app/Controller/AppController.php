@@ -32,12 +32,40 @@ App::uses('Controller', 'Controller');
  */
 class AppController extends Controller {
 
-    public $components = array('DebugKit.Toolbar','Session');
-    public $helpers = array('Session',
+    public $components = array(
+        'DebugKit.Toolbar',
+        'Session',
+        'RequestHandler',
+        'Usermgmt.UserAuth',
+    );
+    public $helpers = array
+        ('Session',
         'Js',
+        'Usermgmt.UserAuth',
         'Html' => array('className' => 'BoostCake.BoostCakeHtml'),
         'Form' => array('className' => 'BoostCake.BoostCakeForm'),
         'Paginator' => array('className' => 'BoostCake.BoostCakePaginator')
     );
+    public $theme = "Ace";
+    public $layout = "teacher";
+
+    private function userAuth() {
+        $this->UserAuth->beforeFilter($this);
+    }
+
+    function beforeFilter() {
+        parent::beforeFilter();
+        $this->userAuth();
+    }
+
+    public function beforeRender() {
+        parent::beforeRender();
+        if ($this->UserAuth->isLogged()&&$this->UserAuth->getGroupAlias()&&!$this->request->is('ajax')) {
+            
+            $this->layout = $this->UserAuth->getGroupAlias();
+        
+        }
+        
+    }
 
 }

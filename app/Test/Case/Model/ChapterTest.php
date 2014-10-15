@@ -26,7 +26,9 @@ class ChapterTest extends CakeTestCase {
 		'app.users_chapter',
 		'app.group',
 		'app.users_group',
-		'app.session'
+		'app.enrollment',
+		'app.period',
+		'app.room'
 	);
 
 /**

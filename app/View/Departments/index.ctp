@@ -11,8 +11,9 @@
 			<th><?php echo $this->Paginator->sort('rght'); ?></th>
 			<th><?php echo $this->Paginator->sort('created'); ?></th>
 			<th><?php echo $this->Paginator->sort('modified'); ?></th>
-			<th><?php echo $this->Paginator->sort('type'); ?></th>
+			<th><?php echo $this->Paginator->sort('department_type_id'); ?></th>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
+			<th><?php echo $this->Paginator->sort('code'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	</thead>
@@ -29,8 +30,11 @@
 		<td><?php echo h($department['Department']['rght']); ?>&nbsp;</td>
 		<td><?php echo h($department['Department']['created']); ?>&nbsp;</td>
 		<td><?php echo h($department['Department']['modified']); ?>&nbsp;</td>
-		<td><?php echo h($department['Department']['type']); ?>&nbsp;</td>
+		<td>
+			<?php echo $this->Html->link($department['DepartmentType']['name'], array('controller' => 'department_types', 'action' => 'view', $department['DepartmentType']['id'])); ?>
+		</td>
 		<td><?php echo h($department['Department']['id']); ?>&nbsp;</td>
+		<td><?php echo h($department['Department']['code']); ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $department['Department']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $department['Department']['id'])); ?>
@@ -60,6 +64,8 @@
 		<li><?php echo $this->Html->link(__('New Department'), array('action' => 'add')); ?></li>
 		<li><?php echo $this->Html->link(__('List Departments'), array('controller' => 'departments', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Parent Department'), array('controller' => 'departments', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Department Types'), array('controller' => 'department_types', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Department Type'), array('controller' => 'department_types', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Class Rooms'), array('controller' => 'class_rooms', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Class Room'), array('controller' => 'class_rooms', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Users'), array('controller' => 'users', 'action' => 'index')); ?> </li>

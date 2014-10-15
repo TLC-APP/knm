@@ -1,48 +1,33 @@
-<div class="chapterTypes index">
-	<h2><?php echo __('Chapter Types'); ?></h2>
-	<table cellpadding="0" cellspacing="0">
-	<thead>
-	<tr>
-			<th><?php echo $this->Paginator->sort('id'); ?></th>
-			<th><?php echo $this->Paginator->sort('name'); ?></th>
-			<th><?php echo $this->Paginator->sort('description'); ?></th>
-			<th class="actions"><?php echo __('Actions'); ?></th>
-	</tr>
-	</thead>
-	<tbody>
-	<?php foreach ($chapterTypes as $chapterType): ?>
-	<tr>
-		<td><?php echo h($chapterType['ChapterType']['id']); ?>&nbsp;</td>
-		<td><?php echo h($chapterType['ChapterType']['name']); ?>&nbsp;</td>
-		<td><?php echo h($chapterType['ChapterType']['description']); ?>&nbsp;</td>
-		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $chapterType['ChapterType']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $chapterType['ChapterType']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $chapterType['ChapterType']['id']), array(), __('Are you sure you want to delete # %s?', $chapterType['ChapterType']['id'])); ?>
-		</td>
-	</tr>
-<?php endforeach; ?>
-	</tbody>
-	</table>
-	<p>
-	<?php
-	echo $this->Paginator->counter(array(
-	'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')
-	));
-	?>	</p>
-	<div class="paging">
-	<?php
-		echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
-		echo $this->Paginator->numbers(array('separator' => ''));
-		echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
-	?>
-	</div>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('New Chapter Type'), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(__('List Chapters'), array('controller' => 'chapters', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Chapter'), array('controller' => 'chapters', 'action' => 'add')); ?> </li>
-	</ul>
+<div class="well-lg">
+    <h2>Danh mục loại kỹ năng</h2>
+    <div class="col-md-6 table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th><?php echo $this->Paginator->sort('name', 'Tên loại'); ?></th>
+                    <th><?php echo $this->Paginator->sort('description', 'Miêu tả'); ?></th>
+                    <th class="actions">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php $stt = ($this->Paginator->param('page') - 1) * $this->Paginator->param('limit') + 1; ?>
+
+                <?php foreach ($chapterTypes as $chapterType): ?>
+                    <tr>
+                        <td><?php echo $stt++; ?>&nbsp;</td>
+                        <td><?php echo h($chapterType['ChapterType']['name']); ?>&nbsp;</td>
+                        <td><?php echo h($chapterType['ChapterType']['description']); ?>&nbsp;</td>
+                        <td class="actions">
+                            <?php echo $this->Html->link("<i class='fa fa-pencil-square-o'></i>", array('action' => 'edit', $chapterType['ChapterType']['id']), array('escape' => false, 'data-toggle' => "tooltip", 'data-placement' => "left", 'title' => "sửa")); ?>
+                            <?php echo $this->Form->postLink('<span class="fa fa-trash-o"></span>', array('action' => 'delete', $chapterType['ChapterType']['id']), array('escape' => false, 'data-toggle' => "tooltip", 'data-placement' => "left", 'title' => "xóa"), __('Are you sure you want to delete # %s?', $chapterType['ChapterType']['id'])); ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        <?php echo $this->element('pagination'); ?>
+    </div>
+
+
 </div>

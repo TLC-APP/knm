@@ -41,14 +41,19 @@
 			<?php echo h($department['Department']['modified']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Type'); ?></dt>
+		<dt><?php echo __('Department Type'); ?></dt>
 		<dd>
-			<?php echo h($department['Department']['type']); ?>
+			<?php echo $this->Html->link($department['DepartmentType']['name'], array('controller' => 'department_types', 'action' => 'view', $department['DepartmentType']['id'])); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Id'); ?></dt>
 		<dd>
 			<?php echo h($department['Department']['id']); ?>
+			&nbsp;
+		</dd>
+		<dt><?php echo __('Code'); ?></dt>
+		<dd>
+			<?php echo h($department['Department']['code']); ?>
 			&nbsp;
 		</dd>
 	</dl>
@@ -62,6 +67,8 @@
 		<li><?php echo $this->Html->link(__('New Department'), array('action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Departments'), array('controller' => 'departments', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Parent Department'), array('controller' => 'departments', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Department Types'), array('controller' => 'department_types', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Department Type'), array('controller' => 'department_types', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Class Rooms'), array('controller' => 'class_rooms', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Class Room'), array('controller' => 'class_rooms', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Users'), array('controller' => 'users', 'action' => 'index')); ?> </li>
@@ -114,8 +121,9 @@
 		<th><?php echo __('Rght'); ?></th>
 		<th><?php echo __('Created'); ?></th>
 		<th><?php echo __('Modified'); ?></th>
-		<th><?php echo __('Type'); ?></th>
+		<th><?php echo __('Department Type Id'); ?></th>
 		<th><?php echo __('Id'); ?></th>
+		<th><?php echo __('Code'); ?></th>
 		<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php foreach ($department['ChildDepartment'] as $childDepartment): ?>
@@ -128,8 +136,9 @@
 			<td><?php echo $childDepartment['rght']; ?></td>
 			<td><?php echo $childDepartment['created']; ?></td>
 			<td><?php echo $childDepartment['modified']; ?></td>
-			<td><?php echo $childDepartment['type']; ?></td>
+			<td><?php echo $childDepartment['department_type_id']; ?></td>
 			<td><?php echo $childDepartment['id']; ?></td>
+			<td><?php echo $childDepartment['code']; ?></td>
 			<td class="actions">
 				<?php echo $this->Html->link(__('View'), array('controller' => 'departments', 'action' => 'view', $childDepartment['id'])); ?>
 				<?php echo $this->Html->link(__('Edit'), array('controller' => 'departments', 'action' => 'edit', $childDepartment['id'])); ?>
@@ -151,54 +160,48 @@
 	<?php if (!empty($department['User'])): ?>
 	<table cellpadding = "0" cellspacing = "0">
 	<tr>
-		<th><?php echo __('Name'); ?></th>
+		<th><?php echo __('Id'); ?></th>
+		<th><?php echo __('First Name'); ?></th>
+		<th><?php echo __('Last Name'); ?></th>
+		<th><?php echo __('Borndate'); ?></th>
+		<th><?php echo __('Bornplace'); ?></th>
 		<th><?php echo __('Sex'); ?></th>
-		<th><?php echo __('Hoc Ham Id'); ?></th>
-		<th><?php echo __('Hoc Vi Id'); ?></th>
+		<th><?php echo __('Email'); ?></th>
+		<th><?php echo __('Phone'); ?></th>
+		<th><?php echo __('Classroom Id'); ?></th>
 		<th><?php echo __('Department Id'); ?></th>
 		<th><?php echo __('Username'); ?></th>
 		<th><?php echo __('Password'); ?></th>
-		<th><?php echo __('Email'); ?></th>
-		<th><?php echo __('Birthday'); ?></th>
-		<th><?php echo __('Birthplace'); ?></th>
-		<th><?php echo __('Phone Number'); ?></th>
-		<th><?php echo __('Address'); ?></th>
-		<th><?php echo __('Avatar'); ?></th>
-		<th><?php echo __('Avatar Path'); ?></th>
-		<th><?php echo __('Activated'); ?></th>
-		<th><?php echo __('Last Login'); ?></th>
-		<th><?php echo __('Captcha'); ?></th>
+		<th><?php echo __('User Group Id'); ?></th>
+		<th><?php echo __('Email Verified'); ?></th>
+		<th><?php echo __('Active'); ?></th>
+		<th><?php echo __('Ip Address'); ?></th>
+		<th><?php echo __('Salt'); ?></th>
 		<th><?php echo __('Created'); ?></th>
 		<th><?php echo __('Modified'); ?></th>
-		<th><?php echo __('Id'); ?></th>
-		<th><?php echo __('Ip Address'); ?></th>
-		<th><?php echo __('Email Verified'); ?></th>
 		<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php foreach ($department['User'] as $user): ?>
 		<tr>
-			<td><?php echo $user['name']; ?></td>
+			<td><?php echo $user['id']; ?></td>
+			<td><?php echo $user['first_name']; ?></td>
+			<td><?php echo $user['last_name']; ?></td>
+			<td><?php echo $user['borndate']; ?></td>
+			<td><?php echo $user['bornplace']; ?></td>
 			<td><?php echo $user['sex']; ?></td>
-			<td><?php echo $user['hoc_ham_id']; ?></td>
-			<td><?php echo $user['hoc_vi_id']; ?></td>
+			<td><?php echo $user['email']; ?></td>
+			<td><?php echo $user['phone']; ?></td>
+			<td><?php echo $user['classroom_id']; ?></td>
 			<td><?php echo $user['department_id']; ?></td>
 			<td><?php echo $user['username']; ?></td>
 			<td><?php echo $user['password']; ?></td>
-			<td><?php echo $user['email']; ?></td>
-			<td><?php echo $user['birthday']; ?></td>
-			<td><?php echo $user['birthplace']; ?></td>
-			<td><?php echo $user['phone_number']; ?></td>
-			<td><?php echo $user['address']; ?></td>
-			<td><?php echo $user['avatar']; ?></td>
-			<td><?php echo $user['avatar_path']; ?></td>
-			<td><?php echo $user['activated']; ?></td>
-			<td><?php echo $user['last_login']; ?></td>
-			<td><?php echo $user['captcha']; ?></td>
+			<td><?php echo $user['user_group_id']; ?></td>
+			<td><?php echo $user['email_verified']; ?></td>
+			<td><?php echo $user['active']; ?></td>
+			<td><?php echo $user['ip_address']; ?></td>
+			<td><?php echo $user['salt']; ?></td>
 			<td><?php echo $user['created']; ?></td>
 			<td><?php echo $user['modified']; ?></td>
-			<td><?php echo $user['id']; ?></td>
-			<td><?php echo $user['ip_address']; ?></td>
-			<td><?php echo $user['email_verified']; ?></td>
 			<td class="actions">
 				<?php echo $this->Html->link(__('View'), array('controller' => 'users', 'action' => 'view', $user['id'])); ?>
 				<?php echo $this->Html->link(__('Edit'), array('controller' => 'users', 'action' => 'edit', $user['id'])); ?>
@@ -221,6 +224,7 @@
 	<table cellpadding = "0" cellspacing = "0">
 	<tr>
 		<th><?php echo __('Name'); ?></th>
+		<th><?php echo __('Code'); ?></th>
 		<th><?php echo __('Description'); ?></th>
 		<th><?php echo __('So Tiet Ly Thuyet'); ?></th>
 		<th><?php echo __('So Tiet Thuc Hanh'); ?></th>
@@ -231,6 +235,7 @@
 	<?php foreach ($department['Chapter'] as $chapter): ?>
 		<tr>
 			<td><?php echo $chapter['name']; ?></td>
+			<td><?php echo $chapter['code']; ?></td>
 			<td><?php echo $chapter['description']; ?></td>
 			<td><?php echo $chapter['so_tiet_ly_thuyet']; ?></td>
 			<td><?php echo $chapter['so_tiet_thuc_hanh']; ?></td>

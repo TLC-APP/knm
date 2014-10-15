@@ -1,31 +1,29 @@
 <div class="chapters form">
-<?php echo $this->Form->create('Chapter'); ?>
-	<fieldset>
-		<legend><?php echo __('Add Chapter'); ?></legend>
-	<?php
-		echo $this->Form->input('name');
-		echo $this->Form->input('description');
-		//echo $this->Form->input('so_tiet_ly_thuyet');
-		//echo $this->Form->input('so_tiet_thuc_hanh');
-		echo $this->Form->input('chapter_type_id');
-		//echo $this->Form->input('Department');
-		//echo $this->Form->input('User');
-	?>
-	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
+    <?php
+    echo $this->Form->create('Chapter', array(
+        'inputDefaults' => array(
+            'div' => 'form-group',
+            'label' => array(
+                'class' => 'col col-sm-3 control-label'
+            ),
+            'wrapInput' => 'col col-sm-7',
+            'class' => 'form-control'
+        ),
+        'class' => 'well form-horizontal',
+    ));
+    ?>
+    <fieldset>
+        <legend>Thêm mới kỹ năng</legend>
+        <?php
+        echo $this->Form->input('name', array('label' => 'Tên kỹ năng'));
 
-		<li><?php echo $this->Html->link(__('List Chapters'), array('action' => 'index')); ?></li>
-		<li><?php echo $this->Html->link(__('List Chapter Types'), array('controller' => 'chapter_types', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Chapter Type'), array('controller' => 'chapter_types', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Courses'), array('controller' => 'courses', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Course'), array('controller' => 'courses', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Departments'), array('controller' => 'departments', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Department'), array('controller' => 'departments', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Users'), array('controller' => 'users', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New User'), array('controller' => 'users', 'action' => 'add')); ?> </li>
-	</ul>
+        echo $this->Form->input('so_tiet_ly_thuyet', array('label' => 'Số tiết lý thuyết'));
+        echo $this->Form->input('so_tiet_thuc_hanh', array('label' => 'Số tiết thực hành'));
+        echo $this->Form->input('chapter_type_id', array('label' => 'Loại kỹ năng'));
+        echo $this->Form->input('Department', array('label' => 'Đơn vị được miễn'));
+        echo $this->Form->input('User', array('label' => 'Giảng viên có thể dạy'));
+        echo $this->Form->input('description', array('label' => 'Miêu tả'));
+        ?>
+    </fieldset>
+    <?php echo $this->Form->end('Lưu'); ?>
 </div>
