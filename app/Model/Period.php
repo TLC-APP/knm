@@ -15,6 +15,7 @@ class Period extends AppModel {
  */
 	public $displayField = 'name';
 
+        public $actsAs=array('Containable');
 /**
  * Validation rules
  *
@@ -31,26 +32,8 @@ class Period extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'start' => array(
-			'datetime' => array(
-				'rule' => array('datetime'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'end' => array(
-			'datetime' => array(
-				'rule' => array('datetime'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
+		
+		
 		'course_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
@@ -96,4 +79,5 @@ class Period extends AppModel {
 			'order' => ''
 		)
 	);
+        
 }

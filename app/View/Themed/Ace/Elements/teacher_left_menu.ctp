@@ -49,52 +49,26 @@
         <li class="">
             <a href="<?php echo SUB_DIR.'/teaching_plans/add'?>">
                 <i class="menu-icon fa fa-calendar"></i>
-                <span class="menu-text">Lịch dạy</span>
+                <span class="menu-text">Lập kế hoạch dạy</span>
             </a>
             <b class="arrow"></b>
             
         </li>
         <li class="">
-            <a href="#" class="dropdown-toggle">
+            <a href="<?php echo SUB_DIR?>/periods/teacherIndex" >
                 <i class="menu-icon fa fa-list-alt"></i>
-                <span class="menu-text"> Giảng dạy</span>
-                <b class="arrow fa fa-angle-down"></b>
+                <span class="menu-text"> Thời khóa biểu</span>
             </a>
-
-            <b class="arrow"></b>
-            <ul class="submenu">
-                <li class="">
-                    <a href="<?php echo SUB_DIR.'/chapters'?>">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Lịch dạy tháng này
-                    </a>
-                    <a href="<?php echo SUB_DIR.'/chapters/add'?>">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Tất cả Lịch dạy
-                    </a>
-                    <a href="<?php echo SUB_DIR.'/chapter_types'?>">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Lớp được phân công
-                    </a>
-                    <a href="<?php echo SUB_DIR.'/chapter_types'?>">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Lớp đã dạy
-                    </a>
-                    <b class="arrow"></b>
-                </li>
-
-
-            </ul>
+            
         </li>
         
 
         
 
-        <li class="" class="dropdown-toggle">
+        <li class="">
             <a href="#">
                 <i class="menu-icon fa fa-list-alt"></i>
-                <span class="menu-text"> Thống kê </span>
-                 <b class="arrow fa fa-angle-down"></b>
+                <span class="menu-text"> Thống kê giờ giảng</span>
             </a>
 
             <b class="arrow"></b>

@@ -1,64 +1,40 @@
 <?php
+
 App::uses('AppModel', 'Model');
+
 /**
  * TeachingPlan Model
  *
  * @property Teacher $Teacher
  */
 class TeachingPlan extends AppModel {
+    /**
+     * Validation rules
+     *
+     * @var array
+     */
+    //The Associations below have been created with all possible keys, those that are not needed can be removed
 
-/**
- * Validation rules
- *
- * @var array
- */
-	public $validate = array(
-		'date' => array(
-			'date' => array(
-				'rule' => array('date'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'session' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'teacher_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-	);
+    /**
+     * belongsTo associations
+     *
+     * @var array
+     */
+    public $belongsTo = array(
+        'Teacher' => array(
+            'className' => 'Usermgmt.User',
+            'foreignKey' => 'teacher_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => ''
+        )
+    );
+    
+    public $actsAs=array('Containable');
 
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
+    public function isExist($date, $session, $teacher_id) {
+        $conditions = array('TeachingPlan.date' => $date, 'TeachingPlan.session' => $session, 'TeachingPlan.teacher_id' => $teacher_id);
+        return $this->find('count', array('conditions' => $conditions));
+    }
 
-/**
- * belongsTo associations
- *
- * @var array
- */
-	public $belongsTo = array(
-		'Teacher' => array(
-			'className' => 'User',
-			'foreignKey' => 'teacher_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		)
-	);
 }

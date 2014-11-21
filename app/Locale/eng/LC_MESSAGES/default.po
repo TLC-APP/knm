@@ -22,581 +22,7 @@ msgstr "Gửi đi"
 msgid "Cancel"
 msgstr "Hủy bỏ"
 
-#: Controller/BaocaotinsController.php:38;72;99
-msgid "Invalid baocaotin"
-msgstr "Lỗi mã thứ tự"
 
-#: Controller/BaocaotinsController.php:53;76
-msgid "The baocaotin has been saved."
-msgstr "Đã lưu dữ liệu thành công"
-
-#: Controller/BaocaotinsController.php:56;79
-msgid "The baocaotin could not be saved. Please, try again."
-msgstr "Không thể lưu dữ liệu vui lòng thử lại"
-
-#: Controller/BaocaotinsController.php:103
-msgid "The baocaotin has been deleted."
-msgstr "Xóa dữ liệu thành công."
-
-#: Controller/BaocaotinsController.php:105
-msgid "The baocaotin could not be deleted. Please, try again."
-msgstr "Không thể xóa dữ liệu vui lòng thử lại"
-
-#: Controller/CapbacsController.php:38;70;95
-msgid "Invalid capbac"
-msgstr "Lỗi mã thứ tự"
-
-#: Controller/CapbacsController.php:53;74
-msgid "The capbac has been saved."
-msgstr "Đã lưu dữ liệu thành công"
-
-#: Controller/CapbacsController.php:56;77
-msgid "The capbac could not be saved. Please, try again."
-msgstr "Không thể lưu dữ liệu vui lòng thử lại"
-
-#: Controller/CapbacsController.php:99
-msgid "The capbac has been deleted."
-msgstr "Xóa dữ liệu thành công."
-
-#: Controller/CapbacsController.php:101
-msgid "The capbac could not be deleted. Please, try again."
-msgstr "Không thể xóa dữ liệu vui lòng thử lại"
-
-#: Controller/ChucvuchinhquyensController.php:38;70;95
-msgid "Invalid chucvuchinhquyen"
-msgstr "Lỗi mã thứ tự"
-
-#: Controller/ChucvuchinhquyensController.php:53;74
-msgid "The chucvuchinhquyen has been saved."
-msgstr "Đã lưu dữ liệu thành công"
-
-#: Controller/ChucvuchinhquyensController.php:56;77
-msgid "The chucvuchinhquyen could not be saved. Please, try again."
-msgstr "Không thể lưu dữ liệu vui lòng thử lại"
-
-#: Controller/ChucvuchinhquyensController.php:99
-msgid "The chucvuchinhquyen has been deleted."
-msgstr "Xóa dữ liệu thành công."
-
-#: Controller/ChucvuchinhquyensController.php:101
-msgid "The chucvuchinhquyen could not be deleted. Please, try again."
-msgstr "Không thể xóa dữ liệu vui lòng thử lại"
-
-#: Controller/ChucvudangsController.php:38;70;95
-msgid "Invalid chucvudang"
-msgstr "Lỗi mã thứ tự"
-
-#: Controller/ChucvudangsController.php:53;74
-msgid "The chucvudang has been saved."
-msgstr "Đã lưu dữ liệu thành công"
-
-#: Controller/ChucvudangsController.php:56;77
-msgid "The chucvudang could not be saved. Please, try again."
-msgstr "Không thể lưu dữ liệu vui lòng thử lại"
-
-#: Controller/ChucvudangsController.php:99
-msgid "The chucvudang has been deleted."
-msgstr "Xóa dữ liệu thành công."
-
-#: Controller/ChucvudangsController.php:101
-msgid "The chucvudang could not be deleted. Please, try again."
-msgstr "Không thể xóa dữ liệu vui lòng thử lại"
-
-#: Controller/DangkyhoatdongsController.php:38;72;99
-msgid "Invalid dangkyhoatdong"
-msgstr "Lỗi mã thứ tự"
-
-#: Controller/DangkyhoatdongsController.php:53;76
-msgid "The dangkyhoatdong has been saved."
-msgstr "Đã lưu dữ liệu thành công"
-
-#: Controller/DangkyhoatdongsController.php:56;79
-msgid "The dangkyhoatdong could not be saved. Please, try again."
-msgstr "Không thể lưu dữ liệu vui lòng thử lại"
-
-#: Controller/DangkyhoatdongsController.php:103
-msgid "The dangkyhoatdong has been deleted."
-msgstr "Xóa dữ liệu thành công."
-
-#: Controller/DangkyhoatdongsController.php:105
-msgid "The dangkyhoatdong could not be deleted. Please, try again."
-msgstr "Không thể xóa dữ liệu vui lòng thử lại"
-
-#: Controller/DanhsachesController.php:38;77;109
-msgid "Invalid danhsach"
-msgstr "Lỗi mã thứ tự"
-
-#: Controller/DanhsachesController.php:53;81
-msgid "The danhsach has been saved."
-msgstr "Đã lưu dữ liệu thành công"
-
-#: Controller/DanhsachesController.php:56;84
-msgid "The danhsach could not be saved. Please, try again."
-msgstr "Không thể lưu dữ liệu vui lòng thử lại"
-
-#: Controller/DanhsachesController.php:113
-msgid "The danhsach has been deleted."
-msgstr "Xóa dữ liệu thành công."
-
-#: Controller/DanhsachesController.php:115
-msgid "The danhsach could not be deleted. Please, try again."
-msgstr "Không thể xóa dữ liệu vui lòng thử lại"
-
-#: Controller/DaosController.php:38;70;95
-msgid "Invalid dao"
-msgstr "Lỗi mã thứ tự"
-
-#: Controller/DaosController.php:53;74
-msgid "The dao has been saved."
-msgstr "Đã lưu dữ liệu thành công"
-
-#: Controller/DaosController.php:56;77
-msgid "The dao could not be saved. Please, try again."
-msgstr "Không thể lưu dữ liệu vui lòng thử lại"
-
-#: Controller/DaosController.php:99
-msgid "The dao has been deleted."
-msgstr "Xóa dữ liệu thành công."
-
-#: Controller/DaosController.php:101
-msgid "The dao could not be deleted. Please, try again."
-msgstr "Không thể xóa dữ liệu vui lòng thử lại"
-
-#: Controller/DonvisController.php:38;74;103
-msgid "Invalid donvi"
-msgstr "Lỗi mã thứ tự"
-
-#: Controller/DonvisController.php:53;78
-msgid "The donvi has been saved."
-msgstr "Đã lưu dữ liệu thành công"
-
-#: Controller/DonvisController.php:56;81
-msgid "The donvi could not be saved. Please, try again."
-msgstr "Không thể lưu dữ liệu vui lòng thử lại"
-
-#: Controller/DonvisController.php:107
-msgid "The donvi has been deleted."
-msgstr "Xóa dữ liệu thành công."
-
-#: Controller/DonvisController.php:109
-msgid "The donvi could not be deleted. Please, try again."
-msgstr "Không thể xóa dữ liệu vui lòng thử lại"
-
-#: Controller/HuyensController.php:38;72;99
-msgid "Invalid huyen"
-msgstr "Lỗi mã thứ tự"
-
-#: Controller/HuyensController.php:53;76
-msgid "The huyen has been saved."
-msgstr "Đã lưu dữ liệu thành công"
-
-#: Controller/HuyensController.php:56;79
-msgid "The huyen could not be saved. Please, try again."
-msgstr "Không thể lưu dữ liệu vui lòng thử lại"
-
-#: Controller/HuyensController.php:103
-msgid "The huyen has been deleted."
-msgstr "Xóa dữ liệu thành công."
-
-#: Controller/HuyensController.php:105
-msgid "The huyen could not be deleted. Please, try again."
-msgstr "Không thể xóa dữ liệu vui lòng thử lại"
-
-#: Controller/LinhvucsController.php:38;70;95
-msgid "Invalid linhvuc"
-msgstr "Lỗi mã thứ tự"
-
-#: Controller/LinhvucsController.php:53;74
-msgid "The linhvuc has been saved."
-msgstr "Đã lưu dữ liệu thành công"
-
-#: Controller/LinhvucsController.php:56;77
-msgid "The linhvuc could not be saved. Please, try again."
-msgstr "Không thể lưu dữ liệu vui lòng thử lại"
-
-#: Controller/LinhvucsController.php:99
-msgid "The linhvuc has been deleted."
-msgstr "Xóa dữ liệu thành công."
-
-#: Controller/LinhvucsController.php:101
-msgid "The linhvuc could not be deleted. Please, try again."
-msgstr "Không thể xóa dữ liệu vui lòng thử lại"
-
-#: Controller/LoaiquanhesController.php:38;70;95
-msgid "Invalid loaiquanhe"
-msgstr "Lỗi mã thứ tự"
-
-#: Controller/LoaiquanhesController.php:53;74
-msgid "The loaiquanhe has been saved."
-msgstr "Đã lưu dữ liệu thành công"
-
-#: Controller/LoaiquanhesController.php:56;77
-msgid "The loaiquanhe could not be saved. Please, try again."
-msgstr "Không thể lưu dữ liệu vui lòng thử lại"
-
-#: Controller/LoaiquanhesController.php:99
-msgid "The loaiquanhe has been deleted."
-msgstr "Xóa dữ liệu thành công."
-
-#: Controller/LoaiquanhesController.php:101
-msgid "The loaiquanhe could not be deleted. Please, try again."
-msgstr "Không thể xóa dữ liệu vui lòng thử lại"
-
-#: Controller/LoaitausController.php:38;70;95
-msgid "Invalid Loaitau"
-msgstr "Lỗi mã thứ tự"
-
-#: Controller/LoaitausController.php:53;74
-msgid "The Loaitau has been saved."
-msgstr "Đã lưu dữ liệu thành công"
-
-#: Controller/LoaitausController.php:56;77
-msgid "The Loaitau could not be saved. Please, try again."
-msgstr "Không thể lưu dữ liệu vui lòng thử lại"
-
-#: Controller/LoaitausController.php:99
-msgid "The Loaitau has been deleted."
-msgstr "Xóa dữ liệu thành công."
-
-#: Controller/LoaitausController.php:101
-msgid "The Loaitau could not be deleted. Please, try again."
-msgstr "Không thể xóa dữ liệu vui lòng thử lại"
-
-#: Controller/LoaivanbansController.php:38;70;95
-msgid "Invalid loaivanban"
-msgstr "Lỗi mã thứ tự"
-
-#: Controller/LoaivanbansController.php:53;74
-msgid "The loaivanban has been saved."
-msgstr "Đã lưu dữ liệu thành công"
-
-#: Controller/LoaivanbansController.php:56;77
-msgid "The loaivanban could not be saved. Please, try again."
-msgstr "Không thể lưu dữ liệu vui lòng thử lại"
-
-#: Controller/LoaivanbansController.php:99
-msgid "The loaivanban has been deleted."
-msgstr "Xóa dữ liệu thành công."
-
-#: Controller/LoaivanbansController.php:101
-msgid "The loaivanban could not be deleted. Please, try again."
-msgstr "Không thể xóa dữ liệu vui lòng thử lại"
-
-#: Controller/NoiguisController.php:38;70;95
-msgid "Invalid noigui"
-msgstr "Lỗi mã thứ tự"
-
-#: Controller/NoiguisController.php:53;74
-msgid "The noigui has been saved."
-msgstr "Đã lưu dữ liệu thành công"
-
-#: Controller/NoiguisController.php:56;77
-msgid "The noigui could not be saved. Please, try again."
-msgstr "Không thể lưu dữ liệu vui lòng thử lại"
-
-#: Controller/NoiguisController.php:99
-msgid "The noigui has been deleted."
-msgstr "Xóa dữ liệu thành công."
-
-#: Controller/NoiguisController.php:101
-msgid "The noigui could not be deleted. Please, try again."
-msgstr "Không thể xóa dữ liệu vui lòng thử lại"
-
-#: Controller/QuanhegiadinhsController.php:38;73;101
-msgid "Invalid quanhegiadinh"
-msgstr "Lỗi mã thứ tự"
-
-#: Controller/QuanhegiadinhsController.php:53;77
-msgid "The quanhegiadinh has been saved."
-msgstr "Đã lưu dữ liệu thành công"
-
-#: Controller/QuanhegiadinhsController.php:56;80
-msgid "The quanhegiadinh could not be saved. Please, try again."
-msgstr "Không thể lưu dữ liệu vui lòng thử lại"
-
-#: Controller/QuanhegiadinhsController.php:105
-msgid "The quanhegiadinh has been deleted."
-msgstr "Xóa dữ liệu thành công."
-
-#: Controller/QuanhegiadinhsController.php:107
-msgid "The quanhegiadinh could not be deleted. Please, try again."
-msgstr "Không thể xóa dữ liệu vui lòng thử lại"
-
-#: Controller/QuatrinhcongtacsController.php:38;76;107
-msgid "Invalid quatrinhcongtac"
-msgstr "Lỗi mã thứ tự"
-
-#: Controller/QuatrinhcongtacsController.php:53;80
-msgid "The quatrinhcongtac has been saved."
-msgstr "Đã lưu dữ liệu thành công"
-
-#: Controller/QuatrinhcongtacsController.php:56;83
-msgid "The quatrinhcongtac could not be saved. Please, try again."
-msgstr "Không thể lưu dữ liệu vui lòng thử lại"
-
-#: Controller/QuatrinhcongtacsController.php:111
-msgid "The quatrinhcongtac has been deleted."
-msgstr "Xóa dữ liệu thành công."
-
-#: Controller/QuatrinhcongtacsController.php:113
-msgid "The quatrinhcongtac could not be deleted. Please, try again."
-msgstr "Không thể xóa dữ liệu vui lòng thử lại"
-
-#: Controller/QuocgiaController.php:39;71
-msgid "Invalid Quocgia"
-msgstr "Lỗi mã thứ tự"
-
-#: Controller/QuocgiaController.php:54;75
-msgid "The Quocgia has been saved."
-msgstr "Đã lưu dữ liệu thành công"
-
-#: Controller/QuocgiaController.php:57;78
-msgid "The Quocgia could not be saved. Please, try again."
-msgstr "Không thể lưu dữ liệu vui lòng thử lại"
-
-#: Controller/QuocgiaController.php:96
-msgid "Invalid quocgium"
-msgstr "Lỗi mã thứ tự"
-
-#: Controller/QuocgiaController.php:100
-msgid "The quocgium has been deleted."
-msgstr "Xóa dữ liệu thành công."
-
-#: Controller/QuocgiaController.php:102
-msgid "The quocgium could not be deleted. Please, try again."
-msgstr "Không thể xóa dữ liệu vui lòng thử lại"
-
-#: Controller/TaucannbatgiusController.php:38;70;95
-msgid "Invalid Taucannbatgiu"
-msgstr "Lỗi mã thứ tự"
-
-#: Controller/TaucannbatgiusController.php:53;74
-msgid "The Taucannbatgiu has been saved."
-msgstr "Đã lưu dữ liệu thành công"
-
-#: Controller/TaucannbatgiusController.php:56;77
-msgid "The Taucannbatgiu could not be saved. Please, try again."
-msgstr "Không thể lưu dữ liệu vui lòng thử lại"
-
-#: Controller/TaucannbatgiusController.php:99
-msgid "The Taucannbatgiu has been deleted."
-msgstr "Xóa dữ liệu thành công."
-
-#: Controller/TaucannbatgiusController.php:101
-msgid "The Taucannbatgiu could not be deleted. Please, try again."
-msgstr "Không thể xóa dữ liệu vui lòng thử lại"
-
-#: Controller/TaucasController.php:38;72;99
-msgid "Invalid tauca"
-msgstr "Lỗi mã thứ tự"
-
-#: Controller/TaucasController.php:53;76
-msgid "The tauca has been saved."
-msgstr "Đã lưu dữ liệu thành công"
-
-#: Controller/TaucasController.php:56;79
-msgid "The tauca could not be saved. Please, try again."
-msgstr "Không thể lưu dữ liệu vui lòng thử lại"
-
-#: Controller/TaucasController.php:103
-msgid "The tauca has been deleted."
-msgstr "Xóa dữ liệu thành công."
-
-#: Controller/TaucasController.php:105
-msgid "The tauca could not be deleted. Please, try again."
-msgstr "Không thể xóa dữ liệu vui lòng thử lại"
-
-#: Controller/ThoitietsController.php:38;72;99
-msgid "Invalid thoitiet"
-msgstr "Lỗi mã thứ tự"
-
-#: Controller/ThoitietsController.php:53;76
-msgid "The thoitiet has been saved."
-msgstr "Đã lưu dữ liệu thành công"
-
-#: Controller/ThoitietsController.php:56;79
-msgid "The thoitiet could not be saved. Please, try again."
-msgstr "Không thể lưu dữ liệu vui lòng thử lại"
-
-#: Controller/ThoitietsController.php:103
-msgid "The thoitiet has been deleted."
-msgstr "Xóa dữ liệu thành công."
-
-#: Controller/ThoitietsController.php:105
-msgid "The thoitiet could not be deleted. Please, try again."
-msgstr "Không thể xóa dữ liệu vui lòng thử lại"
-
-#: Controller/TinhhinhsController.php:38;75;105
-msgid "Invalid tinhhinh"
-msgstr "Lỗi mã thứ tự"
-
-#: Controller/TinhhinhsController.php:53;79
-msgid "The tinhhinh has been saved."
-msgstr "Đã lưu dữ liệu thành công"
-
-#: Controller/TinhhinhsController.php:56;82
-msgid "The tinhhinh could not be saved. Please, try again."
-msgstr "Không thể lưu dữ liệu vui lòng thử lại"
-
-#: Controller/TinhhinhsController.php:109
-msgid "The tinhhinh has been deleted."
-msgstr "Xóa dữ liệu thành công."
-
-#: Controller/TinhhinhsController.php:111
-msgid "The tinhhinh could not be deleted. Please, try again."
-msgstr "Không thể xóa dữ liệu vui lòng thử lại"
-
-#: Controller/TinhsController.php:38;70;95
-msgid "Invalid tinh"
-msgstr "Lỗi mã thứ tự"
-
-#: Controller/TinhsController.php:53;74
-msgid "The tinh has been saved."
-msgstr "Đã lưu dữ liệu thành công"
-
-#: Controller/TinhsController.php:56;77
-msgid "The tinh could not be saved. Please, try again."
-msgstr "Không thể lưu dữ liệu vui lòng thử lại"
-
-#: Controller/TinhsController.php:99
-msgid "The tinh has been deleted."
-msgstr "Xóa dữ liệu thành công."
-
-#: Controller/TinhsController.php:101
-msgid "The tinh could not be deleted. Please, try again."
-msgstr "Không thể xóa dữ liệu vui lòng thử lại"
-
-#: Controller/VanbandensController.php:38;76;107
-msgid "Invalid vanbanden"
-msgstr "Lỗi mã thứ tự"
-
-#: Controller/VanbandensController.php:53;80
-msgid "The vanbanden has been saved."
-msgstr "Đã lưu dữ liệu thành công"
-
-#: Controller/VanbandensController.php:56;83
-msgid "The vanbanden could not be saved. Please, try again."
-msgstr "Không thể lưu dữ liệu vui lòng thử lại"
-
-#: Controller/VanbandensController.php:111
-msgid "The vanbanden has been deleted."
-msgstr "Xóa dữ liệu thành công."
-
-#: Controller/VanbandensController.php:113
-msgid "The vanbanden could not be deleted. Please, try again."
-msgstr "Không thể xóa dữ liệu vui lòng thử lại"
-
-#: Controller/VanbandisController.php:38;75;105
-msgid "Invalid vanbandi"
-msgstr "Lỗi mã thứ tự"
-
-#: Controller/VanbandisController.php:53;79
-msgid "The vanbandi has been saved."
-msgstr "Đã lưu dữ liệu thành công"
-
-#: Controller/VanbandisController.php:56;82
-msgid "The vanbandi could not be saved. Please, try again."
-msgstr "Không thể lưu dữ liệu vui lòng thử lại"
-
-#: Controller/VanbandisController.php:109
-msgid "The vanbandi has been deleted."
-msgstr "Xóa dữ liệu thành công."
-
-#: Controller/VanbandisController.php:111
-msgid "The vanbandi could not be deleted. Please, try again."
-msgstr "Không thể xóa dữ liệu vui lòng thử lại"
-
-#: Controller/VungbiensController.php:38;70;95
-msgid "Invalid vungbien"
-msgstr "Lỗi mã thứ tự"
-
-#: Controller/VungbiensController.php:53;74
-msgid "The vungbien has been saved."
-msgstr "Đã lưu dữ liệu thành công"
-
-#: Controller/VungbiensController.php:56;77
-msgid "The vungbien could not be saved. Please, try again."
-msgstr "Không thể lưu dữ liệu vui lòng thử lại"
-
-#: Controller/VungbiensController.php:99
-msgid "The vungbien has been deleted."
-msgstr "Xóa dữ liệu thành công."
-
-#: Controller/VungbiensController.php:101
-msgid "The vungbien could not be deleted. Please, try again."
-msgstr "Không thể xóa dữ liệu vui lòng thử lại"
-
-#: Controller/XasController.php:38;72;99
-msgid "Invalid xa"
-msgstr "Lỗi mã thứ tự"
-
-#: Controller/XasController.php:53;76
-msgid "The xa has been saved."
-msgstr "Đã lưu dữ liệu thành công"
-
-#: Controller/XasController.php:56;79
-msgid "The xa could not be saved. Please, try again."
-msgstr "Không thể lưu dữ liệu vui lòng thử lại"
-
-#: Controller/XasController.php:103
-msgid "The xa has been deleted."
-msgstr "Xóa dữ liệu thành công."
-
-#: Controller/XasController.php:105
-msgid "The xa could not be deleted. Please, try again."
-msgstr "Không thể xóa dữ liệu vui lòng thử lại"
-
-#: Controller/YkienchidaosController.php:38;73;101
-msgid "Invalid ykienchidao"
-msgstr "Lỗi mã thứ tự"
-
-#: Controller/YkienchidaosController.php:53;77
-msgid "The ykienchidao has been saved."
-msgstr "Đã lưu dữ liệu thành công"
-
-#: Controller/YkienchidaosController.php:56;80
-msgid "The ykienchidao could not be saved. Please, try again."
-msgstr "Không thể lưu dữ liệu vui lòng thử lại"
-
-#: Controller/YkienchidaosController.php:105
-msgid "The ykienchidao has been deleted."
-msgstr "Xóa dữ liệu thành công."
-
-#: Controller/YkienchidaosController.php:107
-msgid "The ykienchidao could not be deleted. Please, try again."
-msgstr "Không thể xóa dữ liệu vui lòng thử lại"
-
-#: Controller/YkiendonggopsController.php:38;70;95
-msgid "Invalid ykiendonggop"
-msgstr "Lỗi mã thứ tự"
-
-#: Controller/YkiendonggopsController.php:53;74
-msgid "The ykiendonggop has been saved."
-msgstr "Đã lưu dữ liệu thành công"
-
-#: Controller/YkiendonggopsController.php:56;77
-msgid "The ykiendonggop could not be saved. Please, try again."
-msgstr "Không thể lưu dữ liệu vui lòng thử lại"
-
-#: Controller/YkiendonggopsController.php:99
-msgid "The ykiendonggop has been deleted."
-msgstr "Xóa dữ liệu thành công."
-
-#: Controller/YkiendonggopsController.php:101
-msgid "The ykiendonggop could not be deleted. Please, try again."
-msgstr "Không thể xóa dữ liệu vui lòng thử lại"
-
-#: View/Baocaotins/add.ctp:6
-msgid "Add Baocaotin"
-msgstr "Thêm mới"
-
-#: View/Baocaotins/edit.ctp:6
-msgid "Edit Baocaotin"
-msgstr "Chỉnh sửa"
-
-#: View/Baocaotins/index.ctp:8
-msgid "Baocaotins"
-msgstr "Báo cáo tin"
 
 #: View/Baocaotins/index.ctp:10
 #: View/Capbacs/index.ctp:10
@@ -1956,174 +1382,94 @@ msgstr "Ý kiến đóng góp"
 msgid "Lydo"
 msgstr "Lý do"
 
-#: Model/Huyen.php:validation for field tinh_id
-msgid "numeric"
-msgstr ""
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Trangthaiduyet"
-msgstr "Văn bản không cần duyệt"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Detail Vanbanden"
-msgstr "Xem chi tiết văn bản đến"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Dinhkem"
-msgstr "File đính kèm"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "View Dinhkem"
-msgstr "Click để xem file đính kèm"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Kinhphichis"
-msgstr "Kinh phí chi"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Nguonkinhphi"
-msgstr "Nguồn kinh phí"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Sotien"
-msgstr "Số tiền"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Nguoidenghi"
-msgstr "Người đề nghị"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Add Kinhphichi"
-msgstr "Đề nghị kinh phí"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Edit Kinhphichi"
-msgstr "Sửa đề nghị kinh phí"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Tenvc"
-msgstr "Tên vật chất"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Dacdiem"
-msgstr "Đặc điểm"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Nhomvc"
-msgstr "Nhóm vật chất"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Giatien"
-msgstr "Giá tiền"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Noicap"
-msgstr "Nơi cấp"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Ngaycap"
-msgstr "Ngày cấp"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Chatluong"
-msgstr "Chất lượng"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Nguoiquanly"
-msgstr "Người quản lý"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Vitri"
-msgstr "Vị trí"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Huongdan"
-msgstr "Hướng dẫn"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Vatchats"
-msgstr "Vật chất"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Add Vatchat"
-msgstr "Thêm mới vật chất"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Edit Vatchat"
-msgstr "Cập nhật vật chất"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Sudungvcs"
-msgstr "Sử dụng vật chất"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Vatchat"
-msgstr "Vật chất"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Ngaysudung"
-msgstr "Ngày sử dụng"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Nguoisudung"
-msgstr "Người sử dụng"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Mucdich"
-msgstr "Mục đích"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Ngaytra"
-msgstr "Ngày trả"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Tinhtrangmuon"
-msgstr "Tình trạng mượn"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Tinhtrangtra"
-msgstr "Tình trạng trả"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Suachuavcs"
-msgstr "Sửa chữa vật chất"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Ngaysuachua"
-msgstr "Ngày sửa"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Lydosuachua"
-msgstr "Lý do sửa"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Nguondenghi"
-msgstr "Nguồn đề nghị"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Cososuachua"
-msgstr "Cơ sở sữa chữa"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Sotiensuachua"
-msgstr "Số tiền sữa chữa"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Nhomvcs"
-msgstr "Nhóm vật chất"
-
-#: Model/Huyen.php:validation for field tinh_id
-msgid "Tennhom"
-msgstr "Tên nhóm"
 
 
+#: Model/Course.php
+msgid "Related Enrollments"
+msgstr "Danh sách sinh viên đã đăng ký"
+
+msgid "Course"
+msgstr "Lớp kỹ năng"
+
+msgid "Trang Thai"
+msgstr "Trạng thái"
+
+msgid "Chapter"
+msgstr "Kỹ năng"
+
+msgid "Teacher"
+msgstr "Giảng viên"
+msgid "Si So"
+msgstr "Sĩ số"
+msgid "Name"
+msgstr "Tên lớp"
+
+msgid "Related Periods"
+msgstr "Buổi học của lớp"
 
 
+#: View/Courses/view.ctp:95
+msgid "Start"
+msgstr "Bắt đầu"
+#: View/Courses/view.ctp:96
+msgid "Note"
+msgstr "Ghi chú"
+#: View/Courses/view.ctp:97
+msgid "Room Name"
+msgstr "Tên phòng"
 
 
+msgid "New Enrollment"
+msgstr "Thêm sinh viên vào lớp học"
 
+msgid "Da huy"
+msgstr "Đã hủy"
 
+msgid "Da mo"
+msgstr "Đã mở"
 
+msgid "Dang dang ky"
+msgstr "Đang đăng ký"
+
+msgid "Da mo"
+msgstr "Đã mở"
+
+msgid "Co the mo"
+msgstr "Có thể mở"
+
+msgid "Cho huy"
+msgstr "Chờ hủy"
+
+msgid "view"
+msgstr "xem"
+msgid "edit"
+msgstr "sửa"
+msgid "delete"
+msgstr "xóa"
+msgid "Enrolledno"
+msgstr "Đã đăng ký"
+msgid "Actions"
+msgstr "Thao tác"
+
+msgid "active"
+msgstr "Tình trạng"
+
+msgid "email_verified"
+msgstr "Xác nhận Email"
+msgid "Created"
+msgstr "Ngày tạo"
+
+msgid "User Group"
+msgstr "Nhóm"
+
+msgid "view"
+msgstr "<span class=\"glyphicon glyphicon-search\"></span>"
+
+msgid "edit"
+msgstr "<span class=\"glyphicon glyphicon-edit\"></span> "
+
+msgid "delete"
+msgstr "<span class=\"fa fa-trash-o\"></span> "
 
 
 

@@ -2,311 +2,352 @@
 <?php echo $this->Html->script('moment.min'); ?>
 <?php echo $this->Html->script('bootbox'); ?>
 <?php echo $this->Html->script('fullcalendar.min'); ?>
+<?php echo $this->Html->script('jquery.qtip.min'); ?>
+<?php echo $this->Html->css('jquery.qtip.min'); ?>
+<?php echo $this->Html->css('select2'); ?>
+<?php echo $this->Html->css('select2-bootstrap'); ?>
+<?php echo $this->Html->script('select2.min'); ?>
 <?php echo $this->Html->script('vi'); ?>
+<?php echo $this->Html->script('bootstrap-contextmenu'); ?>
 <?php echo $this->Html->css('/bootstrapvalidator-0.5.2/css/bootstrapValidator.min'); ?>
 <?php echo $this->Html->script('/bootstrapvalidator-0.5.2/js/bootstrapValidator.min'); ?>
 <?php echo $this->Html->script('/bootstrapvalidator-0.5.2/js/language/vi_VN'); ?>
 
+<div id="context-menu2" style="position: absolute; top: 964px; left: 418px;" class="">
+    <ul class="dropdown-menu" role="menu">
+        <li><a tabindex="-1">Mở</a></li>
+        <li><a tabindex="-1">Hủy</a></li>
+        <li><a tabindex="-1">In danh sách SV</a></li>
+        <li><a tabindex="-1">Nhập điểm</a></li>
 
+    </ul>
+</div>
 <div class="page-content-area">
-    <div class="page-header">
-        <h1>
-            Full Calendar
-            <small>
-                <i class="ace-icon fa fa-angle-double-right"></i>
-                with draggable and editable events
-            </small>
-        </h1>
-    </div><!-- /.page-header -->
-
     <div class="row">
-        <div class="col-xs-10">
+        <div class="col-md-12">
             <!-- PAGE CONTENT BEGINS -->
             <div class="row">
-                <div class="col-sm-10">
+                <div class="col-xs-12 col-sm-6 widget-container-col ui-sortable">
                     <div class="space"></div>
-
-                    <div id="calendar">
+                    <div class="widget-box widget-color-dark ui-sortable-handle">
+                        <div class="widget-header">
+                            <h5 class="widget-title bigger lighter">Kế hoạch được đăng ký</h5>
+                            <div class="widget-toolbar">
+                                <span class="badge badge-primary">Sáng</span>
+                                <span class="badge badge-warning">Chiều</span>
+                                <span class="badge btn-light">Đã phân công</span>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-toolbox">
+                                <?php
+                                echo $this->Form->create('TeachingPlanFilter', array('inputDefaults' => array(
+                                        'div' => 'form-group',
+                                        'label' => array(
+                                            'class' => 'col col-sm-3 control-label'
+                                        ),
+                                        //'wrapInput' => 'col col-sm-7',
+                                        'class' => 'form-control'
+                                    ), 'class' => 'form-inline'));
+                                echo $this->Form->input('session', array('label' => false, 'empty' => 'Cả 2 buổi', 'options' => array('S' => 'Sáng', 'C' => 'Chiều')));
+                                echo $this->Form->input('teacher_id', array('label' => false, 'empty' => 'Tất cả giảng viên'));
+                                echo $this->Form->end();
+                                ?>
+                            </div>
+                            <div class="widget-main padding-16">
+                                <div id="calendar">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-toolbox padding-8 clearfix">
+                            <span id="teachingplanno"></span>
+                        </div>
                     </div>
-
-
                 </div>
+                <div class="col-xs-12 col-sm-6 widget-container-col ui-sortable">    
+                    <div class="space"></div>
+                    <div class="widget-box widget-color-dark ui-sortable-handle">
+                        <div class="widget-header">
+                            <h5 class="widget-title bigger lighter">Danh sách các lớp kỹ năng</h5>
+                            <div class="widget-toolbar">
+                                <span class="badge badge-theme">Chờ hủy</span>
+                                <span class="badge badge-danger">Đã hủy</span>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-toolbox">
+                                <?php
+                                echo $this->Form->create('CourseFilter', array('inputDefaults' => array(
+                                        'div' => 'form-group',
+                                        'label' => array(
+                                            'class' => 'col col-sm-3 control-label'
+                                        ),
+                                        //'wrapInput' => 'col col-sm-7',
+                                        'class' => 'form-control'
+                                    ), 'class' => 'form-inline'));
+                                echo $this->Form->input('trang_thai', array('label' => false, 'empty' => 'Trạng thái lớp', 'options' => array(
+                                        COURSE_ENROLLING => 'Đang đăng ký',
+                                        COURSE_OPENABLE => 'Đủ điều kiện mở',
+                                        COURSE_OPEN => 'Đã mở',
+                                        COURSE_WAIT_CANCEL => 'Chờ hủy',
+                                        COURSE_CANCELLED => 'Đã hủy'
+                                )));
+                                echo $this->Form->input('teacher_id', array('label' => false, 'empty' => 'Tất cả giảng viên'));
+                                echo $this->Form->input('chapter_id', array('label' => false, 'empty' => 'Tất cả chuyên đề'));
 
-                <!-- PAGE CONTENT ENDS -->
-            </div><!-- /.col -->
-        </div><!-- /.row -->
-        <div class="row">
-            <!-- The login modal. Don't display it initially -->
-            <?php
-            echo $this->Form->create('Course', array(
-                'inputDefaults' => array(
-                    'div' => 'form-group',
-                    'wrapInput' => false,
-                    'class' => 'form-control'
-                ),
-                'class' => 'form-horizontal well',
-                'id' => 'addcourseform',
-                'style' => "display: none;"
-            ));
-            echo $this->Form->input('chapter_id', array('label' => 'Kỹ năng'));
-            echo $this->Form->input('period', array('label' => 'Buổi', 'type' => 'select',
-                'options' => array('S' => 'Sáng', 'C' => 'Chiều', 'T' => 'Tối')));
+                                echo $this->Form->end();
+                                ?>
+                            </div>
+                        </div>
+                        <div class="widget-main padding-16">
+                            <div id="period">
+                            </div>
+                        </div>
+                        <div class="widget-toolbox padding-8 clearfix">
+                            <div class="col-md-8">
+                                <form class="form-search" id="search_period_form">
+                                    <div class="col-xs-10 col-sm-10">
+                                        <div class="input-group">
+                                            <input type="text" id="search_course_name" class="form-control search-query" name="course_name" placeholder="Mã lớp cần tìm">
+                                            <span class="input-group-btn">
+                                                <button type="submit" class="btn btn-purple btn-sm">
+                                                    Tìm
+                                                    <i class="ace-icon fa fa-search icon-on-right bigger-110"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-4" id="periodno"></div>
 
-            echo $this->Form->input('name', array('name' => 'name', 'label' => 'Tên lớp', 'placeholder' => '1 hoặc 2 hoặc 3...'));
-
-            echo $this->Form->input('addnextperiod', array('type' => 'select', 'label' => 'Thêm buổi 2 cách 1 tuần', 'options' => array('Y' => 'Có', 'N' => 'Không')));
-            echo $this->Form->input('Period.room_id', array('label' => 'Phòng'));
-            echo $this->Form->button('Lưu', array('class' => "btn btn-default"));
-            echo $this->Form->end();
-            ?>
-
-
-
-            <script>
-                $(document).ready(function() {
-                    $('#addcourseform')
-                            .bootstrapValidator({
-                                feedbackIcons: {
-                                    valid: 'glyphicon glyphicon-ok',
-                                    invalid: 'glyphicon glyphicon-remove',
-                                    validating: 'glyphicon glyphicon-refresh'
-                                },
-                                fields: {
-                                    name: {
-                                        validators: {
-                                            notEmpty: {
-                                                message: 'Bạn phải nhập tên lớp'
-                                            }
-                                        }
-                                    }
-                                }
-                            });
-
-                    // Login button click handler
-                    $('#loginButton').on('click', function() {
-
-                    });
-                });
-
-            </script>
-        </div>
-    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- PAGE CONTENT ENDS -->
+        </div><!-- /.col -->
+    </div><!-- /.row -->
 </div>
 <!-- /.page-content-area -->
 <script type="text/javascript">
-    jQuery(function($) {
 
-        /* initialize the external events
-         -----------------------------------------------------------------*/
+    jQuery(function ($) {
+        /*Xử lý tìm kiếm buổi học*/
+        var search_period_form = $("#search_period_form");
+        search_period_form.on("submit", function (event) {
 
-        $('#external-events div.external-event').each(function() {
+            event.preventDefault();
+            var course_name = $("#search_course_name").val();
+            $.ajax({
+                type: "post",
+                url: "/knm/periods/searchByCourseName?course_name=" + course_name,
+                dataType: 'json',
+                success: function (data) {
+                    if (!data.isFound) {
+                        bootbox.alert('Không tìm thấy lớp ' + course_name);
+                    } else {
 
-            // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
-            // it doesn't need to have a start or end
-            var eventObject = {
-                title: $.trim($(this).text()) // use the element's text as the event title
-            };
+                        $('#period').fullCalendar('gotoDate', moment(data.date));
 
-            // store the Event Object in the DOM element so we can get to it later
-            $(this).data('eventObject', eventObject);
+                        $("[data-date='" + moment(data.date).format('YYYY-MM-DD') + "']").addClass("fc-state-highlight");
+                    }
+                }
 
-            // make the event draggable using jQuery UI
-            $(this).draggable({
-                zIndex: 999,
-                revert: true, // will cause the event to go back to its
-                revertDuration: 0  //  original position after the drag
+
             });
 
         });
+        var periodSource = '/knm/periods/managerIndex?teacher_id=' + $("#CourseFilterTeacherId").val() + "&chapter_id=" + $("#CourseFilterChapterId").val() + "&trang_thai=" + $("#CourseFilterTrangThai").val();
+        var period = $('#period').fullCalendar(
+                {
+                    events: {
+                        url: periodSource,
+                        cache: true
+                    },
+                    eventRender: function (event, element) {
+                        /*Context menu*/
+                        element.contextmenu({
+                            target: '#context-menu2',
+                            onItem: function (context, e) {
+                                console.log(e);
+                                alert($(e.target).text());
+                            }
+                        });
 
 
 
+                        $(element).find(".fc-time").remove();
+                        var content = event.chapter_name + "<br/> Mã lớp <b>" + event.malop + "</b><br/>" + event.name + ' tại ' + event.room_name + ' <br/>Dạy bởi ' + event.teacher_name;
+                        content += "<br/> Đã đăng ký " + event.enrolledno;
+                        element.qtip({
+                            content: content
+                        });
+                    },
+                    eventAfterAllRender: function (view) {
+                        var allEvents = $('#period').fullCalendar('clientEvents');
+                        $("#periodno").html('Có tất cả ' + allEvents.length + ' buổi');
+                    },
+                    eventClick: function (calEvent, jsEvent, view) {
+                        bootbox.confirm("Bạn chắc xóa lớp" + calEvent.title + ' không ? Lưu ý: Nếu xóa thì cả 2 buổi học thuộc lớp cũng bị xóa theo.', function (result) {
+                            if (result) {
+                                $.post("/knm/courses/ajax_delete/" + calEvent.course_id, function (result) {
+                                    if (!result.success) {
+                                        bootbox.alert(result.message);
+                                    } else {                                     // ... Process the result ...
+                                        //$('#calendar').fullCalendar('removeEvents', calEvent.id);
+                                        $('#calendar').fullCalendar('refetchEvents');
+                                        $('#period').fullCalendar('refetchEvents');
+// Hide the modal containing the form
+                                    }
 
-        /* initialize the calendar
-         -----------------------------------------------------------------*/
-
-        var date = new Date();
-        var d = date.getDate();
-        var m = date.getMonth();
-        var y = date.getFullYear();
-
-
+                                }, 'json');
+                            } else {                             //alert('Thôi');
+                            }
+                        });
+                    }
+                }
+        );
+        var session = $("#TeachingPlanFilterSession").val();
+        var teacher_id = $("#TeachingPlanFilterTeacherId").val();
+        var teachingPlanSource = '/knm/teaching_plans/managerindex?session=' + session + '&teacher_id=' + teacher_id;
         var calendar = $('#calendar').fullCalendar({
             //isRTL: true,
-            dayRender: function(date, cell) {
-                
-                var today = moment();
-                var end = moment().add(7, 'days');
-
-                if (moment(date.format('YYYY-MM-DD')).isSame(today.format('YYYY-MM-DD'))) {
-                    
-                    cell.css("background-color", "red");
-                }
-
-                var start = moment().add(1, 'days');
-
-                while (start.isBefore(end.format('YYYY-MM-DD'))) {
-                    //console.log(start);
-                    //alert(start + "\n" + tomorrow);
-                    if (moment(date.format('YYYY-MM-DD')).isSame(start.format('YYYY-MM-DD'))) {
-                        cell.css("background-color", "yellow");
-                    }
-
-                    var newDate = start.add(1, 'days');
-                    start = newDate;
-                }
-            }
-            ,
-            buttonHtml: {
-                prev: '<i class="ace-icon fa fa-chevron-left"></i>',
-                next: '<i class="ace-icon fa fa-chevron-right"></i>'
-            }
-            ,
-            header: {left: 'prev,next today',
-                center: 'title',
-                right: 'month,agendaWeek,agendaDay'
+            events: {
+                url: teachingPlanSource,
+                cache: true
             },
-            editable: true,
-            droppable: true, // this allows things to be dropped onto the calendar !!!
-            drop: function(date, allDay) { // this function is called when something is dropped
-
-                // retrieve the dropped element's stored Event Object
-                var originalEventObject = $(this).data('eventObject');
-                var $extraEventClass = $(this).attr('data-class');
-
-
-                // we need to copy it, so that multiple events don't have a reference to the same object
-                var copiedEventObject = $.extend({}, originalEventObject);
-
-                // assign it the date that was reported
-                copiedEventObject.start = date;
-                copiedEventObject.allDay = allDay;
-                if ($extraEventClass)
-                    copiedEventObject['className'] = [$extraEventClass];
-
-                // render the event on the calendar
-                // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-                $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
-
-                // is the "remove after drop" checkbox checked?
-                if ($('#drop-remove').is(':checked')) {
-                    // if so, remove the element from the "Draggable Events" list
-                    $(this).remove();
+            eventRender: function (event, element) {
+                $(element).find(".fc-time").remove();
+                element.qtip({
+                    content: event.teacher_name
+                });
+            },
+            eventAfterAllRender: function (view) {
+                var allEvents = $('#calendar').fullCalendar('clientEvents');
+                $("#teachingplanno").html('Có tất cả ' + allEvents.length + ' buổi');
+            },
+            eventClick: function (calEvent, jsEvent, view) {
+                if (calEvent.name == 2) {
+                    var lastweek = moment(calEvent.start);
+                    lastweek.add(-7, "days");
+                    bootbox.alert("Bạn phải chọn buổi 1 " + calEvent.session_name + " ngày " + lastweek.format('DD/MM/YYYY'));
+                    return false;
                 }
+                if (calEvent.created) {
 
-            }
-            ,
-            selectable: true,
-            selectHelper: true,
-            select: function(start, end, allDay) {
-                bootbox
-                        .dialog({
-                            title: 'Thêm buổi học',
-                            message: $('#addcourseform'),
-                            show: false // We will show it manually later
-                        })
-                        .on('shown.bs.modal', function() {
-                            $('#addcourseform')
-                                    .show()                                 // Show the login form
-                                    .bootstrapValidator('resetForm', true); // Reset form
-                        })
-                        .on('hide.bs.modal', function(e) {
-                            // Bootbox will remove the modal (including the body which contains the login form)
-                            // after hiding the modal
-                            // Therefor, we need to backup the form
-                            $('#addcourseform').hide().appendTo('body');
-                        }).on('success.form.bv', function(e) {
-                    // Prevent form submission
-                    e.preventDefault();
+                    bootbox.alert("Đã tạo lớp cho kế hoạch này");
+                    return false;
+                }
+                Pace.track(function () {
+                    jQuery.ajax(
+                            {
+                                type: 'POST',
+                                url: '/knm/courses/managerAddCourseForm/' + calEvent.teacher_id,
+                                data: {
+                                    start: calEvent.start.format('YYYY-MM-DD H:m:s'),
+                                    session: calEvent.session
+                                },
+                                success: function (data) {
+                                    bootbox
+                                            .dialog({
+                                                title: 'Thêm lớp kỹ năng buổi ' + calEvent.title + ' ngày ' + calEvent.start.format('DD/MM/YYYY'),
+                                                message: data,
+                                                buttons: [
+                                                    {
+                                                        label: "Thực hiện",
+                                                        className: "btn btn-primary pull-left",
+                                                        callback: function () {
+                                                            var form = $("#managerAddCourseForm");
+                                                            /*Gui data de luu lai*/
+                                                            Pace.track(function () {
+                                                                jQuery.ajax({
+                                                                    url: '/knm/courses/managerAddCourse', // URL to the local file
+                                                                    type: 'POST', // POST or GET
+                                                                    data: form.serialize(), // Data to pass along with your request
+                                                                    success: function (data, status) {
+                                                                        calendar.fullCalendar('refetchEvents');
+                                                                        period.fullCalendar('refetchEvents');
+                                                                        form.parents('.bootbox').modal('hide');
 
-                    var $form = $(e.target), // The form instance
-                            bv = $form.data('bootstrapValidator');   // BootstrapValidator instance
-
-                    // Use Ajax to submit form data
-
-                    var stDate = moment(start).format('YYYY-MM-DD');
-                    $.post($form.attr('action'), $form.serialize() + '&start=' + stDate, function(result) {
-                        // ... Process the result ...
-
-                        // Hide the modal containing the form
-                        $form.parents('.bootbox').modal('hide');
-                    }, 'json');
-                })
-                        .modal('show');
-                /*bootbox.prompt("New Event Title:", function(title) {
-                 if (title !== null) {
-                 calendar.fullCalendar('renderEvent',
-                 {
-                 title: title,
-                 start: start,
-                 end: end,
-                 allDay: allDay
-                 },
-                 true // make the event "stick"
-                 );
-                 }
-                 });*/
+                                                                    }
+                                                                });
+                                                            });
 
 
-                calendar.fullCalendar('unselect');
-            }
-            ,
-            eventClick: function(calEvent, jsEvent, view) {
 
-                //display a modal
-                var modal =
-                        '<div class="modal fade">\
-                <div class="modal-dialog">\
-                           <div class="modal-content">\
-                    <div class="modal-body">\
-                <button type="button" class="close" data-dismiss="modal" style="margin-top:-10px;">&times;</button>\
-                <form class="no-margin">\
-                <label>Change event name &nbsp;</label>\
-                <input class="middle" autocomplete="off" type="text" value="' + calEvent.title + '" />\
-    <button type="submit" class="btn btn-sm btn-success"><i class="ace-icon fa fa-check"></i> Save</button>\
-                                   </form>\
-                                 </div>\
-                                 <div class="modal-footer">\
-                                        <button type="button" class="btn btn-sm btn-danger" data-action="delete"><i class="ace-icon fa fa-trash-o"></i> Delete Event</button>\
-                                        <button type="button" class="btn btn-sm" data-dismiss="modal"><i class="ace-icon fa fa-times"></i> Cancel</button>\
-                                 </div>\
-                          </div>\
-                         </div>\
-                        </div>';
+                                                            /* 
+                                                             This part you have to complete yourself :D
+                                                             
+                                                             if (your_form_validation(items)) {
+                                                             // Make your data save as async and then just call modal.modal("hide");
+                                                             } else {
+                                                             // Show some errors, etc on form
+                                                             }
+                                                             */
 
-
-                var modal = $(modal).appendTo('body');
-                modal.find('form').on('submit', function(ev) {
-                    ev.preventDefault();
-
-                    calEvent.title = $(this).find("input[type=text]").val();
-                    calendar.fullCalendar('updateEvent', calEvent);
-                    modal.modal("hide");
+                                                            return false;
+                                                        }
+                                                    },
+                                                    {
+                                                        label: "Đóng",
+                                                        className: "btn btn-default pull-left",
+                                                        callback: function () {
+                                                            //Xử lý khi click nut đóng
+                                                        }
+                                                    }],
+                                                show: false // We will show it manually later
+                                            }).modal('show');
+                                }});
                 });
-                modal.find('button[data-action=delete]').on('click', function() {
-                    calendar.fullCalendar('removeEvents', function(ev) {
-                        return (ev._id == calEvent._id);
-                    })
-                    modal.modal("hide");
-                });
-
-                modal.modal('show').on('hidden', function() {
-                    modal.remove();
-                });
-
-
-                //console.log(calEvent.id);
-                //console.log(jsEvent);
-                //console.log(view);
-
-                // change the border color just for fun
-                //$(this).css('border-color', 'red');
-
             }
 
         });
 
+        /*Xử lý các filter*/
+        /*TeachingPlanFilter*/
+        function reloadTeachingPlan() {
+            var newTeachingPlanSource = '/knm/teaching_plans/managerindex?session=' + $("#TeachingPlanFilterSession").val() + '&teacher_id=' + $("#TeachingPlanFilterTeacherId").val();
+            $('#calendar').fullCalendar('removeEventSource', teachingPlanSource);
+            $('#calendar').fullCalendar('refetchEvents');
+            $('#calendar').fullCalendar('addEventSource', newTeachingPlanSource);
+            //$('#calendar').fullCalendar('refetchEvents');
+            teachingPlanSource = newTeachingPlanSource;
+        }
+
+        /*Buổi*/
+        $("#TeachingPlanFilterSession").on("change", function () {
+            reloadTeachingPlan();
+        });
+        /*Giảng viên*/
+        $("#TeachingPlanFilterTeacherId").on("change", function () {
+            reloadTeachingPlan();
+        });
+
+        /*CourseFilter*/
+        function reloadPeriodEvents() {
+            var newPeriodSource = '/knm/periods/managerIndex?teacher_id=' + $("#CourseFilterTeacherId").val() + "&chapter_id=" + $("#CourseFilterChapterId").val() + "&trang_thai=" + $("#CourseFilterTrangThai").val();
+            $('#period').fullCalendar('removeEventSource', periodSource);
+            $('#period').fullCalendar('refetchEvents');
+            $('#period').fullCalendar('addEventSource', newPeriodSource);
+            //$('#calendar').fullCalendar('refetchEvents');
+            periodSource = newPeriodSource;
+        }
+        /*Thay doi giang vien */
+        $("#CourseFilterTeacherId").on("change", function () {
+            reloadPeriodEvents();
+        });
+        $("#CourseFilterTrangThai").on("change", function () {
+            reloadPeriodEvents();
+        });
+        /*Thay doi chapter */
+        $("#CourseFilterChapterId").on("change", function () {
+            reloadPeriodEvents();
+        });
+        /*Hết đoạn xử lý filter*/
         $('#calendar').fullCalendar('next');
+        $('#period').fullCalendar('next');
+
     });
 </script>
 

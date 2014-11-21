@@ -9,8 +9,8 @@ class User extends UserMgmtAppModel {
         'name' => 'CONCAT(last_name, " ", first_name)'
     );
     public $displayField = 'name';
+    public $actsAs = array('Containable');
 
-    public $actsAs=array('Containable');
     /**
      * This model belongs to following models
      *
@@ -143,13 +143,13 @@ class User extends UserMgmtAppModel {
                     'message' => 'Vui lòng nhập mã số sinh viên',
                     'last' => true,
                     'on' => 'create'
-                    ),
+                ),
                 'mustUnique' => array(
                     'rule' => 'isUnique',
                     'message' => 'MSSV này đã tồn tại',
                     'last' => true,
                     'on' => 'create'
-                    )
+                )
             ),
             'first_name' => array(
                 'mustNotEmpty' => array(
@@ -174,7 +174,6 @@ class User extends UserMgmtAppModel {
                 'mustUnique' => array(
                     'rule' => 'isUnique',
                     'message' => 'Email này đã đăng ký rồi',
-                    
                 )
             ),
             'oldpassword' => array(
@@ -182,7 +181,7 @@ class User extends UserMgmtAppModel {
                     'rule' => 'notEmpty',
                     'message' => 'Nhập password cũ',
                     'last' => true,
-                    ),
+                ),
                 'mustMatch' => array(
                     'rule' => array('verifyOldPass'),
                     'message' => 'Nhập chính xác password cũ'),
@@ -459,6 +458,11 @@ Thanks,\n" .
             return true;
         }
         return false;
+    }
+
+    public function duocPhanCong($user_id) {
+        $users = $this->find('first', array('contain' => array('Chapter'=>array('fields'=>array('id'))), 'conditions' => array('id' => $user_id)));
+        return count($users['Chapter'])>0;
     }
 
 }

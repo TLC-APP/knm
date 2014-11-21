@@ -5,7 +5,6 @@
 	<tr>
 			<th><?php echo $this->Paginator->sort('name'); ?></th>
 			<th><?php echo $this->Paginator->sort('start'); ?></th>
-			<th><?php echo $this->Paginator->sort('end'); ?></th>
 			<th><?php echo $this->Paginator->sort('note'); ?></th>
 			<th><?php echo $this->Paginator->sort('course_id'); ?></th>
 			<th><?php echo $this->Paginator->sort('room_id'); ?></th>
@@ -18,7 +17,6 @@
 	<tr>
 		<td><?php echo h($period['Period']['name']); ?>&nbsp;</td>
 		<td><?php echo h($period['Period']['start']); ?>&nbsp;</td>
-		<td><?php echo h($period['Period']['end']); ?>&nbsp;</td>
 		<td><?php echo h($period['Period']['note']); ?>&nbsp;</td>
 		<td>
 			<?php echo $this->Html->link($period['Course']['name'], array('controller' => 'courses', 'action' => 'view', $period['Course']['id'])); ?>

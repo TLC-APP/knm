@@ -170,6 +170,7 @@ class ChaptersController extends AppController {
             throw new NotFoundException(__('Invalid chapter'));
         }
         $options = array('conditions' => array('Chapter.' . $this->Chapter->primaryKey => $id));
+        
         $this->set('chapter', $this->Chapter->find('first', $options));
     }
 

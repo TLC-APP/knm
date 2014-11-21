@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is loaded automatically by the app/webroot/index.php file after core.php
  *
@@ -21,7 +22,6 @@
  * @since         CakePHP(tm) v 0.10.8.2117
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-
 // Setup a 'default' cache configuration for use in the application.
 Cache::config('default', array('engine' => 'File'));
 
@@ -50,7 +50,6 @@ Cache::config('default', array('engine' => 'File'));
  * ));
  *
  */
-
 /**
  * Custom Inflector rules can be set to correctly pluralize or singularize table, model, controller names or whatever other
  * string is passed to the inflection functions
@@ -59,7 +58,6 @@ Cache::config('default', array('engine' => 'File'));
  * Inflector::rules('plural', array('rules' => array(), 'irregular' => array(), 'uninflected' => array()));
  *
  */
-
 /**
  * Plugins need to be loaded manually, you can either load them one by one or all of them in a single call
  * Uncomment one of the lines below, as you need. Make sure you read the documentation on CakePlugin to use more
@@ -69,8 +67,7 @@ Cache::config('default', array('engine' => 'File'));
  * CakePlugin::load('DebugKit'); //Loads a single plugin named DebugKit
  *
  */
-
-CakePlugin::load(array('BoostCake','DebugKit','Usermgmt' => array('routes' => true, 'bootstrap' => true)));
+CakePlugin::load(array('BoostCake', 'DebugKit', 'Usermgmt' => array('routes' => true, 'bootstrap' => true)));
 
 /**
  * You can attach event listeners to the request lifecycle as Dispatcher Filter. By default CakePHP bundles two filters:
@@ -81,17 +78,17 @@ CakePlugin::load(array('BoostCake','DebugKit','Usermgmt' => array('routes' => tr
  * Feel free to remove or add filters as you see fit for your application. A few examples:
  *
  * Configure::write('Dispatcher.filters', array(
- *		'MyCacheFilter', //  will use MyCacheFilter class from the Routing/Filter package in your app.
- *		'MyCacheFilter' => array('prefix' => 'my_cache_'), //  will use MyCacheFilter class from the Routing/Filter package in your app with settings array.
- *		'MyPlugin.MyFilter', // will use MyFilter class from the Routing/Filter package in MyPlugin plugin.
- *		array('callable' => $aFunction, 'on' => 'before', 'priority' => 9), // A valid PHP callback type to be called on beforeDispatch
- *		array('callable' => $anotherMethod, 'on' => 'after'), // A valid PHP callback type to be called on afterDispatch
+ * 		'MyCacheFilter', //  will use MyCacheFilter class from the Routing/Filter package in your app.
+ * 		'MyCacheFilter' => array('prefix' => 'my_cache_'), //  will use MyCacheFilter class from the Routing/Filter package in your app with settings array.
+ * 		'MyPlugin.MyFilter', // will use MyFilter class from the Routing/Filter package in MyPlugin plugin.
+ * 		array('callable' => $aFunction, 'on' => 'before', 'priority' => 9), // A valid PHP callback type to be called on beforeDispatch
+ * 		array('callable' => $anotherMethod, 'on' => 'after'), // A valid PHP callback type to be called on afterDispatch
  *
  * ));
  */
 Configure::write('Dispatcher.filters', array(
-	'AssetDispatcher',
-	'CacheDispatcher'
+    'AssetDispatcher',
+    'CacheDispatcher'
 ));
 
 /**
@@ -99,55 +96,130 @@ Configure::write('Dispatcher.filters', array(
  */
 App::uses('CakeLog', 'Log');
 CakeLog::config('debug', array(
-	'engine' => 'File',
-	'types' => array('notice', 'info', 'debug'),
-	'file' => 'debug',
+    'engine' => 'File',
+    'types' => array('notice', 'info', 'debug'),
+    'file' => 'debug',
 ));
 CakeLog::config('error', array(
-	'engine' => 'File',
-	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
-	'file' => 'error',
+    'engine' => 'File',
+    'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
+    'file' => 'error',
 ));
-if(!defined('SUB_DIR')){
-    define('SUB_DIR','/knm');
+if (!defined('SUB_DIR')) {
+    define('SUB_DIR', '/knm');
 }
 
-if(!defined('SANG_START')){
-    define('SANG_START','07:00:00');
+if (!defined('SANG_START')) {
+    define('SANG_START', '07:00:00');
 }
-if(!defined('SANG_END')){
-    define('SANG_END','11:00:00');
+if (!defined('SANG_END')) {
+    define('SANG_END', '11:00:00');
 }
-if(!defined('CHIEU_START')){
-    define('CHIEU_START','13:00:00');
+if (!defined('CHIEU_START')) {
+    define('CHIEU_START', '13:00:00');
 }
-if(!defined('CHIEU_END')){
-    define('CHIEU_END','17:00:00');
+if (!defined('CHIEU_END')) {
+    define('CHIEU_END', '17:00:00');
 }
-if(!defined('TOI_START')){
-    define('TOI_START','18:30:00');
+if (!defined('TOI_START')) {
+    define('TOI_START', '18:30:00');
 }
-if(!defined('TOI_END')){
-    define('TOI_END','21:30:00');
-}
-
-if(!defined('TOI_END')){
-    define('TOI_END','21:30:00');
+if (!defined('TOI_END')) {
+    define('TOI_END', '21:30:00');
 }
 
-if(!defined('COURSE_ENROLLING')){
-    define('COURSE_ENROLLING',1);
+if (!defined('TOI_END')) {
+    define('TOI_END', '21:30:00');
 }
 
-if(!defined('COURSE_ASSIGNED')){
-    define('COURSE_ASSIGNED',2);
+if (!defined('COURSE_ENROLLING')) {
+    define('COURSE_ENROLLING', 1);
 }
 
-
-if(!defined('COURSE_CANCELLED')){
-    define('COURSE_CANCELLED',3);
+if (!defined('COURSE_OPENABLE')) {
+    define('COURSE_OPENABLE', 2);
 }
 
-if(!defined('APP_NAME')){
-    define('APP_NAME','TLC - Trang Hỗ trợ công tác Dạy và Học Kỹ năng mềm sinh viên');
+if (!defined('COURSE_OPEN')) {
+    define('COURSE_OPEN', 3);
 }
+
+if (!defined('COURSE_WAIT_CANCEL')) {
+    define('COURSE_WAIT_CANCEL', 4);
+}
+
+if (!defined('COURSE_CANCELLED')) {
+    define('COURSE_CANCELLED', 5);
+}
+
+if (!defined('SI_SO_MO_LOP')) {
+    define('SI_SO_MO_LOP', 15);
+}
+/*
+  set true if you want to check permissions for admin also
+ */
+if (!defined("ADMIN_PERMISSIONS")) {
+    define("ADMIN_PERMISSIONS", false);
+}
+
+/*
+  set default group id here for registration
+ */
+if (!defined("DEFAULT_GROUP_ID")) {
+    define("DEFAULT_GROUP_ID", 2);
+}
+
+/*
+  set Admin group id here
+ */
+if (!defined("ADMIN_GROUP_ID")) {
+    define("ADMIN_GROUP_ID", 1);
+}
+
+if (!defined("TEACHER_GROUP_ID")) {
+    define("TEACHER_GROUP_ID", 4);
+}
+
+if (!defined("MANAGER_GROUP_ID")) {
+    define("MANAGER_GROUP_ID", 5);
+}
+/*
+  set Guest group id here
+ */
+if (!defined("GUEST_GROUP_ID")) {
+    define("GUEST_GROUP_ID", 3);
+}
+
+/* Ä�á»‹nh nghÄ©a háº¡n Ä‘Äƒng kÃ½ cá»§a lá»›p */
+if (!defined('HAN_DANG_KY')) {
+    define('HAN_DANG_KY', 14);
+}
+/* Ä�á»‹nh nghÄ©a sá»‘ lÆ°á»£ng sinh viÃªn tá»‘i thiá»ƒu Ä‘á»ƒ má»Ÿ lá»›p */
+if (!defined('SO_SINH_VIEN_TOI_THIEU')) {
+    define('SO_SINH_VIEN_TOI_THIEU', 15);
+}
+
+/* Tá»± Ä‘á»™ng má»Ÿ lá»›p khi Ä‘á»§ sá»‘ lÆ°á»£ng sinh viÃªn */
+if (!defined('TU_DONG_MO_LOP')) {
+    define('TU_DONG_MO_LOP', 1);
+}
+
+if (!defined('APP_NAME')) {
+    define('APP_NAME', 'TLC - Trang Há»— trá»£ cÃ´ng tÃ¡c Dáº¡y vÃ  Há»�c Ká»¹ nÄƒng má»�m sinh viÃªn');
+}
+Configure::write('CakePdf', array(
+    'engine' => 'CakePdf.WkHtmlToPdf',
+    'options' => array(
+        'print-media-type' => false,
+        'outline' => true,
+        'dpi' => 96
+    ),
+    'margin' => array(
+        'bottom' => 15,
+        'left' => 50,
+        'right' => 30,
+        'top' => 45
+    ),
+    'orientation' => 'landscape',
+    'download' => true
+));

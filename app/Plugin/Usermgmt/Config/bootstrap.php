@@ -78,36 +78,7 @@ function UsermgmtInIt(&$controller) {
 		define("PERMISSIONS", true);
 	}
 
-	/*
-		set true if you want to check permissions for admin also
-	*/
-	if(!defined("ADMIN_PERMISSIONS")) {
-		define("ADMIN_PERMISSIONS", false);
-	}
-
-	/*
-		set default group id here for registration
-	*/
-	if(!defined("DEFAULT_GROUP_ID")) {
-		define("DEFAULT_GROUP_ID", 2);
-	}
-
-	/*
-		set Admin group id here
-	*/
-	if(!defined("ADMIN_GROUP_ID")) {
-		define("ADMIN_GROUP_ID", 1);
-	}
-
-        if(!defined("TEACHER_GROUP_ID")) {
-		define("TEACHER_GROUP_ID", 4);
-	}
-	/*
-		set Guest group id here
-	*/
-	if(!defined("GUEST_GROUP_ID")) {
-		define("GUEST_GROUP_ID", 3);
-	}
+	
 	/*
 		set true if you want captcha support on register form
 	*/

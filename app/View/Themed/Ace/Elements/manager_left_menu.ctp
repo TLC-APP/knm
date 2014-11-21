@@ -62,43 +62,15 @@
                 <li class="">
                     <a href="<?php echo SUB_DIR.'/courses/add'?>">
                         <i class="menu-icon fa fa-caret-right"></i>
-                        Thêm mới
+                        Tạo lớp
                     </a>
 
                     <b class="arrow"></b>
                 </li>
-
                 <li class="">
-                    <a href="<?php echo SUB_DIR.'/courses/index/1'?>">
+                    <a href="<?php echo SUB_DIR.'/courses/index'?>">
                         <i class="menu-icon fa fa-caret-right"></i>
-                        Lớp chờ phân công
-                    </a>
-
-                    <b class="arrow"></b>
-                </li>
-
-                <li class="">
-                    <a href="<?php echo SUB_DIR.'/courses/index/2'?>">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Lớp đã phân công
-                    </a>
-
-                    <b class="arrow"></b>
-                </li>
-
-                <li class="">
-                    <a href="<?php echo SUB_DIR.'/courses/index/3'?>">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Lớp chờ hủy
-                    </a>
-
-                    <b class="arrow"></b>
-                </li>
-
-                <li class="">
-                    <a href="<?php echo SUB_DIR.'/courses/index/4'?>">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Lớp đã hủy
+                        Tất cả lớp
                     </a>
 
                     <b class="arrow"></b>
@@ -119,13 +91,10 @@
                         <i class="menu-icon fa fa-caret-right"></i>
                         Danh sách kỹ năng
                     </a>
-                    <a href="<?php echo SUB_DIR.'/chapters/add'?>">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Thêm mới kỹ năng
-                    </a>
+                    
                     <a href="<?php echo SUB_DIR.'/chapter_types'?>">
                         <i class="menu-icon fa fa-caret-right"></i>
-                        Danh sách loại kỹ năng
+                        Loại kỹ năng
                     </a>
                     <b class="arrow"></b>
                 </li>
@@ -145,7 +114,7 @@
 
             <ul class="submenu">
                 <li class="">
-                    <a href="<?php echo SUB_DIR.'/users/index/teachers'?>">
+                    <a href="<?php echo SUB_DIR.'/users/manager_list_teacher'?>">
                         <i class="menu-icon fa fa-caret-right"></i>
                         Danh sách
                     </a>

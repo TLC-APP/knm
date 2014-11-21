@@ -47,25 +47,48 @@ class AppController extends Controller {
         'Paginator' => array('className' => 'BoostCake.BoostCakePaginator')
     );
     public $theme = "Ace";
-    public $layout = "teacher";
+    //public $layout = "teacher";
+    public $uses = array('Course', 'Period');
+
+    //Update trạng thái chờ hủy cho course khi hết hạng đăng ký và không đủ số lượng mở lớp
+    protected function updateTrangThaiChoHuy() {
+
+        $conditions = array('DATEDIFF(CURDATE(),Course.start)>' . HAN_DANG_KY, "Course.trang_thai" => COURSE_ENROLLING);
+        $this->Course->updateAll(array('Course.trang_thai' => COURSE_WAIT_CANCEL), $conditions);
+    }
+
+    //Update trạng thái lớp hết hạn và đủ điều kiện mở lớp
+
+    protected function updateCourseOpenable() {
+
+        $conditions = array('DATEDIFF(CURDATE(),Course.start)>' . HAN_DANG_KY, "Course.trang_thai" => COURSE_ENROLLING, 'Course.enrolledno >=' => SO_SINH_VIEN_TOI_THIEU);
+        $count = $this->Course->find('count', array('conditions' => $conditions));
+        if ($count > 0) {
+            if (TU_DONG_MO_LOP) {
+                $this->Course->updateAll(array('Course.trang_thai' => COURSE_OPEN), $conditions);
+            } else {
+                $this->Course->updateAll(array('Course.trang_thai' => COURSE_OPEN), $conditions);
+            }
+        }
+    }
 
     private function userAuth() {
         $this->UserAuth->beforeFilter($this);
     }
 
     function beforeFilter() {
+        $this->updateCourseOpenable();
+        $this->updateTrangThaiChoHuy();
         parent::beforeFilter();
         $this->userAuth();
     }
 
     public function beforeRender() {
         parent::beforeRender();
-        if ($this->UserAuth->isLogged()&&$this->UserAuth->getGroupAlias()&&!$this->request->is('ajax')) {
-            
+        if ($this->UserAuth->isLogged() && $this->UserAuth->getGroupAlias() && !$this->request->is('ajax')) {
+
             $this->layout = $this->UserAuth->getGroupAlias();
-        
         }
-        
     }
 
 }

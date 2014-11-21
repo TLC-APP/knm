@@ -1,37 +1,65 @@
-<?php echo $this->element('fullcalendar'); ?>
-<div class="page-wrapper">
+<!-- Heading Row -->
+<div class="row">
+    <div class="col-md-8">
+        <img class="img-responsive img-rounded" src="http://placehold.it/900x350" alt="">
+    </div>
+    <!-- /.col-md-8 -->
+    <div class="col-md-4 ">
+        <blockquote>
+            <p><b>Kỹ năng mềm là học phần bắt buộc</b> trong chương trình đào tạo hệ chính quy ở các bậc Đại học, Cao đẳng và Trung cấp chuyên nghiệp.</p>
+            <footer>Để công nhận hoàn thành học phần này, <cite title="Source Title"> mỗi sinh viên, học sinh cần phải <b>tham gia ít nhất 05 lớp kỹ năng</b> do Trường Đại học Trà Vinh tổ chức!</cite></footer>
+            <?php echo $this->Html->link('Đăng nhập hoặc đăng ký',array('controller'=>'users','action'=>'login'),array("class"=>"btn btn-warning btn-large"));?>
 
-    <div class="page-content">
-        <div class="row page-row">
-            <div class="events-wrapper col-md-8 col-sm-7">
-
-                <?php //echo $this->element('Widgets/guest/slide_show')?>
-                <div id="calendar">
-
-                </div>
-                <script>
-                    $(document).ready(function() {
-
-                        // page is now ready, initialize the calendar...
-
-                        $('#calendar').fullCalendar({
-                            // put your options and callbacks here
-                            //height: 500,
-                            //lang: 'vi'
-                        });
-
-                    });
-                </script>
-            </div><!--//events-wrapper-->
-            <aside class="page-sidebar  col-md-4 col-sm-4 ">
-                <?php echo $this->element('Widgets/guest/thong_bao') ?>
-            </aside>
-        </div><!--//page-row-->
-        <div class="row page-row">
-            <?php //echo $this->element('Widgets/guest/uncompleted_courses') ?>
-        </div>
-        <div class="row page-row">
-            <?php //echo $this->element('Widgets/guest/completed_courses') ?>
-        </div>
-    </div><!--//page-content-->
+        </blockquote>
+    </div>
+    <!-- /.col-md-4 -->
 </div>
+<!-- /.row -->
+
+<hr>
+
+<!-- Call to Action Well -->
+
+<!-- /.row -->
+
+<!-- Content Row -->
+<div class="row">
+    <div class="col-md-4">
+        <h2>Hình thức đăng ký</h2>
+        <ul>
+            <li>Bước 1: Đăng nhập vào hệ thống. Nếu chưa có tài khoản, nhấp vào "Đăng ký tài khoản" để tạo tài khoản và sau đó đăng nhập.</li>
+
+            <li>Bước 2: Chọn menu "Đăng ký", sau đó chọn lịch học theo thời gian tổ chức (theo tháng/năm) và theo nhóm kỹ năng (Bắt buộc hay Tự chọn) và đăng ký học.</li>
+
+            <li>Bước 3: Chọn menu "Trang chủ" để xem lại thông tin các lớp kỹ năng đã đăng ký.</li>
+        </ul>
+    </div>
+    <!-- /.col-md-4 -->
+    <div class="col-md-4">
+        <h2>Hình thức đánh giá</h2>
+        <ul>
+            <li>Sinh viên tham gia đầy đủ cả 2 buổi học cho từng kỹ năng (ký tên tham dự).</li>
+
+            <li>Sinh viên tham gia tích cực các hoạt động do giảng viên tổ chức trong các buổi học.</li>
+
+            <li>Chỉ đánh giá ĐẠT hoặc KHÔNG ĐẠT, không tính vào điểm trung bình chung của học kỳ và điểm trung bình chung tích lũy.</li>
+        </ul>
+    </div>
+    <!-- /.col-md-4 -->
+    <div class="col-md-4">
+        <h2>Học phí</h2>
+        Sinh viên được đăng ký học miễn phí 05 kỹ năng (02 bắt buộc và 03 tự chọn). 
+        Sinh viên phải đóng học phí trong những trường hợp sau: 
+        <ul>
+            <li>
+
+                Sinh viên có kết quả KHÔNG ĐẠT ở kỹ năng nào thì phải đóng học phí học lại kỹ năng đó (50.000đ/kỹ năng học lại).</li>
+
+            <li>Sinh viên xin thay đổi lịch học (khi hết thời hạn Đăng ký/Hủy nhưng chưa đến thời gian học) từ lần thứ 2 trở đi phải đóng phí (50.000đ/lần).</li>
+
+            <li>Sinh viên có nhu cầu đăng ký học thêm từ kỹ năng thứ 6 trở đi phải đóng học phí (50.000đ/kỹ năng).</li>
+        </ul>
+    </div>
+    <!-- /.col-md-4 -->
+</div>
+<!-- /.row -->

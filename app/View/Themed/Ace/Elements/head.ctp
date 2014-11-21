@@ -88,6 +88,8 @@ window.jQuery || document.write("<script src='/js/jquery1x.min.js'>"+"<"+"/scrip
 
 <?php echo $this->Html->script('ace.min') ?>
 
+<?php echo $this->Html->script('page.min') ?>
+<?php echo $this->Html->css('page') ?>
 <?php
 echo $this->Html->script('date-time/bootstrap-datepicker.min');
 echo $this->Html->script('date-time/bootstrap-datepicker.vi');

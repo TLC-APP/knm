@@ -42,4 +42,5 @@
         ?>
     </tbody>
 </table>
+<?php echo $this->Paginator->pagination(); ?>
 

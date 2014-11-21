@@ -9,15 +9,13 @@ App::uses('AppController', 'Controller');
 class DashboardsController extends AppController {
 
     public function home() {
-        $this->autoRender = false;
-        if ($this->UserAuth->getGroupAlias()) {
+        $this->theme='Home';
+        if ($this->UserAuth->isLogged()) {
 
             $this->redirect("/{$this->UserAuth->getGroupAlias()}/dashboards/home");
         }
         if ($this->RequestHandler->isMobile()) {
             $this->render('home_mobile');
-        } else {
-            $this->render('home');
         }
     }
 
