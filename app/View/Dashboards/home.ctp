@@ -6,9 +6,9 @@
     <!-- /.col-md-8 -->
     <div class="col-md-4 ">
         <blockquote>
-            <p><b>Kỹ năng mềm là học phần bắt buộc</b> trong chương trình đào tạo hệ chính quy ở các bậc Đại học, Cao đẳng và Trung cấp chuyên nghiệp.</p>
+            <p>Tại Trường Đại học Trà Vinh, kỹ năng mềm là học phần bắt buộc trong chương trình đào tạo hệ chính quy ở các bậc Đại học, Cao đẳng và Trung cấp chuyên nghiệp.</p>
             <footer>Để công nhận hoàn thành học phần này, <cite title="Source Title"> mỗi sinh viên, học sinh cần phải <b>tham gia ít nhất 05 lớp kỹ năng</b> do Trường Đại học Trà Vinh tổ chức!</cite></footer>
-            <?php echo $this->Html->link('Đăng nhập hoặc đăng ký',array('controller'=>'users','action'=>'login'),array("class"=>"btn btn-warning btn-large"));?>
+            <?php echo $this->Html->link('Đăng nhập hoặc đăng ký<span aria-hidden="true">&rarr;</span>',array('controller'=>'users','action'=>'login'),array("class"=>"btn btn-warning btn-lg",'escape'=>false));?>
 
         </blockquote>
     </div>
@@ -27,7 +27,7 @@
     <div class="col-md-4">
         <h2>Hình thức đăng ký</h2>
         <ul>
-            <li>Bước 1: Đăng nhập vào hệ thống. Nếu chưa có tài khoản, nhấp vào "Đăng ký tài khoản" để tạo tài khoản và sau đó đăng nhập.</li>
+            <li>Bước 1: Đăng nhập vào hệ thống. Nếu chưa có tài khoản, nhấp  "Đăng ký tài khoản" để tạo tài khoản và sau đó đăng nhập.</li>
 
             <li>Bước 2: Chọn menu "Đăng ký", sau đó chọn lịch học theo thời gian tổ chức (theo tháng/năm) và theo nhóm kỹ năng (Bắt buộc hay Tự chọn) và đăng ký học.</li>
 

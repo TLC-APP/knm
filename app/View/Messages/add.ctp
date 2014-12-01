@@ -13,7 +13,7 @@
     ));
     ?>
     <fieldset>
-        <legend><?php echo __('Edit Message'); ?></legend>
+        <legend><?php echo __('Add Message'); ?></legend>
         <?php
         echo $this->Form->input('title');
         echo $this->Form->input('meta');
@@ -21,7 +21,6 @@
         echo $this->Form->input('published');
         echo $this->Form->input('receive_user_id');
         echo $this->Form->input('user_group_id');
-        echo $this->Form->input('id');
         ?>
     </fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>

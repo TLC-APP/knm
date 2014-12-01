@@ -1,4 +1,4 @@
-<div id="login-box" class="login-box <?php if(($visible)) echo 'visible';?> widget-box no-border">
+<div id="login-box" class="login-box <?php if (($visible)) echo 'visible'; ?> widget-box no-border">
     <div class="widget-body">
         <div class="widget-main">
             <h4 class="header blue lighter bigger">
@@ -46,25 +46,13 @@
             </form>
 
             <div class="social-or-login center">
-                <span class="bigger-110">Cần hướng dẫn</span>
+                <?php echo $this->Html->link('<span class="bigger-110">Trang chủ</span>', Router::url('/',true), array('escape' => false)); ?>
+
             </div>
 
             <div class="space-6"></div>
 
-            <div class="social-login center">
-                <a class="btn btn-primary">
-                    <i class="ace-icon fa fa-facebook"></i>
-                </a>
-
-                <a class="btn btn-info">
-                    <i class="ace-icon fa fa-video-camera"></i>
-                </a>
-
-                <a class="btn btn-danger">
-                    <i class="ace-icon fa fa-file"></i>
-
-                </a>
-            </div>
+            
         </div><!-- /.widget-main -->
 
         <div class="toolbar clearfix">

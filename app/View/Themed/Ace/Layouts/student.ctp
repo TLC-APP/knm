@@ -16,7 +16,7 @@
                 }
             </script>
 
-            <?php echo $this->element('menu_left'); ?>
+            <?php echo $this->element('student_left_menu'); ?>
 
             <div class="main-content">
                 <?php echo $this->element('breadcrumbs'); ?>

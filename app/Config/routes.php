@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Routes configuration
  *
@@ -24,22 +25,30 @@
  * its action called 'display', and we pass a param to select the view file
  * to use (in this case, /app/View/Pages/home.ctp)...
  */
-	Router::connect('/', array('controller' => 'dashboards', 'action' => 'home'));
+Router::connect('/', array('controller' => 'dashboards', 'action' => 'home'));
+Router::connect('/thong-bao', array('controller' => 'messages', 'action' => 'index'));
+Router::connect('/lop-ky-nang-dang-dang-ky', array('controller' => 'courses', 'action' => 'index'));
+Router::connect('/phong-hoc', array('controller' => 'rooms', 'action' => 'index'));
+Router::connect('/lien-he', array('controller' => 'dashboards', 'action' => 'contact'));
+Router::connect('/sinh-vien', array('plugin'=>'usermgmt','manager'=>true,'controller' => 'users', 'action' => 'student_index'));
+Router::connect('/giang-vien', array('plugin'=>'usermgmt','manager'=>true,'controller' => 'users', 'action' => 'teacher_index'));
+Router::connect('/them-sinh-vien', array('plugin'=>'usermgmt','manager'=>true,'controller' => 'users', 'action' => 'add_student'));
+Router::connect('/them-giang-vien', array('plugin'=>'usermgmt','manager'=>true,'controller' => 'users', 'action' => 'add_teacher'));
 /**
  * ...and connect the rest of 'Pages' controller's URLs.
  */
-	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
+Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
 
 /**
  * Load all plugin routes. See the CakePlugin documentation on
  * how to customize the loading of plugin routes.
  */
-        Router::mapResources(array('Course'));
-        Router::parseExtensions('json');
-	CakePlugin::routes();
+Router::mapResources(array('Course'));
+Router::parseExtensions('json');
+CakePlugin::routes();
 
 /**
  * Load the CakePHP default routes. Only remove this if you do not want to use
  * the built-in default routes.
  */
-	require CAKE . 'Config' . DS . 'routes.php';
+require CAKE . 'Config' . DS . 'routes.php';

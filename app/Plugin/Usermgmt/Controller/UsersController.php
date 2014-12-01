@@ -25,7 +25,6 @@ class UsersController extends UserMgmtAppController {
 
     /**
      * Used to display all users by Admin
-     *
      * @access public
      * @return array
      */
@@ -54,6 +53,23 @@ class UsersController extends UserMgmtAppController {
         if (isset($this->request->data['User']['user_group_id']) && !empty($this->request->data['User']['user_group_id'])) {
             $conditions = Set::merge($conditions, array('User.user_group_id' => $this->request->data['User']['user_group_id']));
         }
+        $this->Paginator->settings = array('conditions' => $conditions);
+        $users = $this->Paginator->paginate();
+        $this->set('users', $users);
+        if ($this->request->is('ajax')) {
+            $this->viewPath.='/ajax';
+        } else {
+            $userGroups = $this->UserGroup->getGroups();
+            $departments = $this->User->Department->find('list');
+            $classrooms = $this->User->Classroom->find('list');
+            $this->set(compact('userGroups', 'departments', 'classrooms'));
+        }
+    }
+
+//Hàm liệt kê danh sách sinh viên
+    public function manager_student_index() {
+        $this->User->unbindModel(array('hasMany' => array('LoginToken')));
+        $conditions = array('User.user_group_id' => 2);
         $this->Paginator->settings = array('conditions' => $conditions);
         $users = $this->Paginator->paginate();
         $this->set('users', $users);
@@ -141,7 +157,7 @@ class UsersController extends UserMgmtAppController {
             if ($this->User->RegisterValidate()) {
                 $this->User->save($this->request->data, false);
                 $this->Session->setFlash(__('Đã cập nhật thông tin thành công'), 'alert', array('plugin' => 'BoostCake', 'class' => 'alert-success'));
-                $this->redirect(array('action' => 'managerListTeacher'));
+                $this->redirect(array('manager' => true, 'action' => 'teacher_index'));
             } else {
                 $this->Session->setFlash(__('Validate không thành công'), 'alert', array('plugin' => 'BoostCake', 'class' => 'alert-success'));
             }
@@ -412,7 +428,7 @@ class UsersController extends UserMgmtAppController {
     public function convertPassword() {
         $success = 0;
         $students = $this->User->find('all', array('conditions' => array('user_group_id' => 2), 'recursive' => -1, 'fields' => array('id', 'password')));
-        
+        //debug($students);die;
         if (!empty($students)) {
             foreach ($students as $student) {
                 $user['User']['id'] = $student['User']['id'];
@@ -438,7 +454,6 @@ class UsersController extends UserMgmtAppController {
     public function addUser() {
         $userGroups = $this->UserGroup->getGroups();
         $departments = $this->User->Department->find('list');
-
         $this->set(compact('userGroups', 'departments'));
         if ($this->request->isPost()) {
             $this->User->set($this->data);
@@ -451,6 +466,27 @@ class UsersController extends UserMgmtAppController {
                 $this->User->save($this->request->data, false);
                 $this->Session->setFlash('Đã thêm user mới thành công', 'alert', array('plugin' => 'BoostCake', 'class' => 'alert-success'));
                 $this->redirect('/addUser');
+            }
+        }
+    }
+
+//quản lý Thêm sinh viên
+    public function manager_add_teacher() {
+        $userGroups = $this->UserGroup->getGroups();
+        $chapters = $this->User->Chapter->find('list');
+        $departments = $this->User->Department->find('list');
+        $this->set(compact('userGroups', 'departments', 'chapters'));
+        if ($this->request->isPost()) {
+            $this->User->set($this->data);
+            if ($this->User->RegisterValidate()) {
+                $this->request->data['User']['email_verified'] = 1;
+                $this->request->data['User']['active'] = 1;
+                $salt = $this->UserAuth->makeSalt();
+                $this->request->data['User']['salt'] = $salt;
+                $this->request->data['User']['password'] = $this->UserAuth->makePassword($this->request->data['User']['password'], $salt);
+                $this->User->save($this->request->data, false);
+                $this->Session->setFlash('Đã thêm user mới thành công', 'alert', array('plugin' => 'BoostCake', 'class' => 'alert-success'));
+                $this->redirect('/them-giang-vien');
             }
         }
     }
@@ -762,11 +798,21 @@ class UsersController extends UserMgmtAppController {
 
     /* Liệt kê danh sách giảng viên cho nhân viên quản lý */
 
-    public function managerListTeacher() {
+    public function manager_teacher_index() {
+        $this->User->unbindModel(array('hasMany' => array('LoginToken')));
         $conditions = array('User.user_group_id' => TEACHER_GROUP_ID);
         $this->Paginator->settings = array('conditions' => $conditions);
         $users = $this->Paginator->paginate();
         $this->set('users', $users);
+    }
+
+    public function manager_student_view($id) {
+        $this->User->unbindModel(array('hasMany' => array('LoginToken')));
+        
+        $contain = array('Province', 'Classroom' => array('Department' => array('fields' => array('Department.id', 'Department.name'))), 'UserGroup');
+        //$fields=array('department_id','user_group_id','id','name','borndate','bornplace','sex','email','phone','classroom_id','username','last_login','created');
+        $user = $this->User->find('first', array('conditions' => array('User.id' => $id), 'contain' => $contain));
+        $this->set('user', $user);
     }
 
     public function updatePassword() {

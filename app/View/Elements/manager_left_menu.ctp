@@ -38,7 +38,7 @@
 
     <ul class="nav nav-list">
         <li class="">
-            <a href="<?php echo SUB_DIR.'/dashboards'?>">
+            <a href="<?php echo SUB_DIR . '/dashboards' ?>">
                 <i class="menu-icon fa fa-tachometer"></i>
                 <span class="menu-text"> Bàn làm việc </span>
             </a>
@@ -60,7 +60,7 @@
 
 
                 <li class="">
-                    <a href="<?php echo SUB_DIR.'/courses/add'?>">
+                    <a href="<?php echo SUB_DIR . '/courses/add' ?>">
                         <i class="menu-icon fa fa-caret-right"></i>
                         Tạo lớp
                     </a>
@@ -68,7 +68,7 @@
                     <b class="arrow"></b>
                 </li>
                 <li class="">
-                    <a href="<?php echo SUB_DIR.'/courses/index'?>">
+                    <a href="<?php echo SUB_DIR . '/courses/index' ?>">
                         <i class="menu-icon fa fa-caret-right"></i>
                         Tất cả lớp
                     </a>
@@ -87,12 +87,12 @@
             <b class="arrow"></b>
             <ul class="submenu">
                 <li class="">
-                    <a href="<?php echo SUB_DIR.'/chapters'?>">
+                    <a href="<?php echo SUB_DIR . '/chapters' ?>">
                         <i class="menu-icon fa fa-caret-right"></i>
                         Danh sách kỹ năng
                     </a>
-                    
-                    <a href="<?php echo SUB_DIR.'/chapter_types'?>">
+
+                    <a href="<?php echo SUB_DIR . '/chapter_types' ?>">
                         <i class="menu-icon fa fa-caret-right"></i>
                         Loại kỹ năng
                     </a>
@@ -104,40 +104,8 @@
         </li>
         <li class="">
             <a href="#" class="dropdown-toggle">
-                <i class="menu-icon fa fa-list"></i>
-                <span class="menu-text"> Quản lý giảng viên </span>
-
-                <b class="arrow fa fa-angle-down"></b>
-            </a>
-
-            <b class="arrow"></b>
-
-            <ul class="submenu">
-                <li class="">
-                    <a href="<?php echo SUB_DIR.'/users/manager_list_teacher'?>">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Danh sách
-                    </a>
-
-                    <b class="arrow"></b>
-                </li>
-                <li class="">
-                    <a href="<?php echo SUB_DIR.'/users/add/teachers'?>">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Thêm mới
-                    </a>
-
-                    <b class="arrow"></b>
-                </li>
-
-
-            </ul>
-        </li>
-
-        <li class="">
-            <a href="#" class="dropdown-toggle">
                 <i class="menu-icon fa fa-pencil-square-o"></i>
-                <span class="menu-text"> Quản lý sinh viên </span>
+                <span class="menu-text"> Quản lý người dùng </span>
 
                 <b class="arrow fa fa-angle-down"></b>
             </a>
@@ -146,22 +114,31 @@
 
             <ul class="submenu">
                 <li class="">
-                    <a href="<?php echo SUB_DIR.'/classrooms'?>">
+                    <a href="<?php echo SUB_DIR . '/sinh-vien' ?>">
                         <i class="menu-icon fa fa-caret-right"></i>
-                        Danh sách lớp
+                        Sinh viên
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="<?php echo SUB_DIR . '/giang-vien' ?>">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Giảng viên
                     </a>
 
                     <b class="arrow"></b>
                 </li>
 
                 <li class="">
-                    <a href="<?php echo SUB_DIR.'/classrooms/add'?>">
+                    <a href="<?php echo SUB_DIR . '/them-giang-vien' ?>">
                         <i class="menu-icon fa fa-caret-right"></i>
-                        Thêm lớp
+                        Thêm giảng viên
                     </a>
 
                     <b class="arrow"></b>
                 </li>
+                
 
             </ul>
         </li>
@@ -170,7 +147,7 @@
             <a href="#">
                 <i class="menu-icon fa fa-list-alt"></i>
                 <span class="menu-text"> Thống kê </span>
-                 <b class="arrow fa fa-angle-down"></b>
+                <b class="arrow fa fa-angle-down"></b>
             </a>
 
             <b class="arrow"></b>

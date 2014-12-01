@@ -22,7 +22,8 @@ class Course extends AppModel {
     public $virtualFields = array(
         'enrolledno' => "SELECT count(id) as Course__enrolledno 
         FROM  enrollments  as Enrollment 
-         where Enrollment.course_id=Course.id"
+         where Enrollment.course_id=Course.id",
+        'handangky'=>'DATEDIFF(ADDDATE(Course.start,-14),CURDATE())'
     );
 
     /**
@@ -45,16 +46,7 @@ class Course extends AppModel {
                 'message' => 'Lớp học này đã có'
             )
         ),
-        'si_so' => array(
-            'numeric' => array(
-                'rule' => array('numeric'),
-            //'message' => 'Your custom message here',
-            //'allowEmpty' => false,
-            //'required' => false,
-            //'last' => false, // Stop validation after this rule
-            //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-        ),
+        
         'trang_thai' => array(
             'numeric' => array(
                 'rule' => array('numeric'),
@@ -175,5 +167,8 @@ class Course extends AppModel {
         }
         return $course['Course']['id'];
     }
+    
+    //Lấy các khóa học thuộc 1 chapter
+    
 
 }

@@ -67,8 +67,7 @@ Cache::config('default', array('engine' => 'File'));
  * CakePlugin::load('DebugKit'); //Loads a single plugin named DebugKit
  *
  */
-CakePlugin::load(array('BoostCake', 'DebugKit', 'Usermgmt' => array('routes' => true, 'bootstrap' => true)));
-
+CakePlugin::load(array('BoostCake', 'DebugKit','ExcelReader', 'Usermgmt' => array('routes' => true, 'bootstrap' => true)));
 /**
  * You can attach event listeners to the request lifecycle as Dispatcher Filter. By default CakePHP bundles two filters:
  *
@@ -202,6 +201,19 @@ if (!defined('SO_SINH_VIEN_TOI_THIEU')) {
 /* Tá»± Ä‘á»™ng má»Ÿ lá»›p khi Ä‘á»§ sá»‘ lÆ°á»£ng sinh viÃªn */
 if (!defined('TU_DONG_MO_LOP')) {
     define('TU_DONG_MO_LOP', 1);
+}
+
+/* Tá»± Ä‘á»™ng má»Ÿ lá»›p khi Ä‘á»§ sá»‘ lÆ°á»£ng sinh viÃªn */
+if (!defined('KY_NANG_TU_CHON')) {
+    define('KY_NANG_TU_CHON', 1);
+}
+
+if (!defined('KY_NANG_BAT_BUOC')) {
+    define('KY_NANG_BAT_BUOC', 2);
+}
+
+if (!defined('KY_NANG_KHONG_TO_CHUC_HOC')) {
+    define('KY_NANG_KHONG_TO_CHUC_HOC', 3);
 }
 
 if (!defined('APP_NAME')) {

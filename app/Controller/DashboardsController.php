@@ -36,11 +36,11 @@ class DashboardsController extends AppController {
     }
 
     public function contact() {
-        
+        $this->theme='Home';
     }
 
     public function help() {
-        
+        $this->theme='Home';
     }
 
     public function sendmail(){

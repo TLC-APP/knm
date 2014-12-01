@@ -232,7 +232,7 @@
 
                         <span class="user-info">
                             <small>Xin chào,</small>
-                            <?php echo $this->UserAuth->getGroupName(); ?>
+                            <?php echo $this->UserAuth->getUserFirstname(); ?>
                         </span>
 
                         <i class="ace-icon fa fa-caret-down"></i>

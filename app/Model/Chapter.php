@@ -129,6 +129,17 @@ class Chapter extends AppModel {
         )
     );
 
+    /* Hàm lấy id các kỹ năng học
 
+     * $type là loại kỹ năng mặc định 1 là tự chọn, 2 bắt buộc, 3 không tổ chức học
+     *      */
+
+    public function getChapterId($type=KY_NANG_TU_CHON) {
+        $chapter = $this->find('all', array('conditions' => array('Chapter.chapter_type_id' => $type),'fields'=>array('id'), 'recursive' => -1));
+        if (!empty($chapter)) {
+            return Set::classicExtract($chapter, "{n}.Chapter.id");
+        }
+        return null;
+    }
 
 }

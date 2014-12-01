@@ -24,6 +24,12 @@
             <fieldset>
 
                 <?php
+                echo $this->Form->input('username', array(
+                    "placeholder" => "Mã số sinh viên", 'required',
+                    'before' => '<label class="block clearfix">
+                        <span class="block input-icon input-icon-right">',
+                    'after' => '<i class="ace-icon fa fa-user"></i>
+                        </span>'));
                 echo $this->Form->input('last_name', array(
                     "placeholder" => "Họ lót (ví dụ Nguyễn Văn) ",
                     'required',
@@ -56,7 +62,7 @@
 
                 echo $this->Form->input('borndate', array(
                     'placeholder' => 'Ngày sinh (dd-mm-yyyy)',
-                    'required','type' => 'text', 
+                    'required', 'type' => 'text',
                     'class' => 'date-picker form-control',
                     'data-date-format' => "dd-mm-yyyy",
                     'before' => '<label class="block clearfix">
@@ -65,17 +71,12 @@
                         </span>'
                 ));
                 echo $this->Form->input('bornplace', array(
-                    //'empty' => '-- Chọn nơi sinh --',
+                    'placeholder' => '-- Chọn nơi sinh --',
                     'options' => $bornplaces,
                     'required',
                 ));
                 echo $this->Form->input('sex', array('empty' => '-- Chọn giới tính --', 'required', 'options' => array('M' => 'Nam', 'F' => 'Nữ')));
-                echo $this->Form->input('username', array(
-                    "placeholder" => "Mã số sinh viên", 'required',
-                    'before' => '<label class="block clearfix">
-                        <span class="block input-icon input-icon-right">',
-                    'after' => '<i class="ace-icon fa fa-user"></i>
-                        </span>'));
+
 
                 //echo $this->Form->input('department_id', array('id'=>'department_id','empty' => '-- Khoa --'));
                 echo $this->Form->input('classroom_id', array("label" => false));
@@ -139,12 +140,7 @@
 <script>
     $(function () {
 
-        $('#UserClassroomId').select2({
-            placeholder: "Chọn lớp"
-        });
-        $('#UserBornplace').select2({
-            placeholder: "Chọn nơi sinh"
-        }
-        );
+        $('#UserClassroomId').select2({'placeholder':'-- Chọn lớp --'});
+        $('#UserBornplace').select2({'placeholder':'-- Chọn nơi sinh --'});
     });
 </script>

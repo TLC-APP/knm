@@ -10,7 +10,11 @@
         <meta name="author" content="">
 
         <title>Trang chủ - Website quản lý Dạy và Học Kỹ năng mềm sinh viên - Trung tâm Hỗ trợ - Phát triển Dạy và Học Trường Đại học Trà Vinh</title>
+        <!-- jQuery -->
+        <?php echo $this->Html->script('jquery') ?>
 
+        <!-- Bootstrap Core JavaScript -->
+        <?php echo $this->Html->script('bootstrap.min') ?>
         <!-- Bootstrap Core CSS -->
         <?php echo $this->Html->css('bootstrap.min') ?>
 
@@ -41,26 +45,29 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="#">
-                        <img src="http://placehold.it/150x50&text=Logo" alt="">
+                        <img src="http://placehold.it/150x50&text=TLC/KNM" alt="">
                     </a>
                 </div>
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <li>
-                            <a href="#">Trang chủ</a>
+                            <?php echo $this->Html->link('Trang chủ', '/') ?>
                         </li>
                         <li>
-                            <a href="#">Thông báo</a>
+                            <?php echo $this->Html->link('Thông báo', '/thong-bao') ?>
                         </li>
                         <li>
-                            <a href="#">Kỹ năng</a>
+                            <?php echo $this->Html->link('Lớp kỹ năng đang đăng ký', '/lop-ky-nang-dang-dang-ky') ?>
                         </li>
                         <li>
-                            <a href="#">Phòng học</a>
+                            <?php echo $this->Html->link('Phòng học', '/phong-hoc') ?>
                         </li>
                         <li>
-                            <a href="#">Liên hệ</a>
+                            <?php echo $this->Html->link('Đăng nhập', '/login') ?>
+                        </li>
+                        <li>
+                            <?php echo $this->Html->link('Liên hệ', '/lien-he') ?>
                         </li>
                     </ul>
                 </div>
@@ -71,7 +78,7 @@
 
         <!-- Page Content -->
         <div class="container">
-
+            <?php echo $this->element('loading'); ?>
             <?php echo $this->Session->flash(); ?>
 
             <?php echo $this->fetch('content'); ?>
@@ -89,12 +96,26 @@
         </div>
         <!-- /.container -->
 
-        <!-- jQuery -->
-        <?php echo $this->Html->script('jquery') ?>
 
-        <!-- Bootstrap Core JavaScript -->
-        <?php echo $this->Html->script('bootstrap.min') ?>
+        <script>
+            $(function () {
 
+                var path = window.location.pathname;
+                path = path.replace(/\/$/, "");
+                path = decodeURIComponent(path);
+                $("ul.navbar-nav a").each(function () {
+
+                    var href = $(this).attr('href');
+                    console.log(href);
+                    if (path === href) {
+                        $(this).closest('li').addClass('active');
+
+                        var treeviewmenu = $(this).closest('li').parent();
+                        treeviewmenu.parent().addClass('active');
+                    }
+                });
+            });
+        </script>
     </body>
 
 </html>

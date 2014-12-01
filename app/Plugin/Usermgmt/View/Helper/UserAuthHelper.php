@@ -35,6 +35,16 @@ class UserAuthHelper extends AppHelper {
 	public function getUserId() {
 		return $this->Session->read('UserAuth.User.id');
 	}
+        
+        /**
+	 * Used to get user fullname from session
+	 *
+	 * @access public
+	 * @return string
+	 */
+	public function getUserFirstname() {
+		return $this->Session->read('UserAuth.User.first_name');
+	}
 	/**
 	 * Used to get group id from session
 	 *

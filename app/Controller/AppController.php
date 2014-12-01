@@ -36,7 +36,7 @@ class AppController extends Controller {
         'DebugKit.Toolbar',
         'Session',
         'RequestHandler',
-        'Usermgmt.UserAuth',
+        'Usermgmt.UserAuth', 'Paginator'
     );
     public $helpers = array
         ('Session',
@@ -77,6 +77,7 @@ class AppController extends Controller {
     }
 
     function beforeFilter() {
+        
         $this->updateCourseOpenable();
         $this->updateTrangThaiChoHuy();
         parent::beforeFilter();
@@ -88,6 +89,10 @@ class AppController extends Controller {
         if ($this->UserAuth->isLogged() && $this->UserAuth->getGroupAlias() && !$this->request->is('ajax')) {
 
             $this->layout = $this->UserAuth->getGroupAlias();
+        }else{
+            if (!$this->UserAuth->isLogged()&&$this->request->action!='login') {
+            $this->theme = 'Home';
+        }
         }
     }
 
