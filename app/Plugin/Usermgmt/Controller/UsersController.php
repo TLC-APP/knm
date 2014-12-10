@@ -173,7 +173,6 @@ class UsersController extends UserMgmtAppController {
 
     /* Quản lý cập nhật kỹ năng có thể giảng dạy của giảng viên */
 
-
     /* Hiển thị danh sách các giảng viên cho quản lý */
 
     /**
@@ -808,7 +807,7 @@ class UsersController extends UserMgmtAppController {
 
     public function manager_student_view($id) {
         $this->User->unbindModel(array('hasMany' => array('LoginToken')));
-        
+
         $contain = array('Province', 'Classroom' => array('Department' => array('fields' => array('Department.id', 'Department.name'))), 'UserGroup');
         //$fields=array('department_id','user_group_id','id','name','borndate','bornplace','sex','email','phone','classroom_id','username','last_login','created');
         $user = $this->User->find('first', array('conditions' => array('User.id' => $id), 'contain' => $contain));
@@ -817,6 +816,26 @@ class UsersController extends UserMgmtAppController {
 
     public function updatePassword() {
         
+    }
+
+    /* Hàm tìm kiếm sinh viên dựa vào số báo danh */
+
+    public function search() {
+        if (isset($this->request->data['username']) && !empty($this->request->data['username'])) {
+            $contain = array('Province', 'Classroom' => array('Department'), 'Enrollment' => array('Course' => array(
+                        'fields' => array('id', 'name', 'chapter_id'), 'Chapter'
+            )));
+            $student = $this->User->find('first', array('contain' => $contain, 'conditions' => array('User.username like' => '%' . $this->request->data['username'] . '%')));
+            if (!empty($student)) {
+                //debug($student);die;
+                //Tim thay sinh vien
+                $this->set('student', $student);
+            } else {
+                //Khong tim thay sinh vien
+                $this->Session->setFlash('Rất tiếc, không tìm thấy sinh viên có mã số ' . $this->request->data['username'], 'alert', array('class' => 'alert-warning'));
+                $this->redirect(array('plugin' => false, 'action' => 'home', 'controller' => 'dashboards'));
+            }
+        }
     }
 
 }

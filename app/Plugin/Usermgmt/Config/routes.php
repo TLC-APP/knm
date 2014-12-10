@@ -1,6 +1,7 @@
 <?php
 // Routes for standard actions
 Router::connect('/users/login', array('plugin' => 'usermgmt', 'controller' => 'users', 'action' => 'login'));
+Router::connect('/users/search', array('plugin' => 'usermgmt', 'controller' => 'users', 'action' => 'search'));
 Router::connect('/login', array('plugin' => 'usermgmt', 'controller' => 'users', 'action' => 'login'));
 Router::connect('/logout', array('plugin' => 'usermgmt', 'controller' => 'users', 'action' => 'logout'));
 Router::connect('/forgotPassword', array('plugin' => 'usermgmt', 'controller' => 'users', 'action' => 'forgotPassword'));

@@ -19,32 +19,13 @@
 
 
         <li class="">
-            <a href="#" class="dropdown-toggle">
-                <i class="menu-icon fa fa-list"></i>
-                <span class="menu-text">Kỹ năng </span>
+            
 
-                <b class="arrow fa fa-angle-down"></b>
-            </a>
+            <?php
+            echo $this->Html->link(__('dang ky'), array('plugin' => false, 'student'=>true,'controller' => 'courses', 'action' => 'index'), array('escape' => false));
+            ?>
 
-            <b class="arrow"></b>
-
-            <ul class="submenu">
-                <li class="">
-                    <?php
-                    echo $this->Html->link(__('enrolled chapter'), array('plugin' => false, 'controller' => 'courses', 'action' => 'enrolled'), array('escape' => false));
-                    ?>
-
-                </li>
-
-                <li class="">
-                    
-                    <?php
-                    echo $this->Html->link(__('dang ky'), array('plugin' => false, 'controller' => 'courses', 'action' => 'index'), array('escape' => false));
-                    ?>
-
-                    <b class="arrow"></b>
-                </li>
-            </ul>
+           
         </li>
 
         <li class="">

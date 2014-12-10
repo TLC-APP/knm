@@ -9,6 +9,11 @@ $this->Paginator->options(array(
     'method' => 'POST',
 ));
 ?>
+<?php
+echo $this->Paginator->pagination(array(
+    'ul' => 'pagination pagination-sm'
+));
+?>
 <table class="table table-condensed table-hover">
     <thead>
         <tr>
@@ -78,7 +83,7 @@ $this->Paginator->options(array(
                     <?php echo $course['Course']['si_so'] - $course['Course']['enrolledno']; ?>
                 </td>
                 <td class="actions">
-                    <?php echo $this->Html->link(__('view'), array('action' => 'view', $course['Course']['id']), array('escape' => false)); ?>
+                    <?php echo $this->Html->link(__('enroll'), array('action' => 'enroll', $course['Course']['id']), array('escape' => false)); ?>
 
                     <?php //echo $this->Html->link(__('enroll'), array('action' => 'enroll', $course['Course']['id']), array('escape' => false)); ?>
 

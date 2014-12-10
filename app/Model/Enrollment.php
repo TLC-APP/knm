@@ -13,6 +13,8 @@ App::uses('AppModel', 'Model');
  */
 class Enrollment extends AppModel {
 
+    
+    public $actsAs=array('Containable');
     /**
      * Validation rules
      *
@@ -56,13 +58,7 @@ class Enrollment extends AppModel {
             'fields' => '',
             'order' => ''
         ),
-        'AbsencePeriod' => array(
-            'className' => 'Period',
-            'foreignKey' => 'absence_period_id',
-            'conditions' => '',
-            'fields' => '',
-            'order' => ''
-        ),
+        
         'AbsenceHandling' => array(
             'className' => 'User',
             'foreignKey' => 'absence_handling_id',
@@ -96,8 +92,12 @@ class Enrollment extends AppModel {
         if (!is_null($pass)) {
             $conditions = Set::merge($conditions, array('Enrollment.pass' => $pass));
         }
-        //Lấy các kn thuộc loại kỹ năng thuộc loại kỹ năng
-        $conditions = Set::merge($conditions, array('Enrollment.student_id' => $sinhvien_id, 'Enrollment.course_id' => $courseId));
+        //Lấy các kn thuộc loại kỹ năng
+        if (empty($courseId)) {
+            $conditions = Set::merge($conditions, array('Enrollment.course_id' => $courseId));
+        }
+        $conditions = Set::merge($conditions, array('Enrollment.student_id' => $sinhvien_id));
+
         return $this->find('count', array('conditions' => $conditions));
     }
 

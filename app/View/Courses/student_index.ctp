@@ -1,7 +1,7 @@
 <?php $this->Js->JqueryEngine->jQueryObject = 'jQuery'; ?>
 <?php
 $this->Paginator->options(array(
-    'url' => array('manager' => true, 'action' => 'index'),
+    //'url' => array('manager' => true, 'action' => 'index'),
     'update' => '#datarows',
     'evalScripts' => true,
     'before' => $this->Js->get('#loading')->effect('fadeIn', array('speed' => 'fast')),
@@ -12,7 +12,7 @@ $this->Paginator->options(array(
 ?>
 
 <div class="row">
-    <h2>Danh sách lớp kỹ năng</h2>
+    <h2>Danh sách lớp kỹ năng có thể đăng ký</h2>
     <?php
     echo $this->Form->create('Course', array(
         'inputDefaults' => array(
@@ -25,12 +25,7 @@ $this->Paginator->options(array(
         'id' => 'filter-course'
     ));
     ?>
-    <div class="form-group">
-        <?php
-        echo $this->Form->year('year', 2013, date('Y') + 5, array('empty' => 'Chọn năm', "class" => "form-control"));
-        ?>
-    </div>
-    <?php echo $this->Form->month('month', array('empty' => 'Chọn tháng', "class" => "form-control", 'monthNames' => false)); ?>
+
     <?php
     echo $this->Form->input('chapter_id', array(
         'empty' => 'Chọn kỹ năng', 'required' => false
@@ -53,8 +48,14 @@ $this->Paginator->options(array(
     ));
     ?>
     <?php echo $this->Form->end(); ?> 
+
     <?php echo $this->element('loading'); ?>
     <div class="table-responsive" id="datarows">
+        <?php
+        echo $this->Paginator->pagination(array(
+            'ul' => 'pagination pagination-sm'
+        ));
+        ?>
         <table class="table table-condensed table-hover">
             <thead>
                 <tr>
@@ -123,7 +124,7 @@ $this->Paginator->options(array(
                         <td>
                             <?php echo $course['Course']['si_so'] - $course['Course']['enrolledno']; ?>
                         </td>
-                        <td><?php echo $this->Html->link(__('view'), array('action' => 'view', $course['Course']['id']), array('escape' => false)); ?></td>
+                        <td><?php echo $this->Html->link(__('enroll'), array('action' => 'enroll', $course['Course']['id']), array('escape' => false)); ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>

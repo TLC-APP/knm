@@ -61,10 +61,12 @@ msgstr "Bắt đầu"
 #: View/Courses/view.ctp:96
 msgid "Note"
 msgstr "Ghi chú"
-#: View/Courses/view.ctp:97
-msgid "Room Name"
-msgstr "Tên phòng"
 
+
+
+#: View/Courses/manager_index.ctp
+msgid "Course Name"
+msgstr "Tên lớp"
 
 msgid "New Enrollment"
 msgstr "Thêm sinh viên vào lớp học"
@@ -125,9 +127,7 @@ msgstr "Các thông báo "
 msgid "Rooms"
 msgstr "Danh sách phòng học kỹ năng mềm "
 
-#: View/Rooms/index.ctp:6
-msgid "Name"
-msgstr "Tên phòng"
+
 
 msgid "Decription"
 msgstr "Miêu tả "
@@ -147,7 +147,19 @@ msgstr "<i class='menu-icon fa fa-caret-right'></i><span class='menu-text'>Đã 
 msgid "dang ky"
 msgstr "<i class='menu-icon fa fa-caret-right'></i>Đăng ký"
 
+msgid "Student Name"
+msgstr "Sinh viên"
 
 
+msgid "Pass"
+msgstr "Kết quả"
 
+msgid "Fee"
+msgstr "Học phí"
 
+msgid "Absence"
+msgstr "Vắng"
+
+#: View/Dashboards/student_home.ctp: 2
+msgid "Enrollments"
+msgstr "Thông tin tham dự"

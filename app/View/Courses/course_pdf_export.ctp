@@ -28,7 +28,7 @@ $this->Pdf->core->SetMargins(10, 5,2);
 // set font
 // remake times
 $fontname = $this->Pdf->addTTFfont('arial/arial.ttf');
-$this->Pdf->core->SetFont($fontname, '', 8, '', true);
+$this->Pdf->core->SetFont($fontname, '', 10, '', true);
 // add a page
 $this->Pdf->core->AddPage();
 $style = '<!-- EXAMPLE OF CSS STYLE -->
@@ -180,10 +180,10 @@ $tfooter = '</table>
 $stt = 1;
 foreach ($course['Enrollment'] as $student) {
     $tdata.='<tr>';
-    $tdata.="<td align='center'>5</td>
-                                <td align='center'>".$student['username']."</td>
-                                <td>".$student['name']."</td>
-                                <td align='center'>".$student['Classroom']['name']."</td>
+    $tdata.="<td align='center'>".$stt++."</td>
+                                <td align='center'>".$student['Student']['username']."</td>
+                                <td>".$student['Student']['name']."</td>
+                                <td align='center'>".$student['Student']['Classroom']['name']."</td>
                                 <td> </td>
                                 <td> </td>
                                 <td> </td>
