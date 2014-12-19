@@ -47,6 +47,11 @@ $this->Paginator->options(array(
     ));
     ?>
     <?php
+    echo $this->Form->input('trang_thai', array('options' => array(COURSE_ENROLLING => 'Đang đăng ký', COURSE_OPEN => 'Đã mở', COURSE_OPENABLE => 'Có thể mở', COURSE_WAIT_CANCEL => 'Chờ hủy', COURSE_CANCELLED => 'Đã hủy'),
+        'placeholder' => 'Trạng thái', 'required' => false,'empty'=>'Chọn trạng thái'
+    ));
+    ?>
+    <?php
     echo $this->Form->submit('lọc', array(
         'div' => 'form-group',
         'class' => 'btn btn-purple btn-sm'
@@ -63,7 +68,6 @@ $this->Paginator->options(array(
                     <th>Buổi học</th>
                     <th><?php echo $this->Paginator->sort('chapter_id'); ?></th>
                     <th><?php echo $this->Paginator->sort('teacher_id'); ?></th>
-                    <th>Hạn đăng ký còn</th>
                     <th>Có thể đăng ký thêm</th>
                     <th>Thao tác</th>
                 </tr>
@@ -75,7 +79,10 @@ $this->Paginator->options(array(
                 <?php foreach ($courses as $course): ?>
                     <tr>
                         <td><?php echo $stt++; ?></td>
-                        <td><?php echo h($course['Course']['name']); ?>&nbsp;</td>
+                        <td><?php 
+                        echo h($course['Course']['name']).' '; 
+                        echo ($course['Course']['handangky'] > 0) ? ' <span class="label label-info arrowed arrowed-right">còn '.$course['Course']['handangky'] . ' ngày</span>' : '<span class="label label-danger arrowed arrowed-right">hết hạn</span>';
+                        echo $this->element('course_status',array('status'=>$course['Course']['trang_thai']))?>&nbsp;</td>
                         <td><?php
                             foreach ($course['Period'] as $buoi) {
                                 $line = $buoi['name'] . ' ';
@@ -119,7 +126,6 @@ $this->Paginator->options(array(
                         <td>
                             <?php echo $this->Html->link($course['Teacher']['name'], array('controller' => 'users', 'action' => 'view', $course['Teacher']['id'])); ?>
                         </td>
-                        <td><?php echo ($course['Course']['handangky'] > 0) ? $course['Course']['handangky'] . ' ngày' : 'Hết hạn'; ?></td>
                         <td>
                             <?php echo $course['Course']['si_so'] - $course['Course']['enrolledno']; ?>
                         </td>
@@ -170,6 +176,9 @@ $this->Paginator->options(array(
         process();
     });
 
+$("#CourseTrangThai").change(function () {
+        process();
+    });
     $("#filter-course").submit(function (e) {
         e.preventDefault();
         process();

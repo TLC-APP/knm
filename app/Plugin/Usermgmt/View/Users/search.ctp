@@ -1,5 +1,9 @@
 <!-- PAGE CONTENT BEGINS -->
-
+<?php echo $this->Html->script('bootbox'); ?>
+<?php echo $this->Html->css('/bootstrapvalidator-0.5.2/css/bootstrapValidator.min'); ?>
+<?php echo $this->Html->script('/bootstrapvalidator-0.5.2/js/bootstrapValidator.min'); ?>
+<?php echo $this->Html->script('/bootstrapvalidator-0.5.2/js/language/vi_VN'); ?>
+<?php echo $this->Html->script('search_student'); ?>
 <div id="user-profile-1" class="user-profile row">
     <div class="col-xs-12 col-sm-3 center">
         <div>
@@ -171,35 +175,81 @@
 </div>
 <div class="row">
     <h2>Các kỹ năng đã tham dự</h2>
-    <?php foreach ($student['Enrollment'] as $enroll) : ?>
-        <table class="table table-condensed table-hover">
-            <thead>
-            <th>Kỹ năng</th>
-            <th>Mã lớp</th>
-            <th>Tình trạng lớp</th>
-            <th>Kết quả</th>
-            <th>Học phí</th>
-            <th>Số biên lai</th>
-            <th>Vắng</th>
-            <th>Lý do vắng</th>
-            <th>Ghi chú</th>
-            </thead>
-            <tbody>
+    <table class="table table-condensed table-hover">
+        <thead>
+        <th>Kỹ năng</th>
+        <th>Mã lớp</th>
+        <th>Tình trạng lớp</th>
+        <th>Kết quả</th>
+        <th>Học phí</th>
+        <th>Số biên lai</th>
+        <th>Vắng</th>
+        <th>Lý do vắng</th>
+        </thead>
+        <tbody>
+            <?php foreach ($student['Enrollment'] as $enroll) : ?>
+
                 <tr>
                     <td><?php echo $enroll['Course']['Chapter']['name'] ?></td>
                     <td><?php echo $enroll['Course']['name'] ?></td>
                     <td>                        
-                        <?php echo $this->element('course_status', array('status' => $enrollment['Course']['trang_thai'])); ?>
+                        <?php echo $this->element('course_status', array('status' => $enroll['Course']['trang_thai'])); ?>
                     </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td><?php
+                        if (is_null($enroll['pass'])) {
+                            $pass = "Chưa cập nhật";
+                        } else {
+                            if (($enroll['pass'])) {
+                                $pass = "<i class='fa fa-check text-success'></i>";
+                            } else {
+                                $pass = "<i class='fa fa-times text-danger'></i>";
+                            }
+                        }
+                        echo $pass;
+                        ?></td>
+                    <td class="dong_hoc_phi_td"><?php
+                        $fee = "";
+                        if (!is_null($enroll['pass']) && !$enroll['pass']) {
+                            if ($enroll['fee']) {
+                                $fee = $this->Html->link("<i class='fa fa-check text-success'></i>", array('controller' => 'enrollments', 'action' => 'huy_dong_hoc_phi', $enroll['id']), array('class' => 'huy_dong_hoc_phi_btn', 'escape' => false));
+                                ;
+                            } else {
+                                $fee = $this->Html->link("<i class='fa fa-times text-danger'></i>", array('plugin' => false, 'manager' => true, 'controller' => 'enrollments', 'action' => 'dong_hoc_phi', $enroll['id']), array('class' => 'dong_hoc_phi_btn', 'escape' => false));
+                            }
+                            echo $fee;
+                        }
+                        ?></td>
+                    <td><?php echo ($enroll['fee_paper_no']) ?></td>
+                    <td><?php echo ($enroll['absence']) ? "<i class='fa fa-times text-danger'></i>" : ""; ?></td>
+                    <td><?php echo $enroll['absence_reason']; ?></td>
 
                 </tr>
-            </tbody>
-        </table>
-    <?php endforeach; ?>
+
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+
+    <div class="bootbox">
+        <!-- The login modal. Don't display it initially -->
+        <?php
+        echo $this->Form->create('Enrollment', array(
+            'url' => array('plugin' => false, 'manager' => true, 'controller' => 'enrollments', 'action' => 'dong_hoc_phi'),
+            'inputDefaults' => array(
+                'div' => 'form-group',
+                'wrapInput' => false,
+                'class' => 'form-control'
+            ),
+            'class' => 'form-horizontal',
+            'id' => 'hocphiform',
+            'style' => 'display:none;'
+        ));
+        ?>
+        <?php
+        echo $this->Form->input('id', array('type' => 'hidden', 'value' => $enroll['id']));
+        echo $this->Form->input('fee_paper_no', array('label' => 'Số biên lai'));
+        echo $this->Form->button('Thực hiện', array('type' => 'submit', 'class' => "btn btn-sm", 'id' => 'addButton'));
+        echo $this->Form->end();
+        ?>
+    </div>
 </div>
 

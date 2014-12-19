@@ -22,6 +22,77 @@ class CoursesController extends AppController {
         
     }
 
+    /* Hàm lấy danh sách các lớp đã hết hạn */
+
+    public function manager_lop_het_han($openable = null) {
+        $contain = array('Chapter' => array('fields' => array('id', 'name')), 'Teacher' => array('id', 'name'));
+        $conditions = array(
+            'Course.trang_thai' => COURSE_WAIT_CANCEL
+        );
+        if ($openable) {
+            $conditions = array(
+                'Course.trang_thai' => COURSE_OPENABLE
+            );
+        }
+        $sord = "asc";
+        $page = 0;
+        $limit = 10;
+        $sidx = "Course.name";
+        if (!empty($this->request->query)) {
+            $page = $this->request->query['page']; // get the requested page
+            $limit = $this->request->query['rows']; // get how many rows we want to have into the grid
+            if (!empty($this->request->query['sidx'])) {
+                $sidx = $this->request->query['sidx'];
+            }// get index row - i.e. user click to sort
+            if (!empty($this->request->query['sord'])) {
+                $sord = $this->request->query['sord']; // get the direction
+            }
+        }
+        $count = $this->Course->find('count', $conditions);
+        if ($count > 0) {
+            $total_pages = ceil($count / $limit);
+        } else {
+            $total_pages = 0;
+        }
+        if ($page > $total_pages) {
+            $page = $total_pages;
+        }
+        $offset = $limit * $page - $limit; // do not put $limit*($page - 1)
+
+        $responce->page = $page;
+        $responce->total = $total_pages;
+        $responce->records = $count;
+
+        $rows = $this->Course->find('all', array(
+            'contain' => $contain,
+            'limit' => $limit, //int
+            'page' => $page, //int
+            'offset' => $offset, //int,
+            'order' => array($sidx => $sord),
+            'conditions' => $conditions
+        ));
+        $i = 0;
+        //debug($rows);die;
+        foreach ($rows as $row) {
+            $responce->rows[$i]['id'] = $row['Course']['id'];
+            $responce->rows[$i]['cell'] = array(
+                $row['Course']['id'],
+                $row['Course']['name'],
+                $row['Chapter']['name'],
+                $row['Course']['start'],
+                $row['Teacher']['name'],
+                $row['Course']['enrolledno'],
+                $row['Course']['trang_thai'],
+            );
+            $i++;
+        }
+
+        $this->set('responce', $responce);
+        if ($this->request->is('ajax')) {
+            $this->render('manager_lop_het_han');
+        }
+    }
+
 //Đọc file lớp kỹ năng đưa vào CSDL
     public function admin_import_lopkynang() {
 // Read Excel file. NOTE: only relative paths seem to work
@@ -159,6 +230,11 @@ class CoursesController extends AppController {
         if (!empty($this->request->data['Course']['name'])) {
             $conditions = Set::merge($conditions, array('Course.name like' => '%' . $this->request->data['Course']['name'] . '%'));
         }
+        //trang thai
+        if (!empty($this->request->data['Course']['trang_thai'])) {
+            $conditions = Set::merge($conditions, array('Course.trang_thai ' => $this->request->data['Course']['trang_thai']));
+        }
+
         $contain = array(
             'Chapter',
             'Teacher' => array('fields' => array('id', 'name')),
@@ -172,7 +248,7 @@ class CoursesController extends AppController {
             $this->viewPath = $this->viewPath . '/ajax';
         } else {
             $chapters = $this->Course->Chapter->find('list');
-            $teachers = $this->Course->Teacher->find('list', array('fields' => array('id', 'name')));
+            $teachers = $this->Course->Teacher->find('list', array('conditions' => array('Teacher.user_group_id' => TEACHER_GROUP_ID), 'fields' => array('id', 'name')));
             $this->set(compact('chapters', 'teachers'));
         }
     }
@@ -210,7 +286,7 @@ class CoursesController extends AppController {
             'fields' => array('id', 'course_id'),
             'conditions' => array(
                 'Enrollment.student_id' => $studentid,
-                'Enrollment.pass' => 1), 'recursive' => -1)
+                'OR' => array('Enrollment.pass' => 1, 'Enrollment.pass is null')), 'recursive' => -1)
         );
 
         $coursedatIds = $this->Course->find('all', array(
@@ -220,6 +296,9 @@ class CoursesController extends AppController {
         ));
         $chapter_dat = Set::classicExtract($coursedatIds, '{n}.Course.chapter_id');
         $conditions = Set::merge($conditions, array('NOT' => array('Course.chapter_id' => $chapter_dat)));
+
+        //$conditions = Set::merge($conditions, array('NOT' => array('Course.chapter_id' => $lop_kn_da_dang_ky)));
+
         $settings = array('conditions' => $conditions, 'contain' => $contain);
         /* Hết đoạn filter */
         $this->Paginator->settings = $settings;
@@ -228,7 +307,7 @@ class CoursesController extends AppController {
             $this->layout = 'ajax';
             $this->viewPath = $this->viewPath . '/ajax';
         } else {
-            $chapters = $this->Course->Chapter->find('list',array('conditions'=>array('NOT' => array('Chapter.id' => $chapter_dat))));
+            $chapters = $this->Course->Chapter->find('list', array('conditions' => array('NOT' => array('Chapter.id' => $chapter_dat))));
             $teachers = $this->Course->Teacher->find('list', array('conditions' => array('Teacher.user_group_id' => TEACHER_GROUP_ID), 'fields' => array('id', 'name')));
             $this->set(compact('chapters', 'teachers'));
         }
@@ -242,6 +321,25 @@ class CoursesController extends AppController {
      * @return void
      */
     public function view($id = null) {
+        if (!$this->Course->exists($id)) {
+            throw new NotFoundException(__('Invalid course'));
+        }
+        $contain = array(
+            'Chapter',
+            'Teacher' => array('fields' => array('id', 'name')),
+            'Enrollment', 'Period' => array('Room'));
+        $options = array('conditions' => array('Course.' . $this->Course->primaryKey => $id), 'contain' => $contain);
+//debug($options);
+        $this->pdfConfig = array(
+            'orientation' => 'portrait',
+            'filename' => 'Course_' . $id
+        );
+        $this->set('course', $this->Course->find('first', $options));
+    }
+
+    /* Hàm hiển thị thông tin lớp học cho sinh viên */
+
+    public function student_view($id = null) {
         if (!$this->Course->exists($id)) {
             throw new NotFoundException(__('Invalid course'));
         }
@@ -560,11 +658,10 @@ class CoursesController extends AppController {
         }
         $studentid = $this->UserAuth->getUserId();
         /* Kiểm tra đã đóng học phí các kỹ năng chưa đạt chưa */
-        $soknchuadat = $this->Course->Enrollment->find('count', array('Enrollment.student_id' => $studentid, 'Enrollment.pass' => 0, 'Enrollment.fee' => 0));
-
+        $soknchuadat = $this->Course->Enrollment->find('count', array('conditions' => array('Enrollment.student_id' => $studentid, 'Enrollment.pass' => 0, 'Enrollment.fee' => 0)));
         if ($soknchuadat > 0) {
-            $this->Session->setFlash('Bạn cần đóng học phí các kỹ năng chưa đạt để đăng ký các kỹ năng khác.','alert',array());
-            $this->redirect('/');
+            $this->Session->setFlash('Bạn cần đóng học phí các kỹ năng chưa đạt để đăng ký các kỹ năng khác.', 'alert', array('class' => 'alert-warning'));
+            $this->redirect(array('action' => 'index'));
         }
 
 //Kiểm tra Còn chổ trống để đăng ký không
@@ -572,33 +669,31 @@ class CoursesController extends AppController {
         $da_dk = $this->Course->field('enrolledno');
 
 //Kiểm tra trạng thái lớp
-        if (!$this->Course->field('trang_thai') != COURSE_ENROLLING) {
-            $this->Session->setFlash('Lớp đã hết hạn đăng ký');
-            $this->redirect('/');
+        if ($this->Course->field('handangky') < 1) {
+            $this->Session->setFlash('Lớp đã hết hạn đăng ký', 'alert', array('class' => 'alert-warning'));
+            $this->redirect(array('action' => 'index'));
         }
         if ($siso < $da_dk + 1) {
-            $this->Session->setFlash('Lớp đã hết chỗ trống');
-            $this->redirect('/');
+            $this->Session->setFlash('Lớp đã hết chỗ trống', 'alert', array('class' => 'alert-warning'));
+            $this->redirect(array('action' => 'index'));
         }
 
 //Kiểm tra đã đăng ký chưa
-        $da_dang_ky = $this->Course->Enrollment->find('count', array(
-            'Enrollment.student_id' => $studentid,
-            'Enrollment.pass is null',
-            'Enrollment.course_id' => $course_id)
-        );
+        $da_dang_ky = $this->Course->Enrollment->find('count', array('conditions' => array(
+                'Enrollment.student_id' => $studentid,
+                'Enrollment.course_id' => $course_id)
+        ));
         if ($da_dang_ky) {
-            $this->Session->setFlash('Bạn đã đăng ký kỹ năng này rồi.');
-            $this->redirect('/');
+            $this->Session->setFlash('Bạn đã đăng ký kỹ năng này rồi.', 'alert', array('class' => 'alert-warning'));
+            $this->redirect(array('action' => 'index'));
         }
 //Nếu đã học đủ 5 kỹ năng muốn học thêm kỹ năng khác
-        $sokndat = $this->Course->Enrollment->find('count', array('Enrollment.student_id' => $studentid, 'Enrollment.pass' => 1));
+        $sokndat = $this->Course->Enrollment->find('count', array('conditions' => array('Enrollment.student_id' => $studentid, 'Enrollment.pass' => 1)));
 
         if (($sokndat + 1) > 5) {
-            $this->Session->setFlash('Bạn đã hoàn thành 05 kỹ năng, để tham gia các kỹ năng khác bạn vui lòng liên hệ Trung tâm HTPT Dạy và Học');
-            $this->redirect('/');
+            $this->Session->setFlash('Bạn đã hoàn thành đủ 05 kỹ năng, để tham gia các kỹ năng khác bạn vui lòng liên hệ Trung tâm HTPT Dạy và Học');
+            $this->redirect(array('action' => 'index'));
         }
-
 //Nếu học hơn 3 kỹ năng tự chọn cũng phải đóng học phí
 //Kỹ năng tính đăng ký
         $kn_dang_ky = $this->Course->field('chapter_id');
@@ -608,7 +703,7 @@ class CoursesController extends AppController {
         if (in_array($kn_dang_ky, $kn_tu_chon_id)) {
 //Lấy course_id các lớp đã đăng ký
             $lop_kn_da_dang_ky = array();
-            $lop_kn_da_dang_ky = $this->Course->Enrollment->find('all', array('conditions' => array('Enrollment.student_id' => $studentid, 'Enrollment.pass' => 1), 'recursive' => -1));
+            $lop_kn_da_dang_ky = $this->Course->Enrollment->find('all', array('conditions' => array('Enrollment.student_id' => $studentid, 'OR' => array('Enrollment.pass is NULL', 'Enrollment.pass' => 1)), 'recursive' => -1));
             if (!empty($lop_kn_da_dang_ky)) {
                 $lop_kn_da_dang_ky = Set::classicExtract($lop_kn_da_dang_ky, '{n}.Enrollment.course_id');
             }
@@ -617,25 +712,25 @@ class CoursesController extends AppController {
                 'conditions' => array(
                     'Course.chapter_id' => $kn_tu_chon_id,
                     'Course.id' => $lop_kn_da_dang_ky,
-                    'Course.trang_thai' => COURSE_OPEN
-                ),
-                'recursive' => -1,
-                'fields' => array('id')));
-            if ($so_kn_tu_chon_da_hoc > 3) {
-                $this->Session->setFlash('Bạn đã đạt đủ 03 kỹ năng tự chọn. Để học kỹ năng khác bạn cần đóng học phí.');
-                $this->redirect('/');
+                //'Course.trang_thai' => COURSE_OPEN
+            )));
+            if ($so_kn_tu_chon_da_hoc > 2) {
+                $this->Session->setFlash('Bạn chỉ cần 01 kỹ năng tự chọn nữa thôi. Để đăng ký kỹ năng khác, bạn phải hủy kỹ năng đã đăng ký trước đó', 'alert', array('class' => 'alert-warning'));
+                $this->redirect(array('action' => 'index'));
             }
         }
-
 //Lưu dữ liệu đăng ký
-        $data = array('Enrollment.course_id' => $course_id, 'Enrollment.student_id' => $studentid);
+        $data = array('course_id' => $course_id, 'student_id' => $studentid);
+
+        $this->Course->Enrollment->create();
         if ($this->Course->Enrollment->save($data)) {
-            $this->Session->setFlash('Đã đăng ký thành công');
-            $this->redirect(array('action' => 'index', 'student' => true));
+            $this->Session->setFlash('Đăng ký thành công', 'alert', array('plugin' => 'BoostCake', 'class' => 'alert-success'));
+            $this->redirect(array('controller' => 'dashboards', 'action' => 'home', 'student' => true));
         } else {
             $this->Session->setFlash('Đăng ký thất bại');
             $this->redirect(array('action' => 'index', 'student' => true));
         }
     }
 
+    /* Hàm hủy đăng ký khóa học cho sinh viên */
 }

@@ -139,17 +139,31 @@ msgid "enroll"
 msgstr "<button class='btn btn-warning'>Đăng ký </button>"
 
 msgid "dashboard"
-msgstr "<i class='menu-icon fa fa-tachometer'></i><span class='menu-text'> Bàn làm việc</span>"
+msgstr "<i class='menu-icon fa fa-trophy'></i><span class='menu-text'> Bàn làm việc</span>"
 
 msgid "enrolled chapter"
 msgstr "<i class='menu-icon fa fa-caret-right'></i><span class='menu-text'>Đã tham gia </span>"
 
 msgid "dang ky"
-msgstr "<i class='menu-icon fa fa-caret-right'></i>Đăng ký"
+msgstr "<i class='menu-icon fa fa-thumb-tack'></i>Đăng ký"
 
 msgid "Student Name"
 msgstr "Sinh viên"
 
+msgid "profile"
+msgstr "<i class='menu-icon fa fa-file'></i>Hồ sơ"
+
+msgid "score"
+msgstr "<i class='menu-icon fa fa-trophy'></i>Kết quả"
+
+msgid "change_password"
+msgstr "<i class='menu-icon fa fa-key'></i>Đổi mật khẩu"
+
+msgid "change_password_btn"
+msgstr "<button class='btn btn-sm btn-primary btn-warning btn-round'><i class='icon-on-right ace-icon fa fa-key'></i>Đổi mật khẩu</button>"
+
+msgid "logout"
+msgstr "<i class='menu-icon fa fa-power-off'></i>Đăng xuất"
 
 msgid "Pass"
 msgstr "Kết quả"

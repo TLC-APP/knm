@@ -68,9 +68,35 @@ class UsersController extends UserMgmtAppController {
 
 //Hàm liệt kê danh sách sinh viên
     public function manager_student_index() {
+
         $this->User->unbindModel(array('hasMany' => array('LoginToken')));
-        $conditions = array('User.user_group_id' => 2);
+        /* Kiểm tra có yêu cầu filter ko */
+        $conditions = array();
+        if (isset($this->request->data['User']['username']) && !empty($this->request->data['User']['username'])) {
+            $conditions = Set::merge($conditions, array('User.username like' => '%' . $this->request->data['User']['username'] . '%'));
+        }
+        if (isset($this->request->data['User']['first_name']) && !empty($this->request->data['User']['first_name'])) {
+            $conditions = Set::merge($conditions, array('User.first_name like' => '%' . $this->request->data['User']['first_name'] . '%'));
+        }
+        if (isset($this->request->data['User']['last_name']) && !empty($this->request->data['User']['last_name'])) {
+            $conditions = Set::merge($conditions, array('User.last_name like' => '%' . $this->request->data['User']['last_name'] . '%'));
+        }
+
+        if (isset($this->request->data['User']['classroom_id']) && !empty($this->request->data['User']['classroom_id'])) {
+            $conditions = Set::merge($conditions, array('User.classroom_id' => $this->request->data['User']['classroom_id']));
+        }
+
+        if (isset($this->request->data['User']['department_id']) && !empty($this->request->data['User']['department_id'])) {
+            $conditions = Set::merge($conditions, array('User.department_id' => $this->request->data['User']['department_id']));
+        }
+        if (isset($this->request->data['User']['user_group_id']) && !empty($this->request->data['User']['user_group_id'])) {
+            $conditions = Set::merge($conditions, array('User.user_group_id' => $this->request->data['User']['user_group_id']));
+        }
+        $conditions = Set::merge($conditions, array('User.user_group_id' => 2));
+
         $this->Paginator->settings = array('conditions' => $conditions);
+
+
         $users = $this->Paginator->paginate();
         $this->set('users', $users);
         if ($this->request->is('ajax')) {
@@ -93,17 +119,35 @@ class UsersController extends UserMgmtAppController {
     public function viewUser($userId = null) {
         if (!empty($userId)) {
             $user = $this->User->read(null, $userId);
-            debug($user);
-            die;
             $this->set('user', $user);
         } else {
             $this->redirect('/allUsers');
         }
     }
 
+    /* Hàm show thông tin sinh viên sau khi search */
+
+    public function viewStudent($studentId = null) {
+
+        if ($this->User->exists($studentId)) {
+            $contain = array('Province', 'Classroom' => array('Department'), 'Enrollment' => array('Course' => array(
+                        'fields' => array('id', 'name', 'chapter_id', 'trang_thai'), 'Chapter'
+            )));
+            $student = $this->User->find('first', array('contain' => $contain, 'conditions' => array('User.id ' => $studentId)));
+            if (!empty($student)) {
+                //Tim thay sinh vien
+                $this->set('student', $student);
+            }
+        } else {
+            $this->Session->setFlash('Rất tiếc, không tìm thấy sinh viên có ID' . $studentId, 'alert', array('class' => 'alert-warning'));
+
+            $this->redirect(array('plugin' => false, 'action' => 'home', 'controller' => 'dashboards'));
+        }
+    }
+
     public function myprofile() {
         $this->autoRender = false;
-        $this->redirect(array('action' => $this->UserAuth->getGroupAlias() . 'profile'));
+        $this->redirect(array('action' => 'profile', $this->UserAuth->getGroupAlias() => true));
     }
 
     public function editUser($id) {
@@ -117,7 +161,7 @@ class UsersController extends UserMgmtAppController {
      * @access public
      * @return array
      */
-    public function studentprofile() {
+    public function student_profile() {
         $userId = $this->UserAuth->getUserId();
         $contain = array('Province', 'Classroom' => array('Department' => array('fields' => array('Department.id', 'Department.name'))), 'UserGroup');
         //$fields=array('department_id','user_group_id','id','name','borndate','bornplace','sex','email','phone','classroom_id','username','last_login','created');
@@ -388,7 +432,7 @@ class UsersController extends UserMgmtAppController {
                 $this->User->save($user, false);
                 $this->LoginToken->deleteAll(array('LoginToken.user_id' => $userId), false);
                 $this->Session->setFlash(__('Đổi password thành công.'), 'alert', array('plugin' => 'BoostCake', 'class' => 'alert-success'));
-                $this->redirect('/dashboard/home');
+                $this->redirect('/myprofile');
             }
         }
     }
@@ -486,6 +530,46 @@ class UsersController extends UserMgmtAppController {
                 $this->User->save($this->request->data, false);
                 $this->Session->setFlash('Đã thêm user mới thành công', 'alert', array('plugin' => 'BoostCake', 'class' => 'alert-success'));
                 $this->redirect('/them-giang-vien');
+            }
+        }
+    }
+
+    /**
+     * Used to edit user on the site by student
+     *
+     * @access public
+     * @param integer $userId user id of user
+     * @return void
+     */
+    public function student_profile_edit($userId = null) {
+        $bornplaces = $this->User->Province->find('list');
+        $classrooms = $this->User->Classroom->find('list');
+        $this->set(compact('bornplaces', 'classrooms'));
+        $this->User->id = $userId;
+
+        if (!$this->User->exists()) {
+            throw new Exception('Lỗi không tồn tại người dùng');
+        }
+        if ($this->UserAuth->getUserId() != $userId) {
+            $this->redirect('accessDenied');
+        }
+        if ($this->request->is(array('post', 'put'))) {
+            $this->request->data['User']['borndate'] = $this->covertDateString($this->request->data['User']['borndate'], 'Y-m-d');
+            $this->User->set($this->data);
+            if ($this->User->RegisterValidate()) {
+                $this->User->save($this->request->data, false);
+                $this->Session->setFlash(__('Đã cập nhật thông tin thành công'), 'alert', array('plugin' => 'BoostCake', 'class' => 'alert-success'));
+
+                $this->redirect(array('action' => 'profile'));
+            } else {
+                $this->Session->setFlash(__('Validate không thành công'), 'alert', array('plugin' => 'BoostCake', 'class' => 'alert-success'));
+            }
+        } else {
+            $user = $this->User->read(null, $userId);
+            $this->request->data = null;
+            if (!empty($user)) {
+                $user['User']['password'] = '';
+                $this->request->data = $user;
             }
         }
     }
@@ -822,19 +906,39 @@ class UsersController extends UserMgmtAppController {
 
     public function search() {
         if (isset($this->request->data['username']) && !empty($this->request->data['username'])) {
-            $contain = array('Province', 'Classroom' => array('Department'), 'Enrollment' => array('Course' => array(
-                        'fields' => array('id', 'name', 'chapter_id'), 'Chapter'
-            )));
-            $student = $this->User->find('first', array('contain' => $contain, 'conditions' => array('User.username like' => '%' . $this->request->data['username'] . '%')));
+
+            $student = $this->User->find('first', array('recursive' => -1, 'conditions' => array('User.username like' => '%' . $this->request->data['username'] . '%')));
             if (!empty($student)) {
-                //debug($student);die;
-                //Tim thay sinh vien
-                $this->set('student', $student);
+
+                $this->redirect(array('controller' => 'users', 'action' => 'viewStudent', $student['User']['id']));
             } else {
                 //Khong tim thay sinh vien
                 $this->Session->setFlash('Rất tiếc, không tìm thấy sinh viên có mã số ' . $this->request->data['username'], 'alert', array('class' => 'alert-warning'));
                 $this->redirect(array('plugin' => false, 'action' => 'home', 'controller' => 'dashboards'));
             }
+        } else {
+
+            $this->redirect(array('plugin' => false, 'action' => 'home', 'controller' => 'dashboards'));
+        }
+    }
+
+    /* Đổi avatar */
+
+    public function changeAvatar() {
+        $id=$this->UserAuth->getUserId();
+        $this->User->id = $id;
+        if ($this->request->is(array('post', 'put'))) {
+            if ($this->User->save($this->request->data)) {
+                return $this->redirect(array('action' => 'myprofile'));
+            } else {
+                $this->Session->setFlash('Thao tác thất bại', 'alert', array('class' => 'alert-warning'));
+            }
+        } else {
+            $options = array('conditions' => array('User.' . $this->User->primaryKey => $id), 'recursive' => -1, 'fields' => array('id', 'name',
+                    'photo', 'photo_dir'));
+            $user = $this->User->find('first', $options);
+            $this->set('user', $user);
+            $this->request->data = $user;
         }
     }
 

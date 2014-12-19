@@ -38,7 +38,7 @@
 
     <ul class="nav nav-list">
         <li class="">
-            <a href="<?php echo SUB_DIR . '/dashboards' ?>">
+            <a href="<?php echo SUB_DIR . '/dashboards/home' ?>">
                 <i class="menu-icon fa fa-tachometer"></i>
                 <span class="menu-text"> Bàn làm việc </span>
             </a>
@@ -138,11 +138,18 @@
 
                     <b class="arrow"></b>
                 </li>
-                
+
 
             </ul>
         </li>
+        <li class="" class="dropdown-toggle">
+            <a href="/knm/manager/certs">
+                <i class="menu-icon fa fa-list-alt"></i>
+                <span class="menu-text"> Chứng nhận </span>
+            </a>
 
+            <b class="arrow"></b>
+        </li>
         <li class="" class="dropdown-toggle">
             <a href="#">
                 <i class="menu-icon fa fa-list-alt"></i>

@@ -9,7 +9,13 @@ class User extends UserMgmtAppModel {
         'name' => 'CONCAT(last_name, " ", first_name)'
     );
     public $displayField = 'name';
-    public $actsAs = array('Containable');
+    public $actsAs = array('Containable', 'Upload.Upload' => array(
+            'photo' => array(
+                'fields' => array(
+                    'dir' => 'photo_dir'
+                )
+            )
+    ));
 
     /**
      * This model belongs to following models
@@ -461,8 +467,8 @@ Thanks,\n" .
     }
 
     public function duocPhanCong($user_id) {
-        $users = $this->find('first', array('contain' => array('Chapter'=>array('fields'=>array('id'))), 'conditions' => array('id' => $user_id)));
-        return count($users['Chapter'])>0;
+        $users = $this->find('first', array('contain' => array('Chapter' => array('fields' => array('id'))), 'conditions' => array('id' => $user_id)));
+        return count($users['Chapter']) > 0;
     }
 
 }

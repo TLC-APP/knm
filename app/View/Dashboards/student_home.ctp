@@ -21,7 +21,7 @@
                         <?php echo ($enrollment['Course']['Chapter']['name']) . '<span class="badge text-info">' . $enrollment['Course']['Chapter']['ChapterType']['name'] . '</span>'; ?>
                     </td>
                     <td>
-                        <?php echo $this->Html->link($enrollment['Course']['name'], array('controller' => 'courses', 'action' => 'view', $enrollment['Course']['id'])); ?>
+                        <?php echo $this->Html->link($enrollment['Course']['name'], array('student' => true, 'controller' => 'courses', 'action' => 'view', $enrollment['Course']['id'])); ?>
                     </td>
                     <td>
                         <?php echo $this->element('course_status', array('status' => $enrollment['Course']['trang_thai'])); ?>
@@ -49,18 +49,29 @@
                             echo $fee;
                         }
                         ?>&nbsp;</td>
-                    <td><?php echo ($enrollment['Enrollment']['absence']) ? "<i class='fa fa-times text-danger'></i>" : ""; ?>&nbsp;</td>
+                    <td>
+                        <?php echo ($enrollment['Enrollment']['absence']) ? "<i class='fa fa-times text-danger'></i>" : ""; ?>&nbsp;
+                    </td>
                     <td><?php
                         if ($enrollment['Course']['trang_thai'] == COURSE_ENROLLING && $enrollment['Course']['handangky'] > 0) {
-                            echo $this->Html->link('Hủy', array('controller' => 'courses', 'action' => 'unenroll', $enrollment['Course']['id']), array('class' => 'btn btn-danger'));
+                            echo $this->Form->postLink('Hủy', array('controller' => 'enrollments', 'action' => 'unenroll', $enrollment['Enrollment']['id']), array('class' => 'btn btn-danger'), 'Bạn chắc chắn muốn thực hiện thao tác này ?');
                         }
                         ?>
                         <?php //echo $this->Form->postLink('<span class="fa fa-trash-o"> Hủy</span>',  array('controller' => 'courses', 'action' => 'unenroll', $enrollment['Course']['id']), array('escape' => false, 'data-toggle' => "tooltip", 'data-placement' => "left", 'title' => "Hủy tham gia"), __('Bạn chắc chắn hủy tham gia lớp # %s?', $enrollment['Course']['name']));
                         ?></td>
                 </tr>
-                    <?php endforeach; ?>
+            <?php endforeach; ?>
         </tbody>
     </table>
+    <h2></h2>
+    <div class="alert alert-info">
+        <button data-dismiss="alert" class="close" type="button">
+            <i class="ace-icon fa fa-times"></i>
+        </button>
+
+        <?php echo $message ?>
+        <br>
+    </div>
 
 </div>
 

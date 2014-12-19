@@ -4,7 +4,13 @@
     <div class="col-xs-12 col-sm-3 center">
         <div>
             <span class="profile-picture">
-                <img id="avatar" class="editable img-responsive editable-click editable-empty" alt="Alex's Avatar" src="assets/avatars/profile-pic.jpg" style="display: block;"></img>
+                <a href="<?php echo SUB_DIR?>/changeAvatar">
+                    <?php if (!empty($user['User']['photo'])): ?>
+                        <?php echo $this->Html->image("/files/user/photo/" . h($user['User']['photo_dir']) . '/' . h($user['User']['photo']), array('width' => '80px', 'style' => "display: block;")) ?>
+                    <?php else : ?>
+                        <?php echo $this->Html->image($user['User']['sex'] . ".jpg", array('width' => '80px', 'style' => "display: block;")) ?>
+                    <?php endif; ?>
+                </a>
             </span>
 
             <div class="space-4"></div>
@@ -48,83 +54,13 @@
         </div>
 
         <div class="space-6"></div>
-        <?php if ($this->UserAuth->getGroupId() == 'admin'): ?>
-            <div class="profile-contact-info">
-                <div class="profile-contact-links align-left">
 
-                    <a href="#" class="btn btn-link">
-                        <i class="ace-icon fa fa-plus-circle bigger-120 green"></i>
-                        Add as a friend
-                    </a>
-
-                    <a href="#" class="btn btn-link">
-                        <i class="ace-icon fa fa-envelope bigger-120 pink"></i>
-                        Send a message
-                    </a>
-
-                    <a href="#" class="btn btn-link">
-                        <i class="ace-icon fa fa-globe bigger-125 blue"></i>
-                        www.alexdoe.com
-                    </a>
-                </div>
-                <div class="space-6"></div>
-            </div>
-
-        <?php endif; ?>
 
         <div class="hr hr16 dotted"></div>
     </div>
 
     <div class="col-xs-12 col-sm-9">
-        <div class="center">
-            <span class="btn btn-app btn-sm btn-light no-hover">
-                <span class="line-height-1 bigger-170 blue"> <i class="fa fa-check"></i> </span>
 
-                <br>
-                <span class="line-height-1 smaller-90"> Tìm kiếm </span>
-            </span>
-
-            <span class="btn btn-app btn-sm btn-yellow no-hover">
-                <span class="line-height-1 bigger-170"> <i class="fa fa-check"></i> </span>
-
-                <br>
-                <span class="line-height-1 smaller-90"> Thuyết trình </span>
-            </span>
-
-            <span class="btn btn-app btn-sm btn-pink no-hover">
-                <span class="line-height-1 bigger-170">  </span>
-
-                <br>
-                <span class="line-height-1 smaller-90"> Vấn đề </span>
-            </span>
-
-            <span class="btn btn-app btn-sm btn-grey no-hover">
-                <span class="line-height-1 bigger-170">  </span>
-
-                <br>
-                <span class="line-height-1 smaller-90"> Bản thân </span>
-            </span>
-
-            <span class="btn btn-app btn-sm btn-success no-hover">
-                <span class="line-height-1 bigger-170">  </span>
-
-                <br>
-                <span class="line-height-1 smaller-90"> Sáng tạo </span>
-            </span>
-
-            <span class="btn btn-app btn-sm btn-primary no-hover">
-                <span class="line-height-1 bigger-170">  </span>
-
-                <br>
-                <span class="line-height-1 smaller-90"> Xung đột </span>
-            </span>
-            <span class="btn btn-app btn-sm btn-primary no-hover">
-                <span class="line-height-1 bigger-170">  </span>
-
-                <br>
-                <span class="line-height-1 smaller-90"> Thay đổi </span>
-            </span>
-        </div>
 
         <div class="space-12"></div>
 
@@ -208,12 +144,12 @@
 
         <div class="space-6"></div>
 
-        <div class="center">
+        <div class="btn-toolbar">
             <?php echo $this->Html->link('<button type="button" class="btn btn-sm btn-primary btn-white btn-round">
                 <i class="icon-on-right ace-icon fa fa-edit"></i>
                 <span class="bigger-110">Cập nhật</span>
-            </button>', array('action' => 'editUser', $user['User']['id']), array('escape' => false)); ?>
-
+            </button>', array('student' => true, 'action' => 'profile_edit', $user['User']['id']), array('escape' => false)); ?>
+            <?php echo $this->Html->link(__('change_password_btn'), array('student' => false, 'action' => 'changePassword'), array('escape' => false)); ?>
         </div>
     </div>
 </div>

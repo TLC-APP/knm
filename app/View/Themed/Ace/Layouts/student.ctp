@@ -19,7 +19,7 @@
             <?php echo $this->element('student_left_menu'); ?>
 
             <div class="main-content">
-                <?php echo $this->element('breadcrumbs'); ?>
+                <?php //echo $this->element('breadcrumbs'); ?>
 
                 <div class="page-content">
                     <?php echo $this->Session->flash(); ?>

@@ -67,7 +67,7 @@ Cache::config('default', array('engine' => 'File'));
  * CakePlugin::load('DebugKit'); //Loads a single plugin named DebugKit
  *
  */
-CakePlugin::load(array('BoostCake', 'DebugKit','ExcelReader', 'Usermgmt' => array('routes' => true, 'bootstrap' => true)));
+CakePlugin::load(array('BoostCake', 'Upload', 'ExcelReader','DebugKit', 'Usermgmt' => array('routes' => true, 'bootstrap' => true)));
 /**
  * You can attach event listeners to the request lifecycle as Dispatcher Filter. By default CakePHP bundles two filters:
  *
@@ -214,6 +214,11 @@ if (!defined('KY_NANG_BAT_BUOC')) {
 
 if (!defined('KY_NANG_KHONG_TO_CHUC_HOC')) {
     define('KY_NANG_KHONG_TO_CHUC_HOC', 3);
+}
+
+/* Học phí phải đóng khi không đạt */
+if (!defined('HOCPHI')) {
+    define('HOCPHI', 50000);
 }
 
 if (!defined('APP_NAME')) {
