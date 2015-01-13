@@ -1,4 +1,5 @@
 <div class="messages form">
+    <?php //echo $this->element('tinymce'); ?>
     <?php
     echo $this->Form->create('Message', array(
         'inputDefaults' => array(
@@ -19,9 +20,8 @@
         echo $this->Form->input('meta');
         echo $this->Form->input('content');
         echo $this->Form->input('published');
-        echo $this->Form->input('receive_user_id');
         echo $this->Form->input('user_group_id');
         ?>
     </fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
+<?php echo $this->Form->end('Thực hiện'); ?>
 </div>

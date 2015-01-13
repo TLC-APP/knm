@@ -99,7 +99,7 @@
 
                 <div class="profile-info-value">
 
-                    <span class="editable editable-click" id="lop"><?php echo $student['Classroom']['name'] ?></span>
+                    <span class="editable editable-click" id="lop"><?php echo $student['Classroom']['code'] ?></span>
                 </div>
             </div>
             <div class="profile-info-row">
@@ -170,6 +170,7 @@
                 <i class="icon-on-right ace-icon fa fa-edit"></i>
                 <span class="bigger-110">Cập nhật</span>
             </button>', array('action' => 'editUser', $student['User']['id']), array('escape' => false)); ?>
+            <?php echo $this->Html->link('Đổi mật khẩu', array('action' => 'changeUserPassword', $student['User']['id']), array('escape' => false)); ?>
 
         </div>
     </div>
@@ -181,6 +182,7 @@
         <th>Kỹ năng</th>
         <th>Mã lớp</th>
         <th>Tình trạng lớp</th>
+        <th>Ngày đăng ký</th>
         <th>Kết quả</th>
         <th>Học phí</th>
         <th>Số biên lai</th>
@@ -193,9 +195,12 @@
                 <tr>
                     <td><?php echo $enroll['Course']['Chapter']['name'] ?></td>
                     <td><?php echo $enroll['Course']['name'] ?></td>
+
                     <td>                        
                         <?php echo $this->element('course_status', array('status' => $enroll['Course']['trang_thai'])); ?>
                     </td>
+                    <td><?php echo $enroll['created']; ?></td>
+
                     <td><?php
                         if (is_null($enroll['pass'])) {
                             $pass = "Chưa cập nhật";
@@ -221,8 +226,19 @@
                         }
                         ?></td>
                     <td id="bienlai_td_<?php echo $enroll['id'] ?>"><?php echo ($enroll['fee_paper_no']) ?></td>
-                    <td><?php echo ($enroll['absence']) ? "<i class='fa fa-times text-danger'></i>" : ""; ?></td>
-                    <td><?php echo $enroll['absence_reason']; ?></td>
+
+                    <td id="vang_<?php echo $enroll['id']; ?>"><?php
+                        $vang = "";
+
+                        if ($enroll['absence']) {
+                            $vang = $this->Html->link("<i class='fa fa-check text-success'></i>", array('plugin' => false, 'manager' => true, 'controller' => 'enrollments', 'action' => 'huy_vang', $enroll['id']), array('class' => 'huy_vang_btn', 'escape' => false));
+                        } else {
+                            $vang = $this->Html->link("<i class='fa fa-times text-danger'></i>", array('plugin' => false, 'manager' => true, 'controller' => 'enrollments', 'action' => 'vang', $enroll['id']), array('class' => 'vang_btn', 'escape' => false));
+                        }
+                        echo $vang;
+                        ?>
+                    </td>
+                    <td id="ly_do_vang_<?php echo $enroll['id']; ?>"><?php echo $enroll['absence_reason']; ?></td>
 
                 </tr>
 
@@ -252,11 +268,35 @@
         echo $this->Form->end();
         ?>
     </div>
+
+    <div class="bootbox modal">
+        <!-- The login modal. Don't display it initially -->
+        <?php
+        echo $this->Form->create('Enrollment', array(
+            //'url' => array('plugin' => false, 'manager' => true, 'controller' => 'enrollments', 'action' => 'dong_hoc_phi'),
+            'inputDefaults' => array(
+                'div' => 'form-group',
+                'wrapInput' => false,
+                'class' => 'form-control'
+            ),
+            'class' => 'form-horizontal',
+            'id' => 'vangform',
+                //'style' => 'display:none;'
+        ));
+        ?>
+        <?php
+        //echo $this->Form->input('id', array('type' => 'hidden', 'value' => $enroll['id']));
+        echo $this->Form->input('absence_reason', array('label' => 'Lý do vắng', 'placeholder' => 'Về quê (Buổi 1...)'));
+        //echo $this->Form->button('Thực hiện', array('type' => 'button', 'class' => "btn btn-sm", 'id' => 'addButton'));
+        echo $this->Form->end();
+        ?>
+    </div>
+
 </div>
 <script type="text/javascript">
-    $(document).ready(function () {
+    $(document).ready(function() {
         //Xử lý lúc clich nút đóng học phí
-        $(document).on("click", "a.dong_hoc_phi_btn", function (e) {
+        $(document).on("click", "a.dong_hoc_phi_btn", function(e) {
             var _this = this;
             e.preventDefault();
             bootbox.dialog({
@@ -267,12 +307,12 @@
                     success: {
                         label: "Thực hiện!",
                         className: "btn-success",
-                        callback: function () {
+                        callback: function() {
                             e.preventDefault();
                             var $form = $('#hocphiform'), // The form instance
                                     bv = $form.data('bootstrapValidator');   // BootstrapValidator instance
 
-                            $.post($(_this).attr('href'), $form.serialize(), function (result) {
+                            $.post($(_this).attr('href'), $form.serialize(), function(result) {
                                 if (!result.success) {
                                     bootbox.alert(result.message);
                                 } else {                                 // ... Process the result ...
@@ -290,12 +330,12 @@
                         }
                     }
                 }
-            }).on('shown.bs.modal', function () {
+            }).on('shown.bs.modal', function() {
                 $('#hocphiform')
                         .show()                                 // Show the login form
                         .bootstrapValidator('resetForm', true); // Reset form
             })
-                    .on('hide.bs.modal', function (e) {                                 // Bootbox will remove the modal (including the body which contains the login form)
+                    .on('hide.bs.modal', function(e) {                                 // Bootbox will remove the modal (including the body which contains the login form)
                         // after hiding the modal
                         // Therefor, we need to backup the form
                         $('#hocphiform').hide().appendTo('body');
@@ -305,12 +345,12 @@
 
         //Xử lý lúc hủy đóng học phí
 
-        $(document).on("click", "a.huy_dong_hoc_phi_btn", function (e) {
+        $(document).on("click", "a.huy_dong_hoc_phi_btn", function(e) {
             var _this = this;
             e.preventDefault();
-            bootbox.confirm("Bạn chắc muốn thực hiện?", function (result) {
+            bootbox.confirm("Bạn chắc muốn thực hiện?", function(result) {
                 if (result) {
-                    $.post($(_this).attr('href'), function (result) {
+                    $.post($(_this).attr('href'), function(result) {
                         if (!result.success) {
                             bootbox.alert(result.message);
                         } else {                                 // ... Process the result ...
@@ -322,6 +362,77 @@
                             td.html('<a href="<?php echo SUB_DIR; ?>/manager/enrollments/dong_hoc_phi/' + result.id + '" class="dong_hoc_phi_btn"><i class="fa fa-times text-danger"></i></a>');
 
 
+                        }
+
+                    }, 'json');
+                }
+            });
+
+        });
+        //Xử lý lúc clich nút vắng
+        $(document).on("click", "a.vang_btn", function(e) {
+
+            var _this = this;
+            e.preventDefault();
+            bootbox.dialog({
+                message: $('#vangform'),
+                buttons: {
+                    success: {
+                        label: "Thực hiện!",
+                        className: "btn-success",
+                        callback: function() {
+                            e.preventDefault();
+                            var $form = $('#vangform'), // The form instance
+                                    bv = $form.data('bootstrapValidator');   // BootstrapValidator instance
+
+                            $.post($(_this).attr('href'), $form.serialize(), function(result) {
+                                if (!result.success) {
+                                    bootbox.alert(result.message);
+                                } else {                                 // ... Process the result ...
+                                    //bootbox.alert(result.sobienlai);
+                                    // Hide the modal containing the form
+                                    var td = $("#vang_" + result.id);
+                                    var ly_do_vang = $("#ly_do_vang_" + result.id);
+                                    td.html('<a href="<?php echo SUB_DIR; ?>/manager/enrollments/huy_vang/' + result.id + '" class="huy_vang_btn"><i class="fa fa-check text-success"></i></a>');
+                                    ly_do_vang.html(result.ly_do_vang);
+                                    $form.parents('.bootbox').modal('hide');
+
+                                }
+
+                            }, 'json');
+                        }
+                    }
+                }
+            }).on('shown.bs.modal', function() {
+                $('#vangform')
+                        .show()                                 // Show the login form
+                        .bootstrapValidator('resetForm', true); // Reset form
+            })
+                    .on('hide.bs.modal', function(e) {                                 // Bootbox will remove the modal (including the body which contains the login form)
+                        // after hiding the modal
+                        // Therefor, we need to backup the form
+                        $('#vangform').hide().appendTo('body');
+                    });
+            return false;
+        });
+        //Xử lý lúc hủy đóng học phí
+
+        $(document).on("click", "a.huy_vang_btn", function(e) {
+            var _this = this;
+            e.preventDefault();
+
+            bootbox.confirm("Bạn chắc muốn thực hiện?", function(result) {
+                if (result) {
+                    $.post($(_this).attr('href'), function(result) {
+                        if (!result.success) {
+                            bootbox.alert(result.message);
+                        } else {                                 // ... Process the result ...
+                            //bootbox.alert(result.sobienlai);
+                            // Hide the modal containing the form
+                            var td = $("#vang_" + result.id);
+                            var ly_do_vang = $("#ly_do_vang_" + result.id);
+                            td.html('<a href="<?php echo SUB_DIR; ?>/manager/enrollments/vang/' + result.id + '" class="vang_btn"><i class="fa fa-times text-danger"></i></a>');
+                            ly_do_vang.html("");
                         }
 
                     }, 'json');

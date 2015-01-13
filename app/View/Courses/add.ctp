@@ -132,10 +132,10 @@
 <!-- /.page-content-area -->
 <script type="text/javascript">
 
-    jQuery(function ($) {
+    jQuery(function($) {
         /*Xử lý tìm kiếm buổi học*/
         var search_period_form = $("#search_period_form");
-        search_period_form.on("submit", function (event) {
+        search_period_form.on("submit", function(event) {
 
             event.preventDefault();
             var course_name = $("#search_course_name").val();
@@ -143,7 +143,7 @@
                 type: "post",
                 url: "/knm/periods/searchByCourseName?course_name=" + course_name,
                 dataType: 'json',
-                success: function (data) {
+                success: function(data) {
                     if (!data.isFound) {
                         bootbox.alert('Không tìm thấy lớp ' + course_name);
                     } else {
@@ -158,18 +158,18 @@
             });
 
         });
-        var periodSource = '/knm/periods/managerIndex?teacher_id=' + $("#CourseFilterTeacherId").val() + "&chapter_id=" + $("#CourseFilterChapterId").val() + "&trang_thai=" + $("#CourseFilterTrangThai").val();
+        var periodSource = '/knm/manager/periods/index?teacher_id=' + $("#CourseFilterTeacherId").val() + "&chapter_id=" + $("#CourseFilterChapterId").val() + "&trang_thai=" + $("#CourseFilterTrangThai").val();
         var period = $('#period').fullCalendar(
                 {
                     events: {
                         url: periodSource,
                         cache: true
                     },
-                    eventRender: function (event, element) {
+                    eventRender: function(event, element) {
                         /*Context menu*/
                         element.contextmenu({
                             target: '#context-menu2',
-                            onItem: function (context, e) {
+                            onItem: function(context, e) {
                                 console.log(e);
                                 alert($(e.target).text());
                             }
@@ -184,14 +184,14 @@
                             content: content
                         });
                     },
-                    eventAfterAllRender: function (view) {
+                    eventAfterAllRender: function(view) {
                         var allEvents = $('#period').fullCalendar('clientEvents');
                         $("#periodno").html('Có tất cả ' + allEvents.length + ' buổi');
                     },
-                    eventClick: function (calEvent, jsEvent, view) {
-                        bootbox.confirm("Bạn chắc xóa lớp" + calEvent.title + ' không ? Lưu ý: Nếu xóa thì cả 2 buổi học thuộc lớp cũng bị xóa theo.', function (result) {
+                    eventClick: function(calEvent, jsEvent, view) {
+                        bootbox.confirm("Bạn chắc xóa lớp" + calEvent.title + ' không ? Lưu ý: Nếu xóa thì cả 2 buổi học thuộc lớp cũng bị xóa theo.', function(result) {
                             if (result) {
-                                $.post("/knm/courses/ajax_delete/" + calEvent.course_id, function (result) {
+                                $.post("/knm/courses/ajax_delete/" + calEvent.course_id, function(result) {
                                     if (!result.success) {
                                         bootbox.alert(result.message);
                                     } else {                                     // ... Process the result ...
@@ -217,17 +217,17 @@
                 url: teachingPlanSource,
                 cache: true
             },
-            eventRender: function (event, element) {
+            eventRender: function(event, element) {
                 $(element).find(".fc-time").remove();
                 element.qtip({
                     content: event.teacher_name
                 });
             },
-            eventAfterAllRender: function (view) {
+            eventAfterAllRender: function(view) {
                 var allEvents = $('#calendar').fullCalendar('clientEvents');
                 $("#teachingplanno").html('Có tất cả ' + allEvents.length + ' buổi');
             },
-            eventClick: function (calEvent, jsEvent, view) {
+            eventClick: function(calEvent, jsEvent, view) {
                 if (calEvent.name == 2) {
                     var lastweek = moment(calEvent.start);
                     lastweek.add(-7, "days");
@@ -239,7 +239,7 @@
                     bootbox.alert("Đã tạo lớp cho kế hoạch này");
                     return false;
                 }
-                Pace.track(function () {
+                Pace.track(function() {
                     jQuery.ajax(
                             {
                                 type: 'POST',
@@ -248,7 +248,7 @@
                                     start: calEvent.start.format('YYYY-MM-DD H:m:s'),
                                     session: calEvent.session
                                 },
-                                success: function (data) {
+                                success: function(data) {
                                     bootbox
                                             .dialog({
                                                 title: 'Thêm lớp kỹ năng buổi ' + calEvent.title + ' ngày ' + calEvent.start.format('DD/MM/YYYY'),
@@ -257,15 +257,20 @@
                                                     {
                                                         label: "Thực hiện",
                                                         className: "btn btn-primary pull-left",
-                                                        callback: function () {
+                                                        callback: function() {
                                                             var form = $("#managerAddCourseForm");
                                                             /*Gui data de luu lai*/
-                                                            Pace.track(function () {
+                                                            Pace.track(function() {
                                                                 jQuery.ajax({
                                                                     url: '/knm/courses/managerAddCourse', // URL to the local file
                                                                     type: 'POST', // POST or GET
+                                                                    dataType: "json",
                                                                     data: form.serialize(), // Data to pass along with your request
-                                                                    success: function (data, status) {
+                                                                    success: function(data, status) {
+                                                                        if (!data.success) {
+                                                                            alert(data.message);
+                                                                            return false;
+                                                                        }
                                                                         calendar.fullCalendar('refetchEvents');
                                                                         period.fullCalendar('refetchEvents');
                                                                         form.parents('.bootbox').modal('hide');
@@ -292,7 +297,7 @@
                                                     {
                                                         label: "Đóng",
                                                         className: "btn btn-default pull-left",
-                                                        callback: function () {
+                                                        callback: function() {
                                                             //Xử lý khi click nut đóng
                                                         }
                                                     }],
@@ -316,17 +321,17 @@
         }
 
         /*Buổi*/
-        $("#TeachingPlanFilterSession").on("change", function () {
+        $("#TeachingPlanFilterSession").on("change", function() {
             reloadTeachingPlan();
         });
         /*Giảng viên*/
-        $("#TeachingPlanFilterTeacherId").on("change", function () {
+        $("#TeachingPlanFilterTeacherId").on("change", function() {
             reloadTeachingPlan();
         });
 
         /*CourseFilter*/
         function reloadPeriodEvents() {
-            var newPeriodSource = '/knm/periods/managerIndex?teacher_id=' + $("#CourseFilterTeacherId").val() + "&chapter_id=" + $("#CourseFilterChapterId").val() + "&trang_thai=" + $("#CourseFilterTrangThai").val();
+            var newPeriodSource = '/knm/manager/periods/index?teacher_id=' + $("#CourseFilterTeacherId").val() + "&chapter_id=" + $("#CourseFilterChapterId").val() + "&trang_thai=" + $("#CourseFilterTrangThai").val();
             $('#period').fullCalendar('removeEventSource', periodSource);
             $('#period').fullCalendar('refetchEvents');
             $('#period').fullCalendar('addEventSource', newPeriodSource);
@@ -334,14 +339,14 @@
             periodSource = newPeriodSource;
         }
         /*Thay doi giang vien */
-        $("#CourseFilterTeacherId").on("change", function () {
+        $("#CourseFilterTeacherId").on("change", function() {
             reloadPeriodEvents();
         });
-        $("#CourseFilterTrangThai").on("change", function () {
+        $("#CourseFilterTrangThai").on("change", function() {
             reloadPeriodEvents();
         });
         /*Thay doi chapter */
-        $("#CourseFilterChapterId").on("change", function () {
+        $("#CourseFilterChapterId").on("change", function() {
             reloadPeriodEvents();
         });
         /*Hết đoạn xử lý filter*/

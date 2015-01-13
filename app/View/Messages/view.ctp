@@ -5,7 +5,7 @@
     <dl>
         <dt></dt>
         <dd>
-            <?php echo h($message['Message']['content']); ?>
+            <?php echo ($message['Message']['content']); ?>
             &nbsp;
         </dd>
 

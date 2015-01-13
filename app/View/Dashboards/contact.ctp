@@ -6,7 +6,7 @@
                 <li><b>Khu hiệu bộ, phòng: A11.408</b></li>
                 <li><b>Địa chỉ: Số 126, QL 53, Khóm 4, Phường 5, TP. Trà Vinh</b></li>
                 <li><b>ĐT: 0743 765364 - Số nội bộ 102</b></li>
-                
+                <li><b>Email: thaitoan2210@gmail.com</b></li>
             </ul>
         </div>
     </div>

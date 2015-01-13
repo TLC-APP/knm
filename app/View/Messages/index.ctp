@@ -12,7 +12,7 @@
                             <?php
                             echo $this->Text->truncate($message['Message']['content'], 250, array('ellipsis' => '...',
                                 'exact' => true,
-                                'html' => false));
+                                'html' => true));
                             ?>
                         </td>
                     </tr>

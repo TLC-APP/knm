@@ -1,4 +1,4 @@
-<div class="periods form">
+-<div class="periods form">
 <?php echo $this->Form->create('Period'); ?>
 	<fieldset>
 		<legend><?php echo __('Add Period'); ?></legend>

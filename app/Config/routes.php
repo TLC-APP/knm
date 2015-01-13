@@ -30,6 +30,7 @@ Router::connect('/thong-bao', array('controller' => 'messages', 'action' => 'ind
 Router::connect('/lop-ky-nang-dang-dang-ky', array('controller' => 'courses', 'action' => 'index'));
 Router::connect('/phong-hoc', array('controller' => 'rooms', 'action' => 'index'));
 Router::connect('/lien-he', array('controller' => 'dashboards', 'action' => 'contact'));
+Router::connect('/huong-dan', array('controller' => 'dashboards', 'action' => 'help'));
 Router::connect('/sinh-vien', array('plugin'=>'usermgmt','manager'=>true,'controller' => 'users', 'action' => 'student_index'));
 Router::connect('/giang-vien', array('plugin'=>'usermgmt','manager'=>true,'controller' => 'users', 'action' => 'teacher_index'));
 Router::connect('/them-sinh-vien', array('plugin'=>'usermgmt','manager'=>true,'controller' => 'users', 'action' => 'add_student'));

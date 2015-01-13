@@ -3,7 +3,7 @@
     <thead>
         <tr>
             <th><?php echo __('STT'); ?></th>
-            <th><?php echo __('Tên'); ?></th>
+            <th><?php echo __('Họ tên'); ?></th>
             <th><?php echo __('Username'); ?></th>
             <th><?php echo __('Email'); ?></th>
             <th><?php echo __('Đã xác nhận email'); ?></th>
@@ -14,12 +14,14 @@
     </thead>
     <tbody>
         <?php
+        $stt = (($this->Paginator->params['paging']['User']['page'] - 1) * $this->Paginator->params['paging']['User']['limit']) + 1;
+        ?>
+        <?php
         if (!empty($users)) {
-            $sl = 0;
+            $stt = 0;
             foreach ($users as $row) {
-                $sl++;
                 echo "<tr>";
-                echo "<td>" . $sl . "</td>";
+                echo "<td>" . $stt++ . "</td>";
                 echo "<td>" . h($row['User']['last_name']) . " " . h($row['User']['first_name']) . "</td>";
                 echo "<td>" . h($row['User']['username']) . "</td>";
                 echo "<td>" . h($row['User']['email']) . "</td>";
@@ -62,3 +64,16 @@
         ?>
     </tbody>
 </table>
+<p>
+    <?php
+    echo $this->Paginator->counter(array(
+        'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')
+    ));
+    ?>	</p>
+
+
+<?php
+echo $this->Paginator->pagination(array(
+    'ul' => 'pagination pagination-sm'
+));
+?>

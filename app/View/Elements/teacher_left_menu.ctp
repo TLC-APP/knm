@@ -38,33 +38,25 @@
 
     <ul class="nav nav-list">
         <li class="">
-            <a href="<?php echo SUB_DIR.'/dashboards'?>">
-                <i class="menu-icon fa fa-tachometer"></i>
-                <span class="menu-text"> Bàn làm việc </span>
+            <a href="<?php echo SUB_DIR ?>/teacher/periods" >
+                <i class="menu-icon fa fa-list-alt"></i>
+                <span class="menu-text"> Thời khóa biểu</span>
             </a>
 
-            <b class="arrow"></b>
         </li>
-
         <li class="">
-            <a href="<?php echo SUB_DIR.'/teaching_plans/add'?>">
+            <a href="<?php echo SUB_DIR . '/teaching_plans/add' ?>">
                 <i class="menu-icon fa fa-calendar"></i>
                 <span class="menu-text">Lập kế hoạch dạy</span>
             </a>
             <b class="arrow"></b>
-            
-        </li>
-        <li class="">
-            <a href="<?php echo SUB_DIR?>/periods/teacherIndex" >
-                <i class="menu-icon fa fa-list-alt"></i>
-                <span class="menu-text"> Thời khóa biểu</span>
-            </a>
-            
-        </li>
-        
 
-        
+        </li>
 
+
+
+
+<!--
         <li class="">
             <a href="#">
                 <i class="menu-icon fa fa-list-alt"></i>
@@ -72,6 +64,35 @@
             </a>
 
             <b class="arrow"></b>
+        </li>-->
+        <li class="">
+
+
+            <?php
+            echo $this->Html->link(__("profile"), array('teacher' => true, 'plugin' => 'usermgmt', 'controller' => 'users', 'action' => 'profile'), array('escape' => false));
+            ?>
+
+
+        </li>
+
+        <li class="">
+
+
+            <?php
+            echo $this->Html->link(__("change_password"), "/changePassword", array('escape' => false));
+            ?>
+
+
+        </li>
+
+        <li class="">
+
+
+            <?php
+            echo $this->Html->link(__("logout"), "/logout", array('escape' => false));
+            ?>
+
+
         </li>
 
 

@@ -25,6 +25,12 @@ $this->Paginator->options(array(
         'id' => 'filter-course'
     ));
     ?>
+    <div class="form-group">
+        <?php
+        echo $this->Form->year('year', 2013, date('Y') + 5, array('empty' => 'Chọn năm', "class" => "form-control"));
+        ?>
+    </div>
+    <?php echo $this->Form->month('month', array('empty' => 'Chọn tháng', "class" => "form-control", 'monthNames' => false)); ?>
 
     <?php
     echo $this->Form->input('chapter_id', array(
@@ -38,7 +44,7 @@ $this->Paginator->options(array(
     ?>
     <?php
     echo $this->Form->input('name', array(
-        'placeholder' => 'Tên lớp', 'required' => false
+        'placeholder' => 'Mã lớp', 'required' => false
     ));
     ?>
     <?php
@@ -60,7 +66,7 @@ $this->Paginator->options(array(
             <thead>
                 <tr>
                     <th>STT</th>
-                    <th><?php echo $this->Paginator->sort('name'); ?></th>
+                    <th><?php echo $this->Paginator->sort('name', 'Mã lớp'); ?></th>
                     <th>Buổi học</th>
                     <th><?php echo $this->Paginator->sort('chapter_id'); ?></th>
                     <th><?php echo $this->Paginator->sort('teacher_id'); ?></th>
@@ -78,70 +84,50 @@ $this->Paginator->options(array(
                         <td><?php echo $stt++; ?></td>
                         <td><?php echo h($course['Course']['name']); ?>&nbsp;</td>
                         <td><?php
+                            $i = 0;
                             foreach ($course['Period'] as $buoi) {
-                                $line = $buoi['name'] . ' ';
-                                $batdau = new DateTime($buoi['start']);
-                                $line .=($batdau->format('H' == '07')) ? 'Sáng ' : 'Chiều ';
-
-                                $jd = cal_to_jd(CAL_GREGORIAN, $batdau->format('m'), $batdau->format('d'), $batdau->format('Y'));
-                                $day = jddayofweek($jd, 0);
-                                switch ($day) {
-                                    case 0:
-                                        $thu = "Chủ Nhật";
-                                        break;
-                                    case 1:
-                                        $thu = "Thứ Hai";
-                                        break;
-                                    case 2:
-                                        $thu = "Thứ Ba";
-                                        break;
-                                    case 3:
-                                        $thu = "Thứ Tư";
-                                        break;
-                                    case 4:
-                                        $thu = "Thứ Năm";
-                                        break;
-                                    case 5:
-                                        $thu = "Thứ Sáu";
-                                        break;
-                                    case 6:
-                                        $thu = "Thứ 7";
-                                        break;
-//Vì mod bằng 0
+                                if ($i % 2 == 0) {
+                                    $class = "label label-success";
+                                } else {
+                                    $class = "label label-info";
                                 }
-                                $line.=$thu . ' ' . $batdau->format('d/m/Y');
-                                $line.=' tại ' . $buoi['Room']['name'] . '<br/>';
-                                echo $line;
+
+                                $ten_buoi = $buoi['name'];
+                                $start = $buoi['start'];
+                                $room = $buoi['Room']['name'];
+                                $i++;
+
+                                echo $this->element('buoi_hoc', array('buoi' => $ten_buoi, 'start' => $start, 'room' => $room, 'class' => $class));
                             }
                             ?></td>
                         <td>
                             <?php echo $this->Html->link($course['Chapter']['name'], array('controller' => 'chapters', 'action' => 'view', $course['Chapter']['id'])); ?>
                         </td>
                         <td>
-                            <?php echo $this->Html->link($course['Teacher']['name'], array('controller' => 'users', 'action' => 'view', $course['Teacher']['id'])); ?>
+    <?php echo $course['Teacher']['name']; ?>
                         </td>
                         <td><?php echo ($course['Course']['handangky'] > 0) ? $course['Course']['handangky'] . ' ngày' : 'Hết hạn'; ?></td>
                         <td>
-                            <?php echo $course['Course']['si_so'] - $course['Course']['enrolledno']; ?>
+    <?php echo $course['Course']['si_so'] - $course['Course']['enrolledno']; ?>
                         </td>
                         <td><?php echo $this->Html->link(__('enroll'), array('action' => 'enroll', $course['Course']['id']), array('escape' => false)); ?></td>
                     </tr>
-                <?php endforeach; ?>
+<?php endforeach; ?>
             </tbody>
         </table>
         <p>
-            <?php
-            echo $this->Paginator->counter(array(
-                'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')
-            ));
-            ?>	</p>
+<?php
+echo $this->Paginator->counter(array(
+    'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')
+));
+?>	</p>
 
 
-        <?php
-        echo $this->Paginator->pagination(array(
-            'ul' => 'pagination pagination-sm'
-        ));
-        ?>
+<?php
+echo $this->Paginator->pagination(array(
+    'ul' => 'pagination pagination-sm'
+));
+?>
     </div>
 
 </div>
@@ -179,5 +165,5 @@ $this->Paginator->options(array(
 
 
 </script>
-<?php echo $this->Js->writeBuffer(); // Write cached scripts   ?>
+<?php echo $this->Js->writeBuffer(); // Write cached scripts    ?>
 

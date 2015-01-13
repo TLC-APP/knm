@@ -98,7 +98,7 @@
 
                 <div class="profile-info-value">
 
-                    <span class="editable editable-click" id="lop"><?php echo $student['Classroom']['name'] ?></span>
+                    <span class="editable editable-click" id="lop"><?php echo $student['Classroom']['code'] ?></span>
                 </div>
             </div>
             <div class="profile-info-row">

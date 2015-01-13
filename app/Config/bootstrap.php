@@ -1,29 +1,10 @@
 <?php
-
-/**
- * This file is loaded automatically by the app/webroot/index.php file after core.php
- *
- * This file should load/create any application wide configuration settings, such as
- * Caching, Logging, loading additional configuration files.
- *
- * You should also use this file to include any files that provide global functions/constants
- * that your application uses.
- *
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       app.Config
- * @since         CakePHP(tm) v 0.10.8.2117
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
- */
 // Setup a 'default' cache configuration for use in the application.
 Cache::config('default', array('engine' => 'File'));
+//Bảo trì thì set =1
+if (!defined('BAO_TRI')) {
+    define('BAO_TRI', 0);
+}
 
 /**
  * The settings below can be used to set additional paths to models, views and controllers.
@@ -67,7 +48,7 @@ Cache::config('default', array('engine' => 'File'));
  * CakePlugin::load('DebugKit'); //Loads a single plugin named DebugKit
  *
  */
-CakePlugin::load(array('BoostCake', 'Upload', 'ExcelReader','DebugKit', 'Usermgmt' => array('routes' => true, 'bootstrap' => true)));
+CakePlugin::load(array('TinymceElfinder','BoostCake', 'Upload', 'ExcelReader','DebugKit', 'Usermgmt' => array('routes' => true, 'bootstrap' => true)));
 /**
  * You can attach event listeners to the request lifecycle as Dispatcher Filter. By default CakePHP bundles two filters:
  *
@@ -222,7 +203,7 @@ if (!defined('HOCPHI')) {
 }
 
 if (!defined('APP_NAME')) {
-    define('APP_NAME', 'TLC - Trang Há»— trá»£ cÃ´ng tÃ¡c Dáº¡y vÃ  Há»�c Ká»¹ nÄƒng má»�m sinh viÃªn');
+    define('APP_NAME', 'Hệ thống quản lý đăng ký Kỹ năng mềm sinh viên');
 }
 Configure::write('CakePdf', array(
     'engine' => 'CakePdf.WkHtmlToPdf',

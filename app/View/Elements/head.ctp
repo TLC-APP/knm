@@ -1,6 +1,6 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <?php echo $this->Html->charset(); ?>
-<title>Trang đăng nhập - <?php echo APP_NAME ?></title>
+<title>Trung tâm Hỗ trợ - Phát triển Dạy và học - Hệ thống hỗ trợ dạy và học kỹ năng mềm - Trang đăng nhập</title>
 
 <meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -8,7 +8,6 @@
 <!-- bootstrap & fontawesome -->
 <?php echo $this->Html->css('bootstrap.min') ?>
 <?php echo $this->Html->css('/font-awesome/4.1.0/css/font-awesome.min') ?>
-
 <!-- page specific plugin styles -->
 <?php echo $this->Html->css('jquery-ui.min') ?>
 

@@ -5,7 +5,6 @@
             <tr>
                 <th><?php echo $this->Paginator->sort('name', 'Tên'); ?></th>
                 <th><?php echo $this->Paginator->sort('parent_id', 'Đơn vị trên'); ?></th>
-                <th><?php echo $this->Paginator->sort('truong_don_vi_id', 'Trưởng đơn vị'); ?></th>
                 <th><?php echo $this->Paginator->sort('phone_number', 'Số điện thoại'); ?></th>
                 <th><?php echo $this->Paginator->sort('decription', 'Miêu tả'); ?></th>
                 <th><?php echo $this->Paginator->sort('created', 'Ngày tạo'); ?></th>
@@ -18,9 +17,7 @@
                     <td>
                         <?php echo $this->Html->link($department['ParentDepartment']['name'], array('controller' => 'departments', 'action' => 'view', $department['ParentDepartment']['id'])); ?>
                     </td>
-                    <td>
-                        <?php echo $this->Html->link($department['TruongDonVi']['name'], array('controller' => 'users', 'action' => 'view', $department['TruongDonVi']['id'])); ?>
-                    </td>
+                    
                     <td><?php echo h($department['Department']['phone_number']); ?>&nbsp;</td>
                     <td><?php echo h($department['Department']['decription']); ?>&nbsp;</td>
                     <td><?php echo h($department['Department']['created']); ?>&nbsp;</td>

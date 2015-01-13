@@ -22,6 +22,7 @@ class RoomsController extends AppController {
  */
 	public function index() {
 		$this->Room->recursive = -1;
+                $this->Paginator->settings=array('order'=>array('Room.name'=>'ASC'));
 		$this->set('rooms', $this->Paginator->paginate());
 	}
 

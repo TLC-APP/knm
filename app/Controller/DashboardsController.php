@@ -16,12 +16,7 @@ class DashboardsController extends AppController {
 
             $this->redirect("/{$this->UserAuth->getGroupAlias()}/dashboards/home");
         }
-        /*
-          if ($this->RequestHandler->isMobile()) {
-          $this->render('home_mobile');
-          }
-         * 
-         */
+        
     }
 
     public function student_home() {
@@ -29,6 +24,7 @@ class DashboardsController extends AppController {
         $student_id = $this->UserAuth->getUserId();
 
         $contain = array('Student' => array('fields' => array('id', 'name')), 'Course' => array(
+                'Period' => array('Room'),
                 'Chapter' => array('ChapterType', 'fields' => array('id', 'name')), 'fields' => array('id', 'name', 'trang_thai', 'handangky')));
 
         $enrollments = $this->Enrollment->find('all', array(
@@ -42,6 +38,9 @@ class DashboardsController extends AppController {
 
         //Check da hoan thanh cac ky nang bb chua
         $knbatbuot = $this->Chapter->getChapterId(KY_NANG_BAT_BUOC);
+        if (is_null($knbatbuot)) {
+            $knbatbuot = array();
+        }
 
         $lop_kn_dat = $this->Course->Enrollment->find('all', array(
             'conditions' => array(
@@ -55,7 +54,9 @@ class DashboardsController extends AppController {
         $course_da_hoc = $this->Course->find('all', array('conditions' => array('Course.id' => $lop_kn_dat), 'recursive' => -1));
 
         $chapter_dat = Set::classicExtract($course_da_hoc, '{n}.Course.chapter_id');
-
+        if (is_null($chapter_dat)) {
+            $chapter_dat = array();
+        }
         $result = array_intersect($knbatbuot, $chapter_dat);
         $message = "";
         if (!array_diff($knbatbuot, $result)) {
@@ -92,7 +93,7 @@ class DashboardsController extends AppController {
     }
 
     public function teacher_home() {
-        
+        $this->redirect(array('controller' => 'periods', 'action' => 'index', 'teacher' => true));
     }
 
     /* Hiển thị danh sách các lớp kỹ năng có thể mở */
@@ -121,11 +122,11 @@ class DashboardsController extends AppController {
     }
 
     public function contact() {
-        $this->theme = 'Home';
+        
     }
 
     public function help() {
-        $this->theme = 'Home';
+        
     }
 
     public function sendmail() {

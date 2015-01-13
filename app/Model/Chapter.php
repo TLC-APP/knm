@@ -18,6 +18,13 @@ class Chapter extends AppModel {
      * @var string
      */
     public $displayField = 'name';
+    public $actsAs = array('Containable', 'Upload.Upload' => array(
+            'image' => array(
+                'fields' => array(
+                    'dir' => 'image_dir'
+                )
+            )
+    ));
 
     /**
      * Validation rules
@@ -134,8 +141,8 @@ class Chapter extends AppModel {
      * $type là loại kỹ năng mặc định 1 là tự chọn, 2 bắt buộc, 3 không tổ chức học
      *      */
 
-    public function getChapterId($type=KY_NANG_TU_CHON) {
-        $chapter = $this->find('all', array('conditions' => array('Chapter.chapter_type_id' => $type),'fields'=>array('id'), 'recursive' => -1));
+    public function getChapterId($type = KY_NANG_TU_CHON) {
+        $chapter = $this->find('all', array('conditions' => array('Chapter.chapter_type_id' => $type), 'fields' => array('id'), 'recursive' => -1));
         if (!empty($chapter)) {
             return Set::classicExtract($chapter, "{n}.Chapter.id");
         }

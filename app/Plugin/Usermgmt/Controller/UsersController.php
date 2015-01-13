@@ -10,7 +10,7 @@ class UsersController extends UserMgmtAppController {
      * @var array
      */
     public $uses = array('Usermgmt.User', 'Usermgmt.UserGroup', 'Usermgmt.LoginToken');
-    public $components = array('Paginator');
+    public $components = array('Paginator', 'LogUtil');
 
     /**
      * Called before the controller action.  You can use this method to configure and customize components
@@ -94,7 +94,7 @@ class UsersController extends UserMgmtAppController {
         }
         $conditions = Set::merge($conditions, array('User.user_group_id' => 2));
 
-        $this->Paginator->settings = array('conditions' => $conditions);
+        $this->Paginator->settings = array('conditions' => $conditions, 'order' => array('User.last_login' => 'DESC'));
 
 
         $users = $this->Paginator->paginate();
@@ -130,9 +130,9 @@ class UsersController extends UserMgmtAppController {
     public function viewStudent($studentId = null) {
 
         if ($this->User->exists($studentId)) {
-            $contain = array('Province', 'Classroom' => array('Department'), 'Enrollment' => array('Course' => array(
-                        'fields' => array('id', 'name', 'chapter_id', 'trang_thai'), 'Chapter'
-            )));
+            $contain = array('Province', 'Classroom' => array('Department'), 'Enrollment' => array(
+                    'Course' => array('fields' => array('id', 'name', 'chapter_id', 'trang_thai'), 'Chapter')
+            ));
             $student = $this->User->find('first', array('contain' => $contain, 'conditions' => array('User.id ' => $studentId)));
             if (!empty($student)) {
                 //Tim thay sinh vien
@@ -175,7 +175,7 @@ class UsersController extends UserMgmtAppController {
      * @access public
      * @return array
      */
-    public function teacherprofile() {
+    public function teacher_profile() {
         $userId = $this->UserAuth->getUserId();
         $contain = array('Department', 'UserGroup');
         //$fields=array('department_id','user_group_id','id','name','borndate','bornplace','sex','email','phone','classroom_id','username','last_login','created');
@@ -202,6 +202,38 @@ class UsersController extends UserMgmtAppController {
                 $this->User->save($this->request->data, false);
                 $this->Session->setFlash(__('Đã cập nhật thông tin thành công'), 'alert', array('plugin' => 'BoostCake', 'class' => 'alert-success'));
                 $this->redirect(array('manager' => true, 'action' => 'teacher_index'));
+            } else {
+                $this->Session->setFlash(__('Validate không thành công'), 'alert', array('plugin' => 'BoostCake', 'class' => 'alert-success'));
+            }
+        } else {
+            $user = $this->User->read(null, $userId);
+            $this->request->data = null;
+            if (!empty($user)) {
+                $user['User']['password'] = '';
+                $this->request->data = $user;
+            }
+        }
+    }
+
+    /* Quản lý cập nhật tài khoản sinh viên */
+    /* Cập nhật thông tin người dùng cho manager */
+
+    public function manager_edit_student($userId = null) {
+        $classrooms = $this->User->Classroom->find('list');
+        $chapters = $this->User->Chapter->find('list');
+        $bornplaces = $this->User->Province->find('list');
+        $this->set(compact('classrooms', 'chapters', 'bornplaces'));
+        $this->User->id = $userId;
+        if (!$this->User->exists()) {
+            throw new Exception('Lỗi không tồn tại người dùng');
+        }
+
+        if ($this->request->is(array('post', 'put'))) {
+            $this->User->set($this->data);
+            if ($this->User->RegisterValidate()) {
+                $this->User->save($this->request->data, false);
+                $this->Session->setFlash(__('Đã cập nhật thông tin thành công'), 'alert', array('plugin' => 'BoostCake', 'class' => 'alert-success'));
+                $this->redirect(array('manager' => true, 'action' => 'student_index'));
             } else {
                 $this->Session->setFlash(__('Validate không thành công'), 'alert', array('plugin' => 'BoostCake', 'class' => 'alert-success'));
             }
@@ -297,6 +329,10 @@ class UsersController extends UserMgmtAppController {
                     $this->UserAuth->login($user);
                     $this->User->id = $this->UserAuth->getUserId();
                     $this->User->saveField('last_login', date("Y-m-d H:i:s"));
+                    $options = array(
+                        'description' => $username . ' (' . $this->UserAuth->getFullname() . ') đã đăng nhập.'
+                    );
+                    $this->LogUtil->log($options);
                     $remember = (!empty($this->data['User']['remember']));
                     if ($remember) {
                         $this->UserAuth->persist('2 weeks');
@@ -325,8 +361,11 @@ class UsersController extends UserMgmtAppController {
      * @return void
      */
     public function logout() {
+        $options = array(
+            'description' => $this->UserAuth->getFullname() . ' đã logout.'
+        );
+        $this->LogUtil->log($options);
         $this->UserAuth->logout();
-        $this->Session->setFlash('Đăng xuất thành công', 'alert', array('plugin' => 'BoostCake', 'class' => 'alert-success'));
         $this->redirect(LOGOUT_REDIRECT_URL);
     }
 
@@ -349,6 +388,7 @@ class UsersController extends UserMgmtAppController {
      * @return void
      */
     public function register() {
+        //$this->theme = 'Ace';
         $this->layout = 'login';
         $bornplaces = $this->User->Province->find('list');
         $classrooms = $this->User->Classroom->find('list');
@@ -458,12 +498,13 @@ class UsersController extends UserMgmtAppController {
                     $user['User']['password'] = $this->UserAuth->makePassword($this->request->data['User']['password'], $salt);
                     $this->User->save($user, false);
                     $this->LoginToken->deleteAll(array('LoginToken.user_id' => $userId), false);
-                    $this->Session->setFlash(__('Password for %s changed successfully', $name), 'alert', array('plugin' => 'BoostCake', 'class' => 'alert-success'));
-                    $this->redirect('/allUsers');
+                    $this->Session->setFlash(__('Mật khẩu của %s đã thay đổi thành công', $name), 'alert', array('plugin' => 'BoostCake', 'class' => 'alert-success'));
+
+                    $this->redirect(array('manager' => true, 'action' => 'student_index'));
                 }
             }
         } else {
-            $this->redirect('/allUsers');
+            $this->redirect(array('action' => 'index'));
         }
     }
 
@@ -622,7 +663,7 @@ class UsersController extends UserMgmtAppController {
      * @param integer $userId user id of user
      * @return void
      */
-    public function teacheredit($userId = null) {
+    public function teacher_edit($userId = null) {
         $departments = $this->User->Department->find('list');
         $this->set(compact('departments'));
         $this->User->id = $userId;
@@ -889,13 +930,21 @@ class UsersController extends UserMgmtAppController {
         $this->set('users', $users);
     }
 
-    public function manager_student_view($id) {
-        $this->User->unbindModel(array('hasMany' => array('LoginToken')));
+    public function manager_student_view($studentId) {
+        if ($this->User->exists($studentId)) {
+            $contain = array('Province', 'Classroom' => array('Department'), 'Enrollment' => array(
+                    'Course' => array('fields' => array('id', 'name', 'chapter_id', 'trang_thai'), 'Chapter')
+            ));
+            $student = $this->User->find('first', array('contain' => $contain, 'conditions' => array('User.id ' => $studentId)));
+            if (!empty($student)) {
+                //Tim thay sinh vien
+                $this->set('student', $student);
+            }
+        } else {
+            $this->Session->setFlash('Rất tiếc, không tìm thấy sinh viên có ID' . $studentId, 'alert', array('class' => 'alert-warning'));
 
-        $contain = array('Province', 'Classroom' => array('Department' => array('fields' => array('Department.id', 'Department.name'))), 'UserGroup');
-        //$fields=array('department_id','user_group_id','id','name','borndate','bornplace','sex','email','phone','classroom_id','username','last_login','created');
-        $user = $this->User->find('first', array('conditions' => array('User.id' => $id), 'contain' => $contain));
-        $this->set('user', $user);
+            $this->redirect(array('plugin' => false, 'action' => 'home', 'controller' => 'dashboards'));
+        }
     }
 
     public function updatePassword() {
@@ -912,8 +961,14 @@ class UsersController extends UserMgmtAppController {
 
                 $this->redirect(array('controller' => 'users', 'action' => 'viewStudent', $student['User']['id']));
             } else {
+                $this->loadModel('Course');
+                $course = $this->Course->find('first', array('recursive' => -1, 'conditions' => array('Course.name like' => '%' . $this->request->data['username'] . '%')));
+                if (!empty($course)) {
+                    $this->redirect(array('plugin' => false, 'manager' => true, 'controller' => 'enrollments', 'action' => 'ket_qua', $course['Course']['id']));
+                } else {
+                    $this->Session->setFlash('Rất tiếc, không tìm thấy sinh viên hoặc lớp có mã số ' . $this->request->data['username'], 'alert', array('class' => 'alert-warning'));
+                }
                 //Khong tim thay sinh vien
-                $this->Session->setFlash('Rất tiếc, không tìm thấy sinh viên có mã số ' . $this->request->data['username'], 'alert', array('class' => 'alert-warning'));
                 $this->redirect(array('plugin' => false, 'action' => 'home', 'controller' => 'dashboards'));
             }
         } else {
@@ -925,7 +980,7 @@ class UsersController extends UserMgmtAppController {
     /* Đổi avatar */
 
     public function changeAvatar() {
-        $id=$this->UserAuth->getUserId();
+        $id = $this->UserAuth->getUserId();
         $this->User->id = $id;
         if ($this->request->is(array('post', 'put'))) {
             if ($this->User->save($this->request->data)) {

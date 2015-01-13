@@ -108,34 +108,46 @@ class PeriodsController extends AppController {
      *
      * @return void
      */
-    public function managerIndex() {
+    public function manager_index() {
         $this->layout = 'ajax';
         $conditions = array();
+
         $courseConditions = array();
         if (!empty($this->request->query)) {
             $start = $this->request->query['start'];
             $end = $this->request->query['end'];
-            $conditions = array('Period.start <=' => $start, 'Period.start <=' => $end);
+            $conditions = array('Period.start >=' => $start, 'Period.start <=' => $end);
         }
-        /* Lọc lấy khóa học theo giảng viên */
-        if (!empty($this->request->query['teacher_id'])) {
-            $courseConditions = Set::merge($courseConditions, array('Course.teacher_id' => $this->request->query['teacher_id']));
-        }
+
         /* Lọc lấy khóa học theo chuyên đề */
         if (!empty($this->request->query['chapter_id'])) {
             //$courseConditions = Set::merge($courseConditions,array('Course.date <=' => $start, 'Course.date <=' => $end));
             $courseConditions = Set::merge($courseConditions, array('Course.chapter_id' => $this->request->query['chapter_id']));
+            if (!empty($this->request->query['trang_thai'])) {
+                $courseConditions = Set::merge($courseConditions, array('Course.trang_thai' => $this->request->query['trang_thai']));
+            }
+            /* Lọc lấy khóa học theo giảng viên */
+            if (!empty($this->request->query['teacher_id'])) {
+                $courseConditions = Set::merge($courseConditions, array('Course.teacher_id' => $this->request->query['teacher_id']));
+            }
             $courses = $this->Period->Course->find('all', array('conditions' => $courseConditions, 'recursive' => -1, 'fields' => array('id')));
             $courseIds = Set::classicExtract($courses, '{n}.Course.id');
             $conditions = Set::merge($conditions, array('Period.course_id' => $courseIds));
+        } else {
+            /* Lọc lấy khóa học theo giảng viên */
+            if (!empty($this->request->query['teacher_id'])) {
+                $courseConditions = Set::merge($courseConditions, array('Course.teacher_id' => $this->request->query['teacher_id']));
+            }
+            /* Lọc lấy khóa học theo trạng thái */
+            if (!empty($this->request->query['trang_thai'])) {
+                $courseConditions = Set::merge($courseConditions, array('Course.trang_thai' => $this->request->query['trang_thai']));
+                $courses = $this->Period->Course->find('all', array('conditions' => $courseConditions, 'recursive' => -1, 'fields' => array('id')));
+                $courseIds = Set::classicExtract($courses, '{n}.Course.id');
+                $conditions = Set::merge($conditions, array('Period.course_id' => $courseIds));
+            }
         }
-        /* Lọc lấy khóa học theo trạng thái */
-        if (!empty($this->request->query['trang_thai'])) {
-            $courseConditions = Set::merge($courseConditions, array('Course.trang_thai' => $this->request->query['trang_thai']));
-            $courses = $this->Period->Course->find('all', array('conditions' => $courseConditions, 'recursive' => -1, 'fields' => array('id')));
-            $courseIds = Set::classicExtract($courses, '{n}.Course.id');
-            $conditions = Set::merge($conditions, array('Period.course_id' => $courseIds));
-        }
+
+
         $periods = $this->Period->find('all', array('conditions' => $conditions, 'contain' => array('Room', 'Course' => array('Chapter' => array('fields' => 'name'), 'Teacher' => array('fields' => array('name'))))));
         $this->set('periods', $periods);
     }
@@ -239,7 +251,7 @@ class PeriodsController extends AppController {
 
     /* Liệt kê danh sách các buổi dạy cho giảng viên (show thời khóa biểu) */
 
-    public function teacherIndex() {
+    public function teacher_index() {
         if ($this->request->is('ajax')) {
             $this->layout = 'ajax';
             $conditions = array();
@@ -252,12 +264,15 @@ class PeriodsController extends AppController {
             /* Lọc lấy khóa học theo giảng viên */
 
             $courseConditions = Set::merge($courseConditions, array('Course.teacher_id' => $this->UserAuth->getUserId()));
-
+            $courses = $this->Period->Course->find('all', array('conditions' => $courseConditions, 'recursive' => -1, 'fields' => array('id')));
+            $courseIds = Set::classicExtract($courses, '{n}.Course.id');
+            $conditions = Set::merge($conditions, array('Period.course_id' => $courseIds));
             /* Lọc lấy khóa học theo chuyên đề */
             if (!empty($this->request->query['chapter_id'])) {
                 $courseConditions = Set::merge($courseConditions, array('Course.chapter_id' => $this->request->query['chapter_id']));
                 $courses = $this->Period->Course->find('all', array('conditions' => $courseConditions, 'recursive' => -1, 'fields' => array('id')));
                 $courseIds = Set::classicExtract($courses, '{n}.Course.id');
+
                 $conditions = Set::merge($conditions, array('Period.course_id' => $courseIds));
             }
             /* Lọc lấy khóa học theo trạng thái */

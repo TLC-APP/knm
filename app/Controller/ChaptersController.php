@@ -15,7 +15,16 @@ class ChaptersController extends AppController {
      *
      * @var array
      */
-    public $components = array('Paginator', 'RequestHandler');
+    public $components = array('Paginator', 'RequestHandler', 'TinymceElfinder.TinymceElfinder','LogUtil');
+    public $helpers = array('TinymceElfinder.TinymceElfinder');
+
+    public function elfinder() {
+        $this->TinymceElfinder->elfinder();
+    }
+
+    public function connector() {
+        $this->TinymceElfinder->connector();
+    }
 
     public function jqgridcrud() {
         $this->autoRender = false;
@@ -88,10 +97,10 @@ class ChaptersController extends AppController {
                 $condition = array();
                 foreach ($searchoptions['rules'] as $rule) {
                     if ($rule['op'] == 'cn') {
-                        $condition = Set::merge($condition, array('Chapter.' . $rule['field'].' like' => '%'.$rule['data'].'%'));
+                        $condition = Set::merge($condition, array('Chapter.' . $rule['field'] . ' like' => '%' . $rule['data'] . '%'));
                     }
                     if ($rule['op'] == 'nc') {
-                        $condition = Set::merge($condition, array('Chapter.' . $rule['field'].' not like' => '%'.$rule['data'].'%'));
+                        $condition = Set::merge($condition, array('Chapter.' . $rule['field'] . ' not like' => '%' . $rule['data'] . '%'));
                     }
                     if ($rule['op'] == 'eq') {
                         $condition = Set::merge($condition, array('Chapter.' . $rule['field'] => $rule['data']));
@@ -115,7 +124,7 @@ class ChaptersController extends AppController {
                 $sord = $this->request->query['sord']; // get the direction
             }
         }
-        $count = $this->Chapter->find('count',$conditions);
+        $count = $this->Chapter->find('count', $conditions);
         if ($count > 0) {
             $total_pages = ceil($count / $limit);
         } else {
@@ -169,10 +178,34 @@ class ChaptersController extends AppController {
         if (!$this->Chapter->exists($id)) {
             throw new NotFoundException(__('Invalid chapter'));
         }
-        $options = array('conditions' => array('Chapter.' . $this->Chapter->primaryKey => $id));
-        
-        $this->set('chapter', $this->Chapter->find('first', $options));
+        $name=$this->Chapter->field('name');
+        $log_option = array(
+            'description' => ' Khách đã xem kỹ năng '.$name
+        );
+        $this->LogUtil->log($log_option);
+        $options = array('contain' => array('ChapterType'), 'conditions' => array('Chapter.' . $this->Chapter->primaryKey => $id));
+        $kynangkhac = $this->Chapter->find('all', array('conditions' => array('NOT' => array("Chapter.id" => $id)),'recursive'=>-1));
+        $chapter = $this->Chapter->find('first', $options);
+        $this->set(compact('chapter', "kynangkhac"));
     }
+    
+    /**
+     * view method
+     *
+     * @throws NotFoundException
+     * @param string $id
+     * @return void
+     */
+    public function student_view($id = null) {
+        if (!$this->Chapter->exists($id)) {
+            throw new NotFoundException(__('Invalid chapter'));
+        }
+        $options = array('contain' => array('ChapterType'), 'conditions' => array('Chapter.' . $this->Chapter->primaryKey => $id));
+        $kynangkhac = $this->Chapter->find('all', array('conditions' => array('NOT' => array("Chapter.id" => $id)),'recursive'=>-1));
+        $chapter = $this->Chapter->find('first', $options);
+        $this->set(compact('chapter', "kynangkhac"));
+    }
+    
 
     /**
      * add method
@@ -206,7 +239,11 @@ class ChaptersController extends AppController {
         }
         if ($this->request->is(array('post', 'put'))) {
             if ($this->Chapter->save($this->request->data)) {
-                return $this->flash(__('The chapter has been saved.'), array('action' => 'index'));
+                $this->Session->setFlash('Đã cập nhật thành công', 'alert', array('class' => 'alert-success'));
+                $this->redirect(array('action' => 'index'));
+            } else {
+                $this->Session->setFlash('Đã cập nhật không thành công', 'alert', array('class' => 'alert-warning'));
+                $this->redirect(array('action' => 'index'));
             }
         } else {
             $options = array('conditions' => array('Chapter.' . $this->Chapter->primaryKey => $id));
@@ -272,7 +309,8 @@ class ChaptersController extends AppController {
         if ($this->request->is('post')) {
             $this->Chapter->create();
             if ($this->Chapter->save($this->request->data)) {
-                return $this->flash(__('The chapter has been saved.'), array('action' => 'index'));
+                $this->Session->setFlash('Đã lưu thành công', 'alert', array('class' => 'alert-success'));
+                $this->redirect(array('action' => 'index'));
             }
         }
         $chapterTypes = $this->Chapter->ChapterType->find('list');
@@ -294,7 +332,8 @@ class ChaptersController extends AppController {
         }
         if ($this->request->is(array('post', 'put'))) {
             if ($this->Chapter->save($this->request->data)) {
-                return $this->flash(__('The chapter has been saved.'), array('action' => 'index'));
+                $this->Session->setFlash('Đã cập nhật thành công', 'alert', array('class' => 'alert-warning'));
+                $this->redirect(array('action' => 'index'));
             }
         } else {
             $options = array('conditions' => array('Chapter.' . $this->Chapter->primaryKey => $id));

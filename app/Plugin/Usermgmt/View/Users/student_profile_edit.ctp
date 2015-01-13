@@ -69,7 +69,7 @@
                 <div class="space-24"></div>
 
                 <div class="clearfix">
-                    <?php echo $this->Html->link('Back', array('/myprofile/' . $this->Form->value('User.id')), array('class' => 'btn btn-info')) ?>
+                    <?php echo $this->Html->link('Back', array('action'=>'profile'), array('class' => 'btn btn-info')) ?>
 
                     <button type="submit" class="pull-right btn btn-sm btn-success">
                         <span class="bigger-110">Cập nhật</span>

@@ -27,7 +27,7 @@
                     <div class="space"></div>
                     <div class="widget-box widget-color-dark ui-sortable-handle">
                         <div class="widget-header">
-                            <h5 class="widget-title bigger lighter">Danh sách các lớp kỹ năng</h5>
+                            <h5 class="widget-title bigger lighter">Thời khóa biểu</h5>
                             <div class="widget-toolbar">
                                 <span class="badge badge-theme">Chờ hủy</span>
                                 <span class="badge badge-danger">Đã hủy</span>
@@ -110,7 +110,7 @@
             });
 
         });
-        var periodSource = '/knm/periods/teacherIndex' + "?chapter_id=" + $("#CourseFilterChapterId").val();
+        var periodSource = '/knm/teacher/periods/index' + "?chapter_id=" + $("#CourseFilterChapterId").val();
         var period = $('#period').fullCalendar(
                 {
                     events: {

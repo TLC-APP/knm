@@ -27,7 +27,7 @@ $this->Paginator->options(array(
     ?>
     <div class="form-group">
         <?php
-        echo $this->Form->year('year', 2013, date('Y') + 5, array('empty' => 'Chọn năm', "class" => "form-control"));
+        echo $this->Form->year('year', 2011, date('Y') + 5, array('empty' => 'Chọn năm', "class" => "form-control"));
         ?>
     </div>
     <?php echo $this->Form->month('month', array('empty' => 'Chọn tháng', "class" => "form-control", 'monthNames' => false)); ?>
@@ -48,7 +48,7 @@ $this->Paginator->options(array(
     ?>
     <?php
     echo $this->Form->input('trang_thai', array('options' => array(COURSE_ENROLLING => 'Đang đăng ký', COURSE_OPEN => 'Đã mở', COURSE_OPENABLE => 'Có thể mở', COURSE_WAIT_CANCEL => 'Chờ hủy', COURSE_CANCELLED => 'Đã hủy'),
-        'placeholder' => 'Trạng thái', 'required' => false,'empty'=>'Chọn trạng thái'
+        'placeholder' => 'Trạng thái', 'required' => false, 'empty' => 'Chọn trạng thái'
     ));
     ?>
     <?php
@@ -79,45 +79,29 @@ $this->Paginator->options(array(
                 <?php foreach ($courses as $course): ?>
                     <tr>
                         <td><?php echo $stt++; ?></td>
-                        <td><?php 
-                        echo h($course['Course']['name']).' '; 
-                        echo ($course['Course']['handangky'] > 0) ? ' <span class="label label-info arrowed arrowed-right">còn '.$course['Course']['handangky'] . ' ngày</span>' : '<span class="label label-danger arrowed arrowed-right">hết hạn</span>';
-                        echo $this->element('course_status',array('status'=>$course['Course']['trang_thai']))?>&nbsp;</td>
                         <td><?php
+                            echo h($course['Course']['name']) . ' ';
+                            echo ($course['Course']['handangky'] > 0) ? 
+                            ' <span class="label label-info">còn ' . $course['Course']['handangky'] . 
+                                    ' ngày</span>' : '<span class="label label-danger arrowed arrowed-right">hết hạn</span>';
+                            echo $this->element('course_status', array('status' => $course['Course']['trang_thai']))
+                            ?>&nbsp;</td>
+                        <td><?php
+                            $i = 0;
                             foreach ($course['Period'] as $buoi) {
-                                $line = $buoi['name'] . ' ';
-                                $batdau = new DateTime($buoi['start']);
-                                $line .=($batdau->format('H' == '07')) ? 'Sáng ' : 'Chiều ';
-
-                                $jd = cal_to_jd(CAL_GREGORIAN, $batdau->format('m'), $batdau->format('d'), $batdau->format('Y'));
-                                $day = jddayofweek($jd, 0);
-                                switch ($day) {
-                                    case 0:
-                                        $thu = "Chủ Nhật";
-                                        break;
-                                    case 1:
-                                        $thu = "Thứ Hai";
-                                        break;
-                                    case 2:
-                                        $thu = "Thứ Ba";
-                                        break;
-                                    case 3:
-                                        $thu = "Thứ Tư";
-                                        break;
-                                    case 4:
-                                        $thu = "Thứ Năm";
-                                        break;
-                                    case 5:
-                                        $thu = "Thứ Sáu";
-                                        break;
-                                    case 6:
-                                        $thu = "Thứ 7";
-                                        break;
-//Vì mod bằng 0
+                                if ($i % 2 == 0) {
+                                    $class = "label label-success";
+                                } else {
+                                    $class = "label label-info";
                                 }
-                                $line.=$thu . ' ' . $batdau->format('d/m/Y');
-                                $line.=' tại ' . $buoi['Room']['name'] . '<br/>';
-                                echo $line;
+
+                                $ten_buoi = $buoi['name'];
+                                $start = $buoi['start'];
+                                $room = $buoi['Room']['name'];
+
+
+                                echo $this->element('buoi_hoc', array('buoi' => $ten_buoi, 'start' => $start, 'room' => $room, 'class' => $class));
+                                $i++;
                             }
                             ?></td>
                         <td>
@@ -129,7 +113,26 @@ $this->Paginator->options(array(
                         <td>
                             <?php echo $course['Course']['si_so'] - $course['Course']['enrolledno']; ?>
                         </td>
-                        <td><?php echo $this->Html->link(__('view'), array('action' => 'view', $course['Course']['id']), array('escape' => false)); ?></td>
+                        <td>
+                            <?php
+                            if ($course['Course']['enrolledno'] >= SO_SINH_VIEN_TOI_THIEU && $course['Course']['trang_thai'] != COURSE_OPEN) {
+                                echo $this->Html->link(__('open'), array('action' => 'mo_lop', $course['Course']['id']), array('escape' => false));
+                            }
+                            ?>
+
+                            <?php if ($course['Course']['enrolledno'] >= SO_SINH_VIEN_TOI_THIEU) echo $this->Html->link(__('print'), array('manager' => false, 'action' => 'course_pdf_export', $course['Course']['id']), array('escape' => false)); ?>
+                            <?php if ($course['Course']['trang_thai'] != COURSE_CANCELLED) echo $this->Html->link(__('cancel'), array('action' => 'huy_lop', $course['Course']['id']), array('escape' => false)); ?>
+                            <?php
+                            if ($course['Course']['trang_thai'] == COURSE_OPEN) {
+                                echo $this->Html->link(__('ket qua'), array('controller' => 'enrollments', 'action' => 'ket_qua', $course['Course']['id']), array('escape' => false));
+                            }
+                            ?>
+                            <?php echo $this->Form->postLink(__('Cho đăng ký'), array('action' => 'cho_dang_ky', $course['Course']['id']), array('escape' => false), "Bạn chắc chắn cho đăng ký lớp " . $course['Course']['name']); ?>
+
+                            <?php echo $this->Form->postLink(__('delete'), array('action' => 'delete', $course['Course']['id']), array('escape' => false), "Bạn chắc chắn xóa lớp " . $course['Course']['name']); ?>
+
+
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -176,7 +179,7 @@ $this->Paginator->options(array(
         process();
     });
 
-$("#CourseTrangThai").change(function () {
+    $("#CourseTrangThai").change(function () {
         process();
     });
     $("#filter-course").submit(function (e) {
@@ -187,5 +190,5 @@ $("#CourseTrangThai").change(function () {
 
 
 </script>
-<?php echo $this->Js->writeBuffer(); // Write cached scripts   ?>
+<?php echo $this->Js->writeBuffer(); // Write cached scripts       ?>
 

@@ -13,7 +13,7 @@ class Classroom extends AppModel {
  *
  * @var string
  */
-	public $displayField = 'name';
+	public $displayField = 'code';
 
 /**
  * Validation rules

@@ -127,6 +127,13 @@ class UserAuthComponent extends Component {
         return $this->Session->read('UserAuth.User.id');
     }
 
+    public function getUsername() {
+        return $this->Session->read('UserAuth.User.username');
+    }
+    
+    public function getFullname() {
+        return ($this->Session->read('UserAuth.User.last_name')).' '.$this->Session->read('UserAuth.User.first_name');
+    }
     /**
      * Used to get group id from session
      *

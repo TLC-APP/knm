@@ -15,11 +15,120 @@ class CoursesController extends AppController {
      *
      * @var array
      */
-    public $components = array('Paginator', 'RequestHandler', 'ExcelReader.ExcelReader');
+    public $components = array('Paginator', 'RequestHandler', 'ExcelReader.ExcelReader', 'LogUtil');
     public $helpers = array('Js', 'Pdf');
 
     public function pdf() {
         
+    }
+
+    /* Hàm hủy lớp kỹ năng
+     * nhận vào danh mảng id của các lớp cần hủy
+     */
+
+    public function manager_huy_lop($id = null) {
+
+        if (!empty($this->request->data['id'])) {
+            $id = $this->request->data['id'];
+        }
+        //Update các dòng có trạng thái đã hủy
+        try {
+            /* Luu lai id de roll back */
+            $this->Session->write('COURSE_CANCELLED_HISTORY', $id);
+            /* Thuc hien update */
+            if ($this->Course->updateAll(array('Course.trang_thai' => COURSE_CANCELLED), array('Course.id' => $id))) {
+                if ($this->request->is('ajax')) {
+                    $this->autoRender = false;
+                } else {
+                    $this->Session->setFlash('Đã hủy lớp thành công!');
+                    $this->redirect(array('action' => 'index'));
+                }
+            } else {
+                if ($this->request->is('ajax')) {
+                    $this->autoRender = false;
+                } else {
+                    $this->Session->setFlash('Đã hủy không thành công!');
+                    $this->redirect(array('action' => 'index'));
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getTraceAsString();
+        }
+    }
+
+    /* Chuyen lop sang trang thani dang ky */
+
+    public function manager_cho_dang_ky($id = null) {
+
+        if (!empty($this->request->data['id'])) {
+            $id = $this->request->data['id'];
+        }
+        //Update các dòng có trạng thái đã hủy
+        try {
+            if ($this->Course->updateAll(array('Course.trang_thai' => COURSE_ENROLLING), array('Course.id' => $id))) {
+                if ($this->request->is('ajax')) {
+                    $this->autoRender = false;
+                } else {
+                    $this->Session->setFlash('chuyển lớp thành công sang đăng ký!');
+                    $this->redirect(array('action' => 'view', $id));
+                }
+            } else {
+                if ($this->request->is('ajax')) {
+                    $this->autoRender = false;
+                } else {
+                    $this->Session->setFlash('chuyển lớp sang trạng thái đăng ký không thành công!');
+                    $this->redirect(array('action' => 'view', $id));
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getTraceAsString();
+        }
+    }
+
+    /* Hàm mở lớp kỹ năng
+     * nhận vào danh mảng id của các lớp cần hủy
+     */
+
+    public function manager_mo_lop($id = null) {
+        $this->autoRender = false;
+        if (!empty($this->request->data['id'])) {
+            $id = $this->request->data['id'];
+        }
+        //Update các dòng có trạng thái đã hủy
+        try {
+            /* Luu lai id de roll back */
+            //$this->Session->write('COURSE_CANCELLED_HISTORY', $id);
+            /* Thuc hien update */
+            //$this->Course->updateAll(array('Course.trang_thai' => COURSE_OPEN), array('Course.id' => $id));
+            /* Thuc hien update */
+            if ($this->Course->updateAll(array('Course.trang_thai' => COURSE_OPEN), array('Course.id' => $id))) {
+                if ($this->request->is('ajax')) {
+                    $this->autoRender = false;
+                } else {
+                    $this->Session->setFlash('Đã mở lớp thành công!');
+                    $this->redirect(array('action' => 'index'));
+                }
+            } else {
+                if ($this->request->is('ajax')) {
+                    $this->autoRender = false;
+                } else {
+                    $this->Session->setFlash('Mở không thành công!');
+                    $this->redirect(array('action' => 'index'));
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getTraceAsString();
+        }
+    }
+
+    public function admin_phuc_hoi_huy() {
+        $this->autoRender = false;
+        if ($this->Session->check('COURSE_CANCELLED_HISTORY')) {
+            $id = $this->Session->read('COURSE_CANCELLED_HISTORY');
+            if (!empty($id)) {
+                $this->Course->updateAll(array('Course.trang_thai' => COURSE_WAIT_CANCEL), array('Course.id' => $id));
+            }
+        }
     }
 
     /* Hàm lấy danh sách các lớp đã hết hạn */
@@ -29,7 +138,7 @@ class CoursesController extends AppController {
         $conditions = array(
             'Course.trang_thai' => COURSE_WAIT_CANCEL
         );
-        if ($openable) {
+        if (is_numeric($openable)) {
             $conditions = array(
                 'Course.trang_thai' => COURSE_OPENABLE
             );
@@ -48,7 +157,8 @@ class CoursesController extends AppController {
                 $sord = $this->request->query['sord']; // get the direction
             }
         }
-        $count = $this->Course->find('count', $conditions);
+        $count = $this->Course->find('count', array('conditions' => $conditions));
+        //debug($count);die;
         if ($count > 0) {
             $total_pages = ceil($count / $limit);
         } else {
@@ -76,7 +186,7 @@ class CoursesController extends AppController {
         foreach ($rows as $row) {
             $responce->rows[$i]['id'] = $row['Course']['id'];
             $responce->rows[$i]['cell'] = array(
-                $row['Course']['id'],
+                //$row['Course']['id'],
                 $row['Course']['name'],
                 $row['Chapter']['name'],
                 $row['Course']['start'],
@@ -236,10 +346,10 @@ class CoursesController extends AppController {
         }
 
         $contain = array(
-            'Chapter',
+            'Chapter' => array('fields' => array('id', 'name')),
             'Teacher' => array('fields' => array('id', 'name')),
-            'Enrollment', 'Period' => array('Room'));
-        $settings = array('conditions' => $conditions, 'contain' => $contain);
+            'Period' => array('Room'));
+        $settings = array('conditions' => $conditions, 'contain' => $contain,'order'=>array('Course.start'=>'DESC'));
         /* Hết đoạn filter */
         $this->Paginator->settings = $settings;
         $this->set('courses', $this->Paginator->paginate());
@@ -261,7 +371,16 @@ class CoursesController extends AppController {
         /* Lấy filter */
         $conditions = array('Course.trang_thai' => COURSE_ENROLLING);
         /* Bộ lọc */
-
+//Năm tháng
+        if (!empty($this->request->data['Course']['year']['year'])) {
+            $year = $this->request->data['Course']['year']['year'];
+            if ($this->request->data['Course']['month']['month']) {
+                $month = $this->request->data['Course']['month']['month'];
+                $conditions = Set::merge($conditions, array("Course.start>=' $year-$month-01'", "Course.start<='$year-$month-31'"));
+            } else {
+                $conditions = Set::merge($conditions, array("Course.start>= '$year-01-01'", "Course.start<='$year-12-31'"));
+            }
+        }
 //Kỹ năng
         if (!empty($this->request->data['Course']['chapter_id'])) {
             $conditions = Set::merge($conditions, array('Course.chapter_id' => $this->request->data['Course']['chapter_id']));
@@ -276,12 +395,12 @@ class CoursesController extends AppController {
             $conditions = Set::merge($conditions, array('Course.name like' => '%' . trim($this->request->data['Course']['name']) . '%'));
         }
         $contain = array(
-            'Chapter',
+            'Chapter' => array('fields' => array('id', 'name')),
             'Teacher' => array('fields' => array('id', 'name')),
-            'Enrollment',
             'Period' => array('Room')
         );
 
+        /* Các kỹ năng đã đạt hoặc đã đăng ký */
         $kndat = $this->Course->Enrollment->find('all', array(
             'fields' => array('id', 'course_id'),
             'conditions' => array(
@@ -290,7 +409,9 @@ class CoursesController extends AppController {
         );
 
         $coursedatIds = $this->Course->find('all', array(
-            'conditions' => array('Course.id' => Set::classicExtract($kndat, '{n}.Enrollment.course_id')),
+            'conditions' => array(
+                'NOT' => array('Course.trang_thai' => COURSE_CANCELLED),
+                'Course.id' => Set::classicExtract($kndat, '{n}.Enrollment.course_id')),
             'recursive' => -1,
             'fields' => array('id', 'chapter_id')
         ));
@@ -299,7 +420,7 @@ class CoursesController extends AppController {
 
         //$conditions = Set::merge($conditions, array('NOT' => array('Course.chapter_id' => $lop_kn_da_dang_ky)));
 
-        $settings = array('conditions' => $conditions, 'contain' => $contain);
+        $settings = array('conditions' => $conditions, 'contain' => $contain,'order'=>array('Course.start'=>'DESC'));
         /* Hết đoạn filter */
         $this->Paginator->settings = $settings;
         $this->set('courses', $this->Paginator->paginate());
@@ -442,7 +563,7 @@ class CoursesController extends AppController {
         }
         $rooms = $this->Course->Period->Room->find('list');
         $chapters = $this->Course->Chapter->find('list');
-        $teachers = $this->Course->Teacher->find('list', array('fields' => array('id', 'name')));
+        $teachers = $this->Course->Teacher->find('list', array('fields' => array('id', 'name'), 'conditions' => array('Teacher.user_group_id' => TEACHER_GROUP_ID)));
         $this->set(compact('chapters', 'teachers', 'rooms'));
     }
 
@@ -520,7 +641,7 @@ class CoursesController extends AppController {
         if (!$this->Course->exists($id)) {
             throw new NotFoundException(__('Invalid course'));
         }
-        $contain = array('Chapter', 'Period' => array('Room'), 'Teacher' => array('fields' => array('id', 'name')), 'Enrollment' => array('Student' => array('fields' => array('id', 'name'))));
+        $contain = array('Chapter', 'Period' => array('Room'), 'Teacher' => array('fields' => array('id', 'name')), 'Enrollment' => array('Student' => array('fields' => array('id', 'name', 'username'))));
         $options = array('conditions' => array('Course.' . $this->Course->primaryKey => $id), 'contain' => $contain);
         $this->set('course', $this->Course->find('first', $options));
     }
@@ -581,9 +702,11 @@ class CoursesController extends AppController {
         }
         $this->request->allowMethod('post', 'delete');
         if ($this->Course->delete()) {
-            return $this->flash(__('The course has been deleted.'), array('action' => 'index'));
+            $this->Session->setFlash('Đã xóa', 'alert', array('class' => 'alert-success'));
+            $this->redirect(array('action' => 'index'));
         } else {
-            return $this->flash(__('The course could not be deleted. Please, try again.'), array('action' => 'index'));
+            $this->Session->setFlash('Xóa không thành công', 'alert', array('class' => 'alert-warning'));
+            $this->redirect(array('action' => 'index'));
         }
     }
 
@@ -600,8 +723,10 @@ class CoursesController extends AppController {
             return $this->response->statusCode(404);
         }
         $start = $this->request->data['start'];
+
         $startdate = new DateTime($start);
         $start2 = $startdate->modify('+7 day');
+
         $giang_day = $this->Course->Teacher->find('first', array('conditions' => array('id' => $teacher_id), 'contain' => array('Chapter' => array('fields' => array('id', 'name'))), 'fields' => array('id')));
         $res = Set::classicExtract($giang_day['Chapter'], "{n}.id");
         $chapters = $this->Course->Teacher->Chapter->find('list', array('conditions' => array('id' => $res)));
@@ -615,20 +740,58 @@ class CoursesController extends AppController {
         $this->layout = 'ajax';
         if (!empty($this->request->data)) {
             $chapter_id = $this->request->data['Course']['chapter_id'];
-            $start = $this->request->data['Course']['start'];
+            //$start = $this->request->data['Course']['start'];
+            $start = new DateTime($this->request->data['Course']['start']);
+            $startdate = new DateTime($start->format('Y-m-d H:i:s'));
+            $start2 = $startdate->modify('+7 day');
 //$name = $this->request->data['Course']['name'];
-            $this->request->data['Period'][1]['room_id'] = $this->request->data['Period'][0]['room_id'];
+            $room_id = $this->request->data['Period'][0]['room_id'];
+            $this->request->data['Period'][1]['room_id'] = $room_id;
+            //Kiểm tra xem hôm đó và 1 tuần sau có phòng nào rãnh không 
+            //lay cac lop chua huy co buoi 1 hoac buoi 2 trung voi ngay start
+            $conditions = array(
+                'NOT' => array('Course.trang_thai' => COURSE_CANCELLED),
+                'OR' => array(
+                    array('Course.start' => $start->format('Y-m-d')),
+                    array('Course.start' => $start2->format('Y-m-d'))
+                ),
+                    //'Course.start <=' => $start2->format('Y-m-d')
+            );
+
+            //Lớp có thể trùng
+            $loptrung = $this->Course->find('all', array('conditions' => $conditions, 'recursive' => -1));
+
+            if (!empty($loptrung)) {
+                $loptrung = Set::classicExtract($loptrung, '{n}.Course.id');
+                $buoitrung = $this->Course->Period->find('first', array('conditions' => array(
+                        'Period.course_id' => $loptrung,
+                        'Period.room_id' => $room_id,
+                        'OR' => array(
+                            array('Course.start' => $start->format('Y-m-d H:i:s')),
+                            array('Course.start' => $start2->format('Y-m-d H:i:s'))
+                        ),
+                )));
+
+                if (!empty($buoitrung)) {
+                    $message = 'Rất tiếc phòng ' . $buoitrung['Room']['name'] . ' trùng với ' . $buoitrung['Period']['name'] . ' lớp ' . $buoitrung['Course']['name'];
+                    echo json_encode(array('success' => 0, 'message' => $message));
+                    die;
+                }
+            }
+
+
 //Tạo tên lớp
-            $coursename = $this->Course->makeCourseCode($start, $chapter_id);
+            $coursename = $this->Course->makeCourseCode($start->format('Y-m-d'), $chapter_id);
             $this->request->data['Course']['name'] = $coursename;
 //Lưu khóa học
             $this->Course->create();
 //$this->Course->Period[0]['start']=
             unset($this->Course->Period->validate['course_id']);
             if ($this->Course->saveAssociated($this->request->data)) {
-                echo 'Thành công';
+                echo json_encode(array('success' => 1));
             } else {
-                echo 'không thành công';
+//+                echo 'không thành công';
+                echo json_encode(array('message' => 'Lỗi thành công', 'success' => 0));
             }
 //Lưu 2 buổi học
         }
@@ -653,12 +816,14 @@ class CoursesController extends AppController {
 
     public function student_enroll($course_id) {
         $this->Course->id = $course_id;
+        $course_name = $this->Course->field('name');
         if (!$this->Course->exists()) {
             throw new Exception('Không tồn tại lớp kỹ năng');
         }
+        $course_name = $this->Course->field('name');
         $studentid = $this->UserAuth->getUserId();
         /* Kiểm tra đã đóng học phí các kỹ năng chưa đạt chưa */
-        $soknchuadat = $this->Course->Enrollment->find('count', array('conditions' => array('Enrollment.student_id' => $studentid, 'Enrollment.pass' => 0, 'Enrollment.fee' => 0)));
+        $soknchuadat = $this->Course->Enrollment->find('count', array('conditions' => array('Enrollment.student_id' => $studentid, 'Enrollment.pass' => 0, 'Enrollment.fee' => 0, 'OR' => array('Enrollment.absence' => 0, 'Enrollment.absence is NULL'))));
         if ($soknchuadat > 0) {
             $this->Session->setFlash('Bạn cần đóng học phí các kỹ năng chưa đạt để đăng ký các kỹ năng khác.', 'alert', array('class' => 'alert-warning'));
             $this->redirect(array('action' => 'index'));
@@ -702,28 +867,87 @@ class CoursesController extends AppController {
 
         if (in_array($kn_dang_ky, $kn_tu_chon_id)) {
 //Lấy course_id các lớp đã đăng ký
-            $lop_kn_da_dang_ky = array();
-            $lop_kn_da_dang_ky = $this->Course->Enrollment->find('all', array('conditions' => array('Enrollment.student_id' => $studentid, 'OR' => array('Enrollment.pass is NULL', 'Enrollment.pass' => 1)), 'recursive' => -1));
-            if (!empty($lop_kn_da_dang_ky)) {
-                $lop_kn_da_dang_ky = Set::classicExtract($lop_kn_da_dang_ky, '{n}.Enrollment.course_id');
+            $lop_kn_da_hoc_va_dang_ky = array();
+
+            $lop_kn_da_hoc_va_dang_ky = $this->Course->Enrollment->find('all', array(
+                'conditions' => array(
+                    'Enrollment.student_id' => $studentid,
+                    'OR' => array(
+                        'Enrollment.pass is NULL',
+                        'Enrollment.pass' => 1)
+                ),
+                'recursive' => -1));
+            if (!empty($lop_kn_da_hoc_va_dang_ky)) {
+                $lop_kn_da_hoc_va_dang_ky = Set::classicExtract($lop_kn_da_hoc_va_dang_ky, '{n}.Enrollment.course_id');
             }
 //lấy các lớp học tự chọn trong cac lop da tham du
             $so_kn_tu_chon_da_hoc = $this->Course->find('count', array(
                 'conditions' => array(
                     'Course.chapter_id' => $kn_tu_chon_id,
-                    'Course.id' => $lop_kn_da_dang_ky,
-                //'Course.trang_thai' => COURSE_OPEN
+                    'Course.id' => $lop_kn_da_hoc_va_dang_ky,
+                    'NOT' => array('Course.trang_thai' => COURSE_CANCELLED)
             )));
             if ($so_kn_tu_chon_da_hoc > 2) {
                 $this->Session->setFlash('Bạn chỉ cần 01 kỹ năng tự chọn nữa thôi. Để đăng ký kỹ năng khác, bạn phải hủy kỹ năng đã đăng ký trước đó', 'alert', array('class' => 'alert-warning'));
                 $this->redirect(array('action' => 'index'));
             }
         }
+
+        //Kiểm tra có trùng lịch học hay không
+
+        $buoi1 = $this->Course->Period->find('first', array(
+            'conditions' => array('Period.course_id' => $course_id),
+            'order' => array('Period.start' => 'asc'),
+            'recursive' => -1
+        ));
+        $buoi2 = $this->Course->Period->find('first', array(
+            'conditions' => array('Period.course_id' => $course_id),
+            'order' => array('Period.start' => 'desc'),
+            'recursive' => -1
+        ));
+
+        $lop_kn_da_dang_ky = array();
+        $lop_kn_da_dang_ky = $this->Course->Enrollment->find('all', array(
+            'conditions' => array(
+                'Enrollment.student_id' => $studentid,
+                'Enrollment.pass is NULL',
+            ),
+            'recursive' => -1));
+        //debug($lop_kn_da_dang_ky);
+        if (!empty($lop_kn_da_dang_ky)) {
+            $lop_kn_da_dang_ky = Set::classicExtract($lop_kn_da_dang_ky, '{n}.Enrollment.course_id');
+        }
+
+        $kn_da_dang_ky = $this->Course->find('all', array(
+            'conditions' => array(
+                'Course.id' => $lop_kn_da_dang_ky,
+                'NOT' => array('Course.trang_thai' => COURSE_CANCELLED)
+        )));
+        if (!empty($kn_da_dang_ky)) {
+            $kn_da_dang_ky = Set::classicExtract($kn_da_dang_ky, '{n}.Course.id');
+        }
+
+        $trung = $this->Course->Period->find('first', array(
+            'contain' => array('Course' => array('Chapter')),
+            'conditions' => array(
+                'Period.course_id' => $kn_da_dang_ky,
+                'OR' => array('Period.start' => $buoi1['Period']['start'], 'Period.start' => $buoi2['Period']['start'])
+        )));
+
+        if (!empty($trung)) {
+            $this->Session->setFlash('Kỹ năng bạn định đăng ký trùng lịch học với ' . $trung['Course']['Chapter']['name'], 'alert', array('class' => 'alert-warning'));
+            $this->redirect(array('action' => 'index'));
+        }
+
 //Lưu dữ liệu đăng ký
-        $data = array('course_id' => $course_id, 'student_id' => $studentid);
+        $data = array('course_id' => $course_id, 'student_id' => $studentid, 'pass' => NULL);
 
         $this->Course->Enrollment->create();
         if ($this->Course->Enrollment->save($data)) {
+            $options = array(
+                'description' => $this->UserAuth->getUsername() . ' đã đăng ký thành công lớp ' . $course_name
+            );
+            $this->LogUtil->log($options);
             $this->Session->setFlash('Đăng ký thành công', 'alert', array('plugin' => 'BoostCake', 'class' => 'alert-success'));
             $this->redirect(array('controller' => 'dashboards', 'action' => 'home', 'student' => true));
         } else {

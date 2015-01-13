@@ -47,9 +47,18 @@
         </li>
 
         <li class="">
+            <a href="<?php echo SUB_DIR . '/manager/teaching_plans/add' ?>">
+                <i class="menu-icon fa fa-calendar"></i>
+                <span class="menu-text"> Lập kế hoạch dạy </span>
+            </a>
+
+            <b class="arrow"></b>
+        </li>
+
+        <li class="">
             <a href="#" class="dropdown-toggle">
                 <i class="menu-icon fa fa-desktop"></i>
-                <span class="menu-text"> Quản lý lớp kỹ năng </span>
+                <span class="menu-text"> Lớp kỹ năng </span>
 
                 <b class="arrow fa fa-angle-down"></b>
             </a>
@@ -68,9 +77,72 @@
                     <b class="arrow"></b>
                 </li>
                 <li class="">
-                    <a href="<?php echo SUB_DIR . '/courses/index' ?>">
+                    <a href="<?php echo SUB_DIR . '/manager/courses' ?>">
                         <i class="menu-icon fa fa-caret-right"></i>
                         Tất cả lớp
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+            </ul>
+        </li>
+
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-desktop"></i>
+                <span class="menu-text"> Lớp sinh viên </span>
+
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+
+            <b class="arrow"></b>
+
+            <ul class="submenu">
+
+
+                <li class="">
+                    <a href="<?php echo SUB_DIR . '/classrooms/add' ?>">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Tạo lớp
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="<?php echo SUB_DIR . '/classrooms/index' ?>">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Tất cả lớp
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+            </ul>
+        </li>
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-desktop"></i>
+                <span class="menu-text"> Đơn vị </span>
+
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+
+            <b class="arrow"></b>
+
+            <ul class="submenu">
+
+
+                <li class="">
+                    <a href="<?php echo SUB_DIR . '/manager/departments/add' ?>">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Tạo mới
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="<?php echo SUB_DIR . '/manager/departments/index' ?>">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Tất cả đơn vị
                     </a>
 
                     <b class="arrow"></b>
@@ -102,15 +174,15 @@
 
             </ul>
         </li>
+
         <li class="">
-            <a href="#" class="dropdown-toggle">
-                <i class="menu-icon fa fa-pencil-square-o"></i>
-                <span class="menu-text"> Quản lý người dùng </span>
+            <?php
+            echo $this->Html->link(__("users"), "#", array('escape' => false, "class" => "dropdown-toggle"));
+            ?>
 
-                <b class="arrow fa fa-angle-down"></b>
-            </a>
 
-            <b class="arrow"></b>
+
+
 
             <ul class="submenu">
                 <li class="">
@@ -142,24 +214,66 @@
 
             </ul>
         </li>
-        <li class="" class="dropdown-toggle">
-            <a href="/knm/manager/certs">
-                <i class="menu-icon fa fa-list-alt"></i>
-                <span class="menu-text"> Chứng nhận </span>
-            </a>
-
+        <li class="">
+            <?php
+            echo $this->Html->link(__("chung nhan"), array('plugin' => false, 'manager' => true, 'controller' => 'certs', "action" => "index"), array('escape' => false));
+            ?>
             <b class="arrow"></b>
         </li>
-        <li class="" class="dropdown-toggle">
-            <a href="#">
-                <i class="menu-icon fa fa-list-alt"></i>
-                <span class="menu-text"> Thống kê </span>
+        <li class="">
+            <?php
+            //echo $this->Html->link(__("thong ke"), array('controller' => 'certs', "action" => "index"), array('escape' => false));
+            ?>
+        </li>
+        <li class="">
+
+
+            <?php
+            echo $this->Html->link(__("change_password"), "/changePassword", array('escape' => false));
+            ?>
+
+
+        </li>
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-desktop"></i>
+                <span class="menu-text"> Thông báo </span>
+
                 <b class="arrow fa fa-angle-down"></b>
             </a>
 
             <b class="arrow"></b>
-        </li>
 
+            <ul class="submenu">
+
+
+                <li class="">
+                    <a href="<?php echo SUB_DIR . '/messages/add' ?>">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Tạo mới
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="<?php echo SUB_DIR . '/messages' ?>">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Tất cả
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+            </ul>
+        </li>
+        <li class="">
+
+
+            <?php
+            echo $this->Html->link(__("logout"), "/logout", array('escape' => false));
+            ?>
+
+
+        </li>
 
     </ul><!-- /.nav-list -->
 

@@ -40,7 +40,7 @@ class AppController extends Controller {
 
     protected function updateCourseOpenable() {
 
-        $conditions = array('DATEDIFF(CURDATE(),Course.start)>' . HAN_DANG_KY, "Course.trang_thai" => COURSE_ENROLLING, 'Course.enrolledno >=' => SO_SINH_VIEN_TOI_THIEU);
+        $conditions = array('DATEDIFF(ADDDATE(Course.start,-14),CURDATE())<1', "Course.trang_thai" => COURSE_ENROLLING, 'Course.enrolledno >=' => SO_SINH_VIEN_TOI_THIEU);
         $count = $this->Course->find('count', array('conditions' => $conditions));
         if ($count > 0) {
             if (TU_DONG_MO_LOP) {
@@ -65,11 +65,11 @@ class AppController extends Controller {
 
     public function beforeRender() {
         parent::beforeRender();
-        if ($this->UserAuth->isLogged() && $this->UserAuth->getGroupAlias() && !$this->request->is('ajax')) {
+        if ($this->UserAuth->isLogged() && $this->action!='elfinder'&&$this->UserAuth->getGroupAlias() && !$this->request->is('ajax')) {
 
             $this->layout = $this->UserAuth->getGroupAlias();
         }else{
-            if (!$this->UserAuth->isLogged()&&$this->request->action!='login') {
+            if (!$this->UserAuth->isLogged()&&$this->request->action!='login'&&$this->request->action!='register') {
             $this->theme = 'Home';
         }
         }

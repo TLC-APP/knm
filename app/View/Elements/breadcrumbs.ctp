@@ -17,9 +17,12 @@
     <div class="nav-search" id="nav-search">
         <form class="form-search" method="post" action="<?php echo SUB_DIR ?>/users/search">
             <span class="input-icon">
-                <input type="text" name="username" placeholder="Nhập MSSV cần tìm ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+                <input type="text" name="username" placeholder="MSSV hoặc mã lớp ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
                 <i class="ace-icon fa fa-search nav-search-icon"></i>
             </span>
         </form>
+        
     </div><!-- /.nav-search -->
+    
+
 </div>

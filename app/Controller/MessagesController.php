@@ -11,6 +11,8 @@ App::uses('AppController', 'Controller');
  */
 class MessagesController extends AppController {
 
+    public $helpers = array('TinymceElfinder.TinymceElfinder');
+
     /**
      * index method
      *
@@ -21,7 +23,7 @@ class MessagesController extends AppController {
             $this->theme = 'Home';
         }
         $contain = array('ReceiveUser' => array('fields' => array('id', 'first_name', 'last_name')), 'UserGroup');
-        $this->Paginator->settings = array('contain' => $contain);
+        $this->Paginator->settings = array('contain' => $contain, 'order' => array('Message.created' => 'DESC'));
         $this->set('messages', $this->Paginator->paginate());
     }
 
@@ -50,7 +52,8 @@ class MessagesController extends AppController {
         if ($this->request->is('post')) {
             $this->Message->create();
             $this->request->data['Message']['created_user_id'] = $this->UserAuth->getUserId();
-            $this->request->data['Message']['is_read']=0;
+            //$this->request->data['Message']['content'] = $this->request->data['content'];
+            $this->request->data['Message']['is_read'] = 0;
             if ($this->Message->save($this->request->data)) {
                 $this->Session->setFlash(__('The message has been saved.'));
                 return $this->redirect(array('action' => 'index'));

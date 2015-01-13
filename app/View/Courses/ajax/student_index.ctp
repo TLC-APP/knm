@@ -36,40 +36,20 @@ echo $this->Paginator->pagination(array(
                 <td><?php echo $stt++; ?></td>
                 <td><?php echo h($course['Course']['name']); ?>&nbsp;</td>
                 <td><?php
+                    $i = 0;
                     foreach ($course['Period'] as $buoi) {
-                        $line = $buoi['name'] . ' ';
-                        $batdau = new DateTime($buoi['start']);
-                        $line .=($batdau->format('H' == '07')) ? 'Sáng ' : 'Chiều ';
-
-                        $jd = cal_to_jd(CAL_GREGORIAN, $batdau->format('m'), $batdau->format('d'), $batdau->format('Y'));
-                        $day = jddayofweek($jd, 0);
-                        switch ($day) {
-                            case 0:
-                                $thu = "Chủ Nhật";
-                                break;
-                            case 1:
-                                $thu = "Thứ Hai";
-                                break;
-                            case 2:
-                                $thu = "Thứ Ba";
-                                break;
-                            case 3:
-                                $thu = "Thứ Tư";
-                                break;
-                            case 4:
-                                $thu = "Thứ Năm";
-                                break;
-                            case 5:
-                                $thu = "Thứ Sáu";
-                                break;
-                            case 6:
-                                $thu = "Thứ 7";
-                                break;
-//Vì mod bằng 0
+                        if ($i % 2 == 0) {
+                            $class = "label label-success";
+                        } else {
+                            $class = "label label-info";
                         }
-                        $line.=$thu . ' ' . $batdau->format('d/m/Y');
-                        $line.=' tại ' . $buoi['Room']['name'] . '<br/>';
-                        echo $line;
+
+                        $ten_buoi = $buoi['name'];
+                        $start = $buoi['start'];
+                        $room = $buoi['Room']['name'];
+                        $i++;
+
+                        echo $this->element('buoi_hoc', array('buoi' => $ten_buoi, 'start' => $start, 'room' => $room, 'class' => $class));
                     }
                     ?></td>
                 <td>
@@ -85,7 +65,7 @@ echo $this->Paginator->pagination(array(
                 <td class="actions">
                     <?php echo $this->Html->link(__('enroll'), array('action' => 'enroll', $course['Course']['id']), array('escape' => false)); ?>
 
-                    <?php //echo $this->Html->link(__('enroll'), array('action' => 'enroll', $course['Course']['id']), array('escape' => false)); ?>
+                    <?php //echo $this->Html->link(__('enroll'), array('action' => 'enroll', $course['Course']['id']), array('escape' => false));  ?>
 
                 </td>
             </tr>

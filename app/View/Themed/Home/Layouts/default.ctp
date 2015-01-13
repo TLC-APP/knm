@@ -55,16 +55,23 @@
                             <?php echo $this->Html->link('Trang chủ', '/') ?>
                         </li>
                         <li>
-                            <?php echo $this->Html->link('Thông báo', '/thong-bao') ?>
+                            <a  href="/knm/thong-bao">
+                                
+                                Thông báo <span class="badge alert-danger">Mới</span>
+                            </a>
                         </li>
                         <li>
-                            <?php echo $this->Html->link('Lớp kỹ năng đang đăng ký', '/lop-ky-nang-dang-dang-ky') ?>
+                            <?php //echo $this->Html->link('Lớp kỹ năng đang đăng ký', '/lop-ky-nang-dang-dang-ky') ?>
                         </li>
                         <li>
                             <?php echo $this->Html->link('Phòng học', '/phong-hoc') ?>
                         </li>
                         <li>
                             <?php echo $this->Html->link('Đăng nhập', '/login') ?>
+                        </li>
+
+                        <li>
+                            <?php echo $this->Html->link('Hướng dẫn', '/huong-dan') ?>
                         </li>
                         <li>
                             <?php echo $this->Html->link('Liên hệ', '/lien-he') ?>
@@ -98,12 +105,12 @@
 
 
         <script>
-            $(function () {
+            $(function() {
 
                 var path = window.location.pathname;
                 path = path.replace(/\/$/, "");
                 path = decodeURIComponent(path);
-                $("ul.navbar-nav a").each(function () {
+                $("ul.navbar-nav a").each(function() {
 
                     var href = $(this).attr('href');
                     console.log(href);
