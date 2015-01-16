@@ -1,5 +1,5 @@
 <div class="messages form">
-    <?php echo $this->element('tinymce'); ?>
+    
 <?php echo $this->Form->create('Message'); ?>
 	<fieldset>
 		<legend><?php echo __('Edit Message'); ?></legend>

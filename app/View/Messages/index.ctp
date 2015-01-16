@@ -10,9 +10,14 @@
                             <?php echo $this->Html->link($message['Message']['title'] . ' ' . '<span class="label label-success">'.$created->format('d/m/Y').'</span>', array('controller' => 'messages', 'action' => 'view', $message['Message']['id']),array('escape'=>false)); ?>&nbsp;
                             <br>
                             <?php
+                             $action="";
+                            if($this->UserAuth->isAdmin()||$this->UserAuth->isManager()){
+                                $action=$this->Html->link(__('edit'),array('action'=>'edit',$message['Message']['id']),array('escape'=>false));
+                                $action.=" ".$this->Html->link(__('delete'),array('action'=>'delete',$message['Message']['id']),array('escape'=>false));
+                            }
                             echo $this->Text->truncate($message['Message']['content'], 250, array('ellipsis' => '...',
                                 'exact' => true,
-                                'html' => true));
+                                'html' => true)).$action;
                             ?>
                         </td>
                     </tr>

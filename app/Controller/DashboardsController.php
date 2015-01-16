@@ -22,11 +22,9 @@ class DashboardsController extends AppController {
     public function student_home() {
         //Kỹ năng đã tham gia
         $student_id = $this->UserAuth->getUserId();
-
         $contain = array('Student' => array('fields' => array('id', 'name')), 'Course' => array(
                 'Period' => array('Room'),
                 'Chapter' => array('ChapterType', 'fields' => array('id', 'name')), 'fields' => array('id', 'name', 'trang_thai', 'handangky')));
-
         $enrollments = $this->Enrollment->find('all', array(
             'conditions' => array(
                 'Enrollment.student_id' => $student_id
@@ -35,7 +33,6 @@ class DashboardsController extends AppController {
         );
 
         /* Kiem tra sinh vien co du dieu kien cap chung nhan */
-
         //Check da hoan thanh cac ky nang bb chua
         $knbatbuot = $this->Chapter->getChapterId(KY_NANG_BAT_BUOC);
         if (is_null($knbatbuot)) {

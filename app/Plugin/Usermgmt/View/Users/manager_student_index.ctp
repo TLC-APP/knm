@@ -14,8 +14,6 @@ $this->Paginator->options(array(
         <?php
 //Search
         echo $this->Form->create(null, array(
-            //'method'=>'post',
-            //'url' => array_merge(array('action' => 'index'), $this->params['pass']),
             'inputDefaults' => array(
                 'div' => 'form-group',
                 'label' => false,
@@ -28,21 +26,9 @@ $this->Paginator->options(array(
         ?>
         <?php
         echo $this->Form->input('last_name', array('label' => false, 'required' => false, 'placeholder' => 'Họ lót'));
-        ?>
-        <?php
         echo $this->Form->input('first_name', array('label' => false, 'required' => false, 'placeholder' => 'Tên'));
-        ?>
-        <?php
-        echo $this->Form->input('username', array('label' => false, 'placeholder' => 'MSSV hoặc username', 'style="width:200px"', 'required' => false));
-        echo $this->Form->input('classroom_id', array('label' => false, 'empty' => 'Lớp học', 'style="width:200px"',
-            'required' => false));
-        ?>
-        <?php
-        echo $this->Form->input('department_id', array('label' => false, 'required' => false, 'empty' => 'Đơn vị', 'style="width:200px"'));
-        ?>
-        <?php
-        echo $this->Form->input('user_group_id', array('label' => false, 'empty' => 'Nhóm', 'style="width:200px"', 'required' => false
-        ));
+        echo $this->Form->input('username', array('label' => false, 'placeholder' => 'mssv', 'required' => false));
+        echo $this->Form->input('classroom_id', array('label' => false, 'empty' => 'Lớp học', 'required' => false));
         ?>
         <button type="submit" class="btn btn-primary btn-sm ladda-button" data-style="expand-right" data-size="l"><span class="ladda-label">Tìm</span></button>
         <?php
@@ -55,10 +41,8 @@ $this->Paginator->options(array(
                 <tr>
                     <th><?php echo $this->Paginator->sort('id'); ?></th>
                     <th><?php echo $this->Paginator->sort('name', 'Họ tên'); ?></th>
-
                     <th><?php echo $this->Paginator->sort('username', 'MSSV'); ?></th>
                     <th><?php echo $this->Paginator->sort('classroom_id', 'Lớp'); ?></th>
-
                     <th><?php echo $this->Paginator->sort('email'); ?></th>
                     <th><?php echo $this->Paginator->sort('last_login'); ?></th>
                     <th><?php echo $this->Paginator->sort('created'); ?></th>
@@ -113,7 +97,7 @@ $this->Paginator->options(array(
                 'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')
             ));
             ?>	</p>
-        <?php echo $this->Paginator->pagination(array('ul' => 'pagination')); ?>
+<?php echo $this->Paginator->pagination(array('ul' => 'pagination')); ?>
     </div>
 
 </div>

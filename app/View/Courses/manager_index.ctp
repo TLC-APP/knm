@@ -81,9 +81,7 @@ $this->Paginator->options(array(
                         <td><?php echo $stt++; ?></td>
                         <td><?php
                             echo h($course['Course']['name']) . ' ';
-                            echo ($course['Course']['handangky'] > 0) ? 
-                            ' <span class="label label-info">còn ' . $course['Course']['handangky'] . 
-                                    ' ngày</span>' : '<span class="label label-danger arrowed arrowed-right">hết hạn</span>';
+                            echo ($course['Course']['handangky'] > 0) ? ' <span class="label label-info arrowed arrowed-right">còn ' . $course['Course']['handangky'] . ' ngày</span>' : '<span class="label label-danger arrowed arrowed-right">hết hạn</span>';
                             echo $this->element('course_status', array('status' => $course['Course']['trang_thai']))
                             ?>&nbsp;</td>
                         <td><?php

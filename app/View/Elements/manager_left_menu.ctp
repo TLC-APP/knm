@@ -256,7 +256,7 @@
                     <b class="arrow"></b>
                 </li>
                 <li class="">
-                    <a href="<?php echo SUB_DIR . '/messages' ?>">
+                    <a href="<?php echo SUB_DIR . '/thong-bao' ?>">
                         <i class="menu-icon fa fa-caret-right"></i>
                         Tất cả
                     </a>

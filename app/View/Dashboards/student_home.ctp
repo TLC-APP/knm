@@ -1,6 +1,13 @@
 <div class="col-md-12">
+    <div class="alert alert-info">
+        <button data-dismiss="alert" class="close" type="button">
+            <i class="ace-icon fa fa-times"></i>
+        </button>
+        <?php echo $message ?>
+        <br>
+    </div>
     <h2><?php echo __('Enrollments'); ?></h2>
-    <table class="table table-condensed">
+    <table class="table table-condensed table-hover">
         <thead>
             <tr>
                 <th>Mã lớp</th>
@@ -44,8 +51,9 @@
                     </td>
                     <td>
                         <?php
+                        $i = 0;
                         foreach ($enrollment['Course']['Period'] as $period) {
-                            $i = 0;
+
                             if ($i % 2 == 0) {
                                 $class = "label label-success";
                             } else {
@@ -54,7 +62,7 @@
                             $buoi = $period['name'];
                             $start = $period['start'];
                             $room = $period['Room']['name'];
-                            echo $this->element('buoi_hoc', array('buoi' => $buoi, 'start' => $start, 'room' => $room,'class'=>$class));
+                            echo $this->element('buoi_hoc', array('buoi' => $buoi, 'start' => $start, 'room' => $room, 'class' => $class));
                             $i++;
                         }
                         ?>
@@ -75,15 +83,15 @@
                         echo $pass;
                         ?>&nbsp;</td>
                     <td><?php
-                    $fee = "";
-                    if (!is_null($enrollment['Enrollment']['pass']) && !$enrollment['Enrollment']['pass']) {
-                        if ($enrollment['Enrollment']['fee']) {
-                            $fee = "<i class='fa fa-check text-success'></i>";
-                        } else {
-                            $fee = "<i class='fa fa-times text-danger'></i>";
+                        $fee = "";
+                        if (!is_null($enrollment['Enrollment']['pass']) && !$enrollment['Enrollment']['pass']) {
+                            if ($enrollment['Enrollment']['fee']) {
+                                $fee = "<i class='fa fa-check text-success'></i>";
+                            } else {
+                                $fee = "<i class='fa fa-times text-danger'></i>";
+                            }
+                            echo $fee;
                         }
-                        echo $fee;
-                    }
                         ?>&nbsp;</td>
                     <td>
                         <?php
@@ -99,9 +107,9 @@
                         ?>
                     </td>
                     <td><?php
-                    if ($enrollment['Course']['trang_thai'] == COURSE_ENROLLING && $enrollment['Course']['handangky'] > 0) {
-                        echo $this->Form->postLink('Hủy', array('controller' => 'enrollments', 'action' => 'unenroll', $enrollment['Enrollment']['id']), array('class' => 'btn btn-danger'), 'Bạn chắc chắn muốn thực hiện thao tác này ?');
-                    }
+                        if ($enrollment['Course']['trang_thai'] == COURSE_ENROLLING && $enrollment['Course']['handangky'] > 0) {
+                            echo $this->Form->postLink('Hủy', array('controller' => 'enrollments', 'action' => 'unenroll', $enrollment['Enrollment']['id']), array('class' => 'btn btn-danger'), 'Bạn chắc chắn muốn thực hiện thao tác này ?');
+                        }
                         ?>
                         <?php //echo $this->Form->postLink('<span class="fa fa-trash-o"> Hủy</span>',  array('controller' => 'courses', 'action' => 'unenroll', $enrollment['Course']['id']), array('escape' => false, 'data-toggle' => "tooltip", 'data-placement' => "left", 'title' => "Hủy tham gia"), __('Bạn chắc chắn hủy tham gia lớp # %s?', $enrollment['Course']['name']));
                         ?></td>
@@ -109,15 +117,7 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-    <h2></h2>
-    <div class="alert alert-info">
-        <button data-dismiss="alert" class="close" type="button">
-            <i class="ace-icon fa fa-times"></i>
-        </button>
 
-        <?php echo $message ?>
-        <br>
-    </div>
 
 </div>
 

@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <?php echo $this->element('head'); ?>
-
+        
     </head>
 
     <body class="no-skin">

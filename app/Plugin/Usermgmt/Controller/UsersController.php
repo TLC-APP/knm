@@ -9,7 +9,7 @@ class UsersController extends UserMgmtAppController {
      *
      * @var array
      */
-    public $uses = array('Usermgmt.User', 'Usermgmt.UserGroup', 'Usermgmt.LoginToken');
+    public $uses = array('Usermgmt.User', 'Usermgmt.UserGroup', 'Usermgmt.LoginToken', 'Chapter', 'Course', 'Enrollment');
     public $components = array('Paginator', 'LogUtil');
 
     /**
@@ -362,7 +362,7 @@ class UsersController extends UserMgmtAppController {
      */
     public function logout() {
         $options = array(
-            'description' => $this->UserAuth->getFullname() . ' đã logout.'
+            'description' => $this->UserAuth->getFullname() . '(' . $this->UserAuth->getUsername() . ') đã logout.'
         );
         $this->LogUtil->log($options);
         $this->UserAuth->logout();
@@ -994,6 +994,124 @@ class UsersController extends UserMgmtAppController {
             $user = $this->User->find('first', $options);
             $this->set('user', $user);
             $this->request->data = $user;
+        }
+    }
+
+    /* Thống kê sinh viên đạt kỹ năng */
+
+    public function manager_certable_student() {
+
+        /* Lưu lại session mỗi khi có yêu cầu xuất excel có thể truy vấn */
+        if (!empty($this->request->query['export']) && $this->request->query['export']) {
+            if ($this->Session->check('manager_certable_student.OPTIONS')) {
+                $options = $this->Session->read('manager_certable_student.OPTIONS');
+                //$options=Set::merge($options,array('limit'=>1));
+                //ini_set('max_execution_time', 300);
+                //debug($options);die;
+                $students = $this->User->find('all', $options);
+                $this->set('students', $students);
+                $this->autoRender = false;                
+                //set_time_limit(0);
+                $this->render('export_excel_sinh_vien_dat');
+            }
+        }
+        $like = "";
+        /* post data */
+        if (!empty($this->request->data['User']['level'])) {
+            $level = $this->request->data['User']['level'];
+            $like.=$level . '___';
+        }
+        if (!empty($this->request->data['User']['year']['year'])) {
+            $year = substr($this->request->data['User']['year']['year'], -2);
+            $like.=$year . '%';
+        } else {
+            $like.='%';
+        }
+        //echo $like;
+        /* Loc sinh vien trong gioi han khoa va he dao tao */
+        $user_theo_khoa_va_he = array();
+        if (!empty($like)) {
+            $user_theo_khoa_va_he = $this->User->find('all', array('conditions' => array('User.username like' => $like), 'recursive' => -1, 'fields' => array('id')));
+        }
+        $userIds = Set::classicExtract($user_theo_khoa_va_he, '{n}.User.id');
+        $sbb_no = -1;
+        if (!empty($this->request->data['User']['sbb_no'])) {
+            $sbb_no = $this->request->data['User']['sbb_no'];
+        }
+        $stc_no = -1;
+
+        if (!empty($this->request->data['User']['stc_no'])) {
+            $stc_no = $this->request->data['User']['stc_no'];
+        }
+
+
+        /* Lấy mảng id các kỹ năng bắt buộc */
+        $Sbb = $this->Chapter->getChapterId(KY_NANG_BAT_BUOC);
+        if (is_null($Sbb)) {
+            $Sbb = array();
+        }
+        /* Lấy mảng id các kỹ năng tự chọn */
+        $Stc = $this->Chapter->getChapterId(KY_NANG_TU_CHON);
+        if (is_null($Stc)) {
+            $Stc = array();
+        }
+        /* Lấy danh sách các lớp kỹ năng đã mở */
+        //Lớp bắt buộc
+        $Cbb = $this->Course->getCourseIdArray($Sbb);
+        //Lớp tự chọn
+        $Ctc = $this->Course->getCourseIdArray($Stc);
+
+        /* Lấy danh sách sinh viên có đã đạt đủ 2 kỹ năng bắt buộc và nằm trong khóa hệ được yêu cầu */
+        $IdSvThoaDk = array();
+        $P2bb = array();
+        if ($sbb_no != -1) {
+            $P2bb = $this->Enrollment->find('all', array(
+                'conditions' => array('Enrollment.pass' => 1, 'Enrollment.course_id' => $Cbb, 'Enrollment.student_id' => $userIds),
+                'fields' => array(
+                    'Enrollment.student_id',
+                    'COUNT(Enrollment.course_id) as skills'
+                ),
+                'group' => 'Enrollment.student_id HAVING skills=' . $sbb_no
+            ));
+            $IdSvThoaDk = Set::classicExtract($P2bb, '{n}.Enrollment.student_id');
+        }
+
+
+        /* Lấy danh sách sinh viên có đã đạt đủ 3 kỹ năng tự chọn và 2 kỹ năng bắt buộc */
+        $P3tc = array();
+        if ($stc_no != -1) {
+            $P3tc = $this->Enrollment->find('all', array(
+                'conditions' => array('Enrollment.pass' => 1, 'Enrollment.course_id' => $Ctc, 'Enrollment.student_id' => $IdSvThoaDk),
+                'fields' => array(
+                    'Enrollment.student_id',
+                    'COUNT(Enrollment.course_id) as skills'
+                ),
+                'group' => 'Enrollment.student_id HAVING skills >= ' . $stc_no
+            ));
+            $IdSvThoaDk = Set::classicExtract($P3tc, '{n}.Enrollment.student_id');
+        }
+        /* Ap dụng để lọc sinh viên */
+        $conditions = array('User.id' => $IdSvThoaDk);
+        $contain = array(
+            'Classroom' => array('fields' => array('code', 'name')),
+            'Enrollment' => array('Course' => array('Chapter' => array('fields' => array('id', 'name')), 'fields' => array('id')), 'fields' => array('id', 'pass', 'course_id'))
+        );
+        $fields = array('username', 'name', 'classroom_id', 'borndate', 'phone');
+        $order = array('User.username' => 'ASC');
+
+
+        $options = array('conditions' => $conditions, 'contain' => $contain, 'fields' => $fields, 'order' => $order);
+        $this->Session->write('manager_certable_student.OPTIONS', $options);
+        $this->Paginator->settings = $options;
+        $students = $this->Paginator->paginate();
+
+        $this->set('students', $students);
+        if (isset($this->request->query['export']) && $this->request->query['export']) {
+            $this->render('export_excel_sinh_vien_dat');
+        }
+        if ($this->request->is('ajax')) {
+            $this->layout = 'ajax';
+            $this->viewPath = $this->viewPath . '/ajax';
         }
     }
 
